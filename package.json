@@ -1,21 +1,29 @@
 {
-  "name": "cli",
+  "name": "speed-cli",
+  "bin": {
+    "prectice": "./dist/index.js"
+  },
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "link-cli": "yarn --global unlink speed-cli && yarn --global link",
+    "dev": "tsc -w"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HzDev3628/cli.git"
+    "url": "git+https://github.com/HzDev3628/speed-cli.git"
   },
   "keywords": [],
   "author": "HzDev3628",
   "license": "ISC",
   "type": "commonjs",
-  "homepage": "https://github.com/HzDev3628/cli#readme",
+  "homepage": "https://github.com/HzDev3628/speed-cli#readme",
   "bugs": {
-    "url": "https://github.com/HzDev3628/cli/issues"
+    "url": "https://github.com/HzDev3628/speed-cli/issues"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "typescript": "^5.8.3"
   }
 }
