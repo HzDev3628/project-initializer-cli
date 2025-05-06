@@ -1,13 +1,14 @@
 {
   "name": "speed-cli",
+  "type": "module",
   "bin": {
     "speed-cli": "./dist/index.js"
   },
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "link-cli": "yarn --global unlink speed-cli && yarn --global link",
+    "link-cli": "(yarn --global unlink speed-cli || true) && chmod +x ./dist/index.js && yarn --global link",
     "dev": "tsc -w"
   },
   "repository": {
@@ -17,10 +18,14 @@
   "keywords": [],
   "author": "HzDev3628",
   "license": "ISC",
-  "type": "commonjs",
   "homepage": "https://github.com/HzDev3628/speed-cli#readme",
   "bugs": {
     "url": "https://github.com/HzDev3628/speed-cli/issues"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "execa": "^9.5.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
