@@ -1,7 +1,7 @@
 {
   "name": "speed-cli",
   "bin": {
-    "prectice": "./dist/index.js"
+    "speed-cli": "./dist/index.js"
   },
   "version": "0.0.1",
   "description": "",
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@types/node": "^22.15.12",
     "typescript": "^5.8.3"
   }
 }
