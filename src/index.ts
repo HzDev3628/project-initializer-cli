@@ -2,6 +2,7 @@
 import { Command } from 'commander'
 import { about } from './commands/about.js'
 import { createNextJsApp } from './commands/create-nextjs-app.js'
+import { createReactApp } from './commands/create-react-app.js'
 
 const program = new Command()
 
@@ -37,5 +38,29 @@ program
     ' Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .action(async (name, options) => await createNextJsApp({ name, options }))
+
+program
+  .command('react-app <name>')
+  .description(
+    'Create a React app with my own template. NPM is used by default.',
+  )
+  .option('-v, --vite', 'Use Vite.')
+  .option(
+    '--use-npm',
+    ' Explicitly tell the CLI to bootstrap the application using bun.',
+  )
+  .option(
+    '--use-pnpm',
+    ' Explicitly tell the CLI to bootstrap the application using pnpm. Only for Vite.',
+  )
+  .option(
+    '--use-yarn',
+    ' Explicitly tell the CLI to bootstrap the application using yarn.',
+  )
+  .option(
+    '--use-bun',
+    ' Explicitly tell the CLI to bootstrap the application using bun. Only for Vite.',
+  )
+  .action(async (name, options) => await createReactApp({ name, options }))
 
 program.parse(process.argv)

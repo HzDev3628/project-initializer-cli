@@ -5,7 +5,7 @@ import { chdir } from 'node:process'
 import { promises as fs } from 'node:fs'
 import { DEFAULT_CONFIG_BIOME } from '../lib/constants.js'
 
-type Props = {
+interface Props {
   name: string
   options: {
     withoutShadcn: boolean
@@ -18,7 +18,7 @@ type Props = {
   }
 }
 
-async function createNextJsApp(props: Props) {
+export async function createNextJsApp(props: Props) {
   log(
     chalk.green(`
 ---------- Creating a project ${props.name} on Next.js ${props.options.withoutShadcn ? 'without' : 'with'} Shadcn UI 🚀 --------`),
@@ -148,5 +148,3 @@ async function createNextJsApp(props: Props) {
 
   return process.exit(1)
 }
-
-export { type Props, createNextJsApp }
