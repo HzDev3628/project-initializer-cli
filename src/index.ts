@@ -18,13 +18,18 @@ program
   .description(
     'Create a Next.js app with my own template. NPM is used by default.',
   )
-  .option('-w, --without-shadcn', 'Do not connect the Shadcn UI Library.')
-  .option('-t, --without-tailwind', 'Do not install the Tailwind CSS.')
+  .option('-s, --shadcn', 'Connect the Shadcn UI library.')
+  .option('-t, --tailwind', 'Install the Tailwind CSS.')
+  .option('-p, --turbopack', 'Add Turbopack.')
   .option(
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
   )
   .option('--use-biome', 'Use Biome to format and lint your code.')
+  .option(
+    '--use-npm',
+    ' Explicitly tell the CLI to bootstrap the application using bun.',
+  )
   .option(
     '--use-pnpm',
     ' Explicitly tell the CLI to bootstrap the application using pnpm.',

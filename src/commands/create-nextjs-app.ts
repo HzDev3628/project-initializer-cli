@@ -4,27 +4,72 @@ import { execa } from 'execa'
 import { chdir } from 'node:process'
 import { promises as fs } from 'node:fs'
 import { DEFAULT_CONFIG_BIOME } from '../lib/constants.js'
+import { confirm, isCancel, select } from '@clack/prompts'
 
 interface Props {
   name: string
   options: {
-    withoutShadcn: boolean
-    withoutTailwind: boolean
+    shadcn: boolean
+    tailwind: boolean
     git: string
     usePnpm: boolean
     useYarn: boolean
     useBun: boolean
+    useNpm: boolean
     useBiome: boolean
+    turbopack: boolean
   }
 }
 
 export async function createNextJsApp(props: Props) {
-  log(
-    chalk.green(`
----------- Creating a project ${props.name} on Next.js ${props.options.withoutShadcn ? 'without' : 'with'} Shadcn UI 🚀 --------`),
-  )
-
   const projectPath = `/Users/hzdev/Documents/Development/${props.name}`
+
+  const packageManager = props.options.useBun
+    ? 'bun'
+    : props.options.usePnpm
+      ? 'pnpm'
+      : props.options.useYarn
+        ? 'yarn'
+        : props.options.useNpm
+          ? 'npm'
+          : await select({
+              message: 'Select your package manager:',
+              options: [
+                { value: 'npm', label: 'npm' },
+                { value: 'yarn', label: 'yarn' },
+                { value: 'pnpm', label: 'pnpm' },
+                { value: 'bun', label: 'bun' },
+              ],
+            })
+
+  if (isCancel(packageManager)) return process.exit(1)
+
+  const turbopack =
+    props.options.turbopack ?? (await confirm({ message: 'Add Turbopack ?' }))
+
+  if (isCancel(turbopack)) return process.exit(1)
+
+  const tailwind =
+    props.options.tailwind ??
+    (await confirm({
+      message: 'Add Tailwind CSS ?',
+    }))
+
+  if (isCancel(tailwind)) return process.exit(1)
+
+  const isUseBiome =
+    props.options.useBiome ?? (await confirm({ message: 'Add Biome ?' }))
+
+  if (isCancel(isUseBiome)) return process.exit(1)
+
+  const shadcn = tailwind
+    ? (props.options.shadcn ??
+      (await confirm({
+        message: 'Add Shadcn UI ?',
+      })))
+    : false
+
+  if (isCancel(shadcn)) return process.exit(1)
 
   await execa(
     'npx',
@@ -38,36 +83,30 @@ export async function createNextJsApp(props: Props) {
       '--src-dir',
       'src',
       '--app',
-      '--turbopack',
-      props.options.withoutTailwind ? '--no-tailwind' : '--tailwind',
-      props.options.useBiome ? '--no-eslint' : '--eslint',
-      props.options.useBun
-        ? '--use-bun'
-        : props.options.usePnpm
-          ? '--use-pnpm'
-          : props.options.useYarn
-            ? '--use-yarn'
-            : '--use-npm',
+      turbopack ? '--turbopack' : '--no-turbopack',
+      tailwind ? '--tailwind' : '--no-tailwind',
+      isUseBiome ? '--no-eslint' : '--eslint',
+      `--use-${packageManager}`,
     ],
     { stdio: 'inherit' },
   )
 
   chdir(projectPath)
 
-  if (props.options.useBiome) {
+  if (isUseBiome) {
     //@NOTE: install biome.
     logAlert('Set up Biome 📚')
 
-    props.options.useBun
+    packageManager === 'bun'
       ? await execa('bun', ['add', '--dev', '--exact', '@biomejs/biome'])
-      : props.options.usePnpm
+      : packageManager === 'pnpm'
         ? await execa('pnpm', [
             'add',
             '--save-dev',
             '--save-exact',
             '@biomejs/biome',
           ])
-        : props.options.useYarn
+        : packageManager === 'yarn'
           ? await execa('yarn', ['add', '--dev', '--exact', '@biomejs/biome'])
           : await execa(
               'npm',
@@ -76,19 +115,14 @@ export async function createNextJsApp(props: Props) {
             )
 
     await execa(
-      props.options.useBun
+      packageManager === 'bun'
         ? 'bunx'
-        : props.options.usePnpm
+        : packageManager === 'pnpm'
           ? 'pnpm'
-          : props.options.useYarn
+          : packageManager === 'yarn'
             ? 'yarn'
             : 'npx',
-      [
-        props.options.useBun || props.options.usePnpm || props.options.useYarn
-          ? 'biome'
-          : '@biomejs/biome',
-        'init',
-      ],
+      [packageManager === 'npm' ? '@biomejs/biome' : 'biome', 'init'],
       { stdio: 'inherit' },
     )
 
@@ -113,7 +147,7 @@ export async function createNextJsApp(props: Props) {
     }
   }
 
-  if (!props.options.withoutShadcn) {
+  if (shadcn) {
     //@NOTE: shadcn ui.
     logAlert('Set up Shadcn UI ✨')
     await execa('npx', ['shadcn@latest', 'init'], { stdio: 'inherit' })
