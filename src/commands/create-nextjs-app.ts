@@ -4,7 +4,12 @@ import { execa } from 'execa'
 import { chdir } from 'node:process'
 import { promises as fs } from 'node:fs'
 import { DEFAULT_CONFIG_BIOME } from '../lib/constants.js'
-import { confirm, isCancel, select } from '@clack/prompts'
+import { confirm, isCancel } from '@clack/prompts'
+import {
+  getPackageManager,
+  type PackageManagersType,
+} from '../lib/services/package-manager.js'
+import { pushToRepo } from '../lib/services/push-to-repo.js'
 
 interface Props {
   name: string
@@ -12,70 +17,46 @@ interface Props {
     shadcn: boolean
     tailwind: boolean
     git: string
-    usePnpm: boolean
-    useYarn: boolean
-    useBun: boolean
-    useNpm: boolean
     useBiome: boolean
     turbopack: boolean
-  }
+  } & PackageManagersType
 }
 
 export async function createNextJsApp(props: Props) {
-  const projectPath = `/Users/hzdev/Documents/Development/${props.name}`
+  const PROJECT_PATH = `/Users/hzdev/Documents/Development/${props.name}`
 
-  const packageManager = props.options.useBun
-    ? 'bun'
-    : props.options.usePnpm
-      ? 'pnpm'
-      : props.options.useYarn
-        ? 'yarn'
-        : props.options.useNpm
-          ? 'npm'
-          : await select({
-              message: 'Select your package manager:',
-              options: [
-                { value: 'npm', label: 'npm' },
-                { value: 'yarn', label: 'yarn' },
-                { value: 'pnpm', label: 'pnpm' },
-                { value: 'bun', label: 'bun' },
-              ],
-            })
+  const PACKAGE_MANAGER = await getPackageManager(props.options)
+  if (isCancel(PACKAGE_MANAGER)) return process.exit(1)
 
-  if (isCancel(packageManager)) return process.exit(1)
-
-  const turbopack =
+  const TURBOPACK =
     props.options.turbopack ?? (await confirm({ message: 'Add Turbopack ?' }))
+  if (isCancel(TURBOPACK)) return process.exit(1)
 
-  if (isCancel(turbopack)) return process.exit(1)
-
-  const tailwind =
+  const TAILWIND =
     props.options.tailwind ??
     (await confirm({
       message: 'Add Tailwind CSS ?',
     }))
+  if (isCancel(TAILWIND)) return process.exit(1)
 
-  if (isCancel(tailwind)) return process.exit(1)
-
-  const isUseBiome =
+  const IS_USE_BIOME =
     props.options.useBiome ?? (await confirm({ message: 'Add Biome ?' }))
+  if (isCancel(IS_USE_BIOME)) return process.exit(1)
 
-  if (isCancel(isUseBiome)) return process.exit(1)
-
-  const shadcn = tailwind
+  const SHADCN = TAILWIND
     ? (props.options.shadcn ??
       (await confirm({
         message: 'Add Shadcn UI ?',
       })))
     : false
 
-  if (isCancel(shadcn)) return process.exit(1)
+  if (isCancel(SHADCN)) return process.exit(1)
 
   await execa(
     'npx',
     [
       'create-next-app@latest',
-      projectPath,
+      PROJECT_PATH,
       props.name,
       '--ts',
       '--import-alias',
@@ -83,30 +64,30 @@ export async function createNextJsApp(props: Props) {
       '--src-dir',
       'src',
       '--app',
-      turbopack ? '--turbopack' : '--no-turbopack',
-      tailwind ? '--tailwind' : '--no-tailwind',
-      isUseBiome ? '--no-eslint' : '--eslint',
-      `--use-${packageManager}`,
+      TURBOPACK ? '--turbopack' : '--no-turbopack',
+      TAILWIND ? '--tailwind' : '--no-tailwind',
+      IS_USE_BIOME ? '--no-eslint' : '--eslint',
+      `--use-${PACKAGE_MANAGER}`,
     ],
     { stdio: 'inherit' },
   )
 
-  chdir(projectPath)
+  chdir(PROJECT_PATH)
 
-  if (isUseBiome) {
+  if (IS_USE_BIOME) {
     //@NOTE: install biome.
     logAlert('Set up Biome 📚')
 
-    packageManager === 'bun'
+    PACKAGE_MANAGER === 'bun'
       ? await execa('bun', ['add', '--dev', '--exact', '@biomejs/biome'])
-      : packageManager === 'pnpm'
+      : PACKAGE_MANAGER === 'pnpm'
         ? await execa('pnpm', [
             'add',
             '--save-dev',
             '--save-exact',
             '@biomejs/biome',
           ])
-        : packageManager === 'yarn'
+        : PACKAGE_MANAGER === 'yarn'
           ? await execa('yarn', ['add', '--dev', '--exact', '@biomejs/biome'])
           : await execa(
               'npm',
@@ -115,20 +96,20 @@ export async function createNextJsApp(props: Props) {
             )
 
     await execa(
-      packageManager === 'bun'
+      PACKAGE_MANAGER === 'bun'
         ? 'bunx'
-        : packageManager === 'pnpm'
+        : PACKAGE_MANAGER === 'pnpm'
           ? 'pnpm'
-          : packageManager === 'yarn'
+          : PACKAGE_MANAGER === 'yarn'
             ? 'yarn'
             : 'npx',
-      [packageManager === 'npm' ? '@biomejs/biome' : 'biome', 'init'],
+      [PACKAGE_MANAGER === 'npm' ? '@biomejs/biome' : 'biome', 'init'],
       { stdio: 'inherit' },
     )
 
     //@NOTE: overwrite biome config.
     try {
-      const data = await fs.readFile(`${projectPath}/biome.json`, 'utf-8')
+      const data = await fs.readFile(`${PROJECT_PATH}/biome.json`, 'utf-8')
       const currentConfig = JSON.parse(data)
 
       const newConfig = {
@@ -137,7 +118,7 @@ export async function createNextJsApp(props: Props) {
       }
 
       await fs.writeFile(
-        `${projectPath}/biome.json`,
+        `${PROJECT_PATH}/biome.json`,
         JSON.stringify(newConfig, null, 2),
         'utf-8',
       )
@@ -147,36 +128,20 @@ export async function createNextJsApp(props: Props) {
     }
   }
 
-  if (shadcn) {
+  if (SHADCN) {
     //@NOTE: shadcn ui.
     logAlert('Set up Shadcn UI ✨')
     await execa('npx', ['shadcn@latest', 'init'], { stdio: 'inherit' })
   }
 
   if (props.options.git) {
-    //@NOTE: git.
-    logAlert('Connect git repository 📕')
-    await execa('git', ['remote', 'add', 'origin', `${props.options.git}`], {
-      stdio: 'inherit',
-    })
-    await execa('git', ['remote', '-v'], { stdio: 'inherit' })
-
-    logAlert('Create commit 👾')
-    await execa('git', ['add', '.'], { stdio: 'inherit' })
-    await execa('git', ['commit', '-m', 'init project'], {
-      stdio: 'inherit',
-    })
-
-    logAlert('Push ⚡️')
-    await execa('git', ['push', '--set-upstream', 'origin', 'main'], {
-      stdio: 'inherit',
-    })
+    await pushToRepo({ repoUrl: props.options.git })
   }
 
   log(
     chalk.green(`
       Successful installation!
-      You can found your project at the following path: ${projectPath}
+      You can found your project at the following path: ${PROJECT_PATH}
       `),
   )
 

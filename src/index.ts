@@ -3,8 +3,11 @@ import { Command } from 'commander'
 import { about } from './commands/about.js'
 import { createNextJsApp } from './commands/create-nextjs-app.js'
 import { createReactApp } from './commands/create-react-app.js'
+import { createHono } from './commands/create-hono.js'
 
 const program = new Command()
+
+// @TODO: rewrite descriptions.
 
 program
   .name('speed-cli')
@@ -50,6 +53,10 @@ program
     'Create a React app with my own template. NPM is used by default.',
   )
   .option('-v, --vite', 'Use Vite.')
+  .option(
+    '-g, --git <repository>',
+    'Connect and commit to the GitHub repository.',
+  )
   .option('--use-biome', 'Use Biome to format and lint your code.')
   .option(
     '--use-npm',
@@ -68,5 +75,33 @@ program
     ' Explicitly tell the CLI to bootstrap the application using bun. Only for Vite.',
   )
   .action(async (name, options) => await createReactApp({ name, options }))
+
+program
+  .command('hono <name>')
+  .description(
+    'Create a Hono app with my own template. NPM is used by default.',
+  )
+  .option(
+    '--use-npm',
+    ' Explicitly tell the CLI to bootstrap the application using bun.',
+  )
+  .option(
+    '--use-pnpm',
+    ' Explicitly tell the CLI to bootstrap the application using pnpm. Only for Vite.',
+  )
+  .option(
+    '--use-yarn',
+    ' Explicitly tell the CLI to bootstrap the application using yarn.',
+  )
+  .option(
+    '--use-bun',
+    ' Explicitly tell the CLI to bootstrap the application using bun. Only for Vite.',
+  )
+  .option(
+    '-g, --git <repository>',
+    'Connect and commit to the GitHub repository.',
+  )
+  .option('--use-biome', 'Use Biome to format and lint your code.')
+  .action(async (name, options) => await createHono({ name, options }))
 
 program.parse(process.argv)
