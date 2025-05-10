@@ -50,6 +50,7 @@ program
     'Create a React app with my own template. NPM is used by default.',
   )
   .option('-v, --vite', 'Use Vite.')
+  .option('--use-biome', 'Use Biome to format and lint your code.')
   .option(
     '--use-npm',
     ' Explicitly tell the CLI to bootstrap the application using bun.',

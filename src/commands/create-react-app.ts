@@ -3,11 +3,15 @@ import { log } from '../lib/utils.js'
 import { execa } from 'execa'
 import { chdir } from 'node:process'
 import { confirm, isCancel, select } from '@clack/prompts'
+import { rmSync } from 'node:fs'
+import path from 'node:path'
+import { installBiome } from '../lib/services/install-biome.js'
 
 interface Props {
   name: string
   options: {
     vite: boolean
+    useBiome: boolean
     usePnpm: boolean
     useYarn: boolean
     useBun: boolean
@@ -57,6 +61,12 @@ export async function createReactApp(props: Props) {
 
   if (isCancel(packageManager)) return process.exit(1)
 
+  const useBiome =
+    props.options.useBiome ??
+    (await confirm({ message: 'Will we use Biome ?' }))
+
+  if (isCancel(useBiome)) return process.exit(1)
+
   if (isUseVite) {
     await execa(
       packageManager,
@@ -74,6 +84,22 @@ export async function createReactApp(props: Props) {
     chdir(projectPath) //@NOTE: Enter to the project.
 
     await execa(packageManager, ['install'], { stdio: 'inherit' }) // @NOTE: Install all packages.
+
+    if (useBiome) {
+      await execa(packageManager, [
+        'uninstall',
+        'eslint',
+        '@eslint/js',
+        'eslint-plugin-react-hooks',
+        'eslint-plugin-react-refresh',
+        'typescript-eslint',
+        'globals',
+      ])
+
+      rmSync(path.join(projectPath, 'eslint.config.js'))
+
+      await installBiome({ packageManager, projectPath })
+    }
 
     log(chalk.green('Successful installation!'))
 
@@ -94,7 +120,22 @@ export async function createReactApp(props: Props) {
         'typescript',
       ],
       { stdio: 'inherit' },
-    )
+    ) // @NOTE: Init react app.
+
+    chdir(projectPath) //@NOTE: Enter to the project.
+
+    if (useBiome) {
+      await installBiome({ packageManager, projectPath })
+    } else {
+      await execa(
+        packageManager,
+        [
+          packageManager === 'npm' ? 'init' : 'create',
+          packageManager === 'npm' ? '@eslint/config@latest' : '@eslint/config',
+        ],
+        { stdio: 'inherit' },
+      )
+    }
 
     log(chalk.green('Successful installation!'))
 
