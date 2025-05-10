@@ -1,10 +1,10 @@
 import { select } from '@clack/prompts'
 
 export interface PackageManagersType {
-  usePnpm: boolean
-  useYarn: boolean
-  useBun: boolean
-  useNpm: boolean
+  usePnpm?: boolean
+  useYarn?: boolean
+  useBun?: boolean
+  useNpm?: boolean
 }
 
 export async function getPackageManager(props: PackageManagersType) {

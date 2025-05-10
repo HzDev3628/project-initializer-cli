@@ -12,7 +12,8 @@ import { pushToRepo } from '../lib/services/push-to-repo.js'
 
 interface Props {
   name: string
-  options: { useBiome: boolean; git: string } & PackageManagersType
+  options: Partial<{ useBiome: boolean; git: string }> &
+    Partial<PackageManagersType>
 }
 
 export const createHono = async (props: Props) => {
@@ -29,9 +30,11 @@ export const createHono = async (props: Props) => {
     PACKAGE_MANAGER,
     [
       'create',
-      PACKAGE_MANAGER === 'yarn' ? 'hono' : 'hono@latest',
+      PACKAGE_MANAGER === 'yarn' || PACKAGE_MANAGER === 'pnpm'
+        ? 'hono'
+        : 'hono@latest',
       props.name,
-      PACKAGE_MANAGER === 'npm' ? '--' : '',
+      // PACKAGE_MANAGER === 'npm' ? '--' : '',
       '--template',
       'nodejs',
       '--install',

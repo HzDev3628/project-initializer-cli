@@ -13,13 +13,14 @@ import { pushToRepo } from '../lib/services/push-to-repo.js'
 
 interface Props {
   name: string
-  options: {
+  options: Partial<{
     shadcn: boolean
     tailwind: boolean
     git: string
     useBiome: boolean
     turbopack: boolean
-  } & PackageManagersType
+  }> &
+    Partial<PackageManagersType>
 }
 
 export async function createNextJsApp(props: Props) {

@@ -14,21 +14,18 @@ import { pushToRepo } from '../lib/services/push-to-repo.js'
 
 interface Props {
   name: string
-  options: {
+  options: Partial<{
     vite: boolean
     useBiome: boolean
     git: string
-  } & PackageManagersType
+  }> &
+    Partial<PackageManagersType>
 }
 
 export async function createReactApp(props: Props) {
   const PROJECT_PATH = `/Users/hzdev/Documents/Development/${props.name}` //@TODO: make dynamic.
 
-  log(
-    chalk.white.bold(`
-    Welcome to the Speed CLI ⚡️
-    `),
-  )
+  if (!props.options) return process.exit(1)
 
   const USE_VITE =
     props.options.vite ??
@@ -44,8 +41,7 @@ export async function createReactApp(props: Props) {
   if (isCancel(PACKAGE_MANAGER)) return process.exit(1)
 
   const USE_BIOME =
-    props.options.useBiome ??
-    (await confirm({ message: 'Will we use Biome ?' }))
+    props.options.useBiome ?? (await confirm({ message: 'Add Biome ?' }))
   if (isCancel(USE_BIOME)) return process.exit(1)
 
   if (USE_VITE) {

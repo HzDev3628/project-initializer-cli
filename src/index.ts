@@ -4,6 +4,7 @@ import { about } from './commands/about.js'
 import { createNextJsApp } from './commands/create-nextjs-app.js'
 import { createReactApp } from './commands/create-react-app.js'
 import { createHono } from './commands/create-hono.js'
+import { init } from './commands/init.js'
 
 const program = new Command()
 
@@ -15,6 +16,11 @@ program
   .version('0.0.1')
 
 program.command('about').action(about)
+
+program
+  .command('init')
+  .description('Just create your future.')
+  .action(async () => await init())
 
 program
   .command('nextjs <name>')
