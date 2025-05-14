@@ -9,11 +9,11 @@ import { installBiome } from '../lib/services/install-biome.js'
 import chalk from 'chalk'
 import { log } from '../lib/utils.js'
 import { pushToRepo } from '../lib/services/push-to-repo.js'
+import type { BasicProps } from '../lib/services/basic-props.js'
 
 interface Props {
   name: string
-  options: Partial<{ useBiome: boolean; git: string }> &
-    Partial<PackageManagersType>
+  options: Partial<BasicProps> & Partial<PackageManagersType>
 }
 
 export const createHono = async (props: Props) => {

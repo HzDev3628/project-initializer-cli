@@ -10,17 +10,17 @@ import {
   type PackageManagersType,
 } from '../lib/services/package-manager.js'
 import { pushToRepo } from '../lib/services/push-to-repo.js'
+import type { BasicProps } from '../lib/services/basic-props.js'
 
 interface Props {
   name: string
   options: Partial<{
     shadcn: boolean
     tailwind: boolean
-    git: string
-    useBiome: boolean
     turbopack: boolean
   }> &
-    Partial<PackageManagersType>
+    Partial<PackageManagersType> &
+    Partial<BasicProps>
 }
 
 export async function createNextJsApp(props: Props) {

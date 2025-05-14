@@ -9,11 +9,11 @@ import path from 'node:path'
 import { installBiome } from '../lib/services/install-biome.js'
 import { chdir } from 'node:process'
 import { pushToRepo } from '../lib/services/push-to-repo.js'
+import type { BasicProps } from '../lib/services/basic-props.js'
 
 interface Props {
   name: string
-  options: Partial<{ useBiome: boolean; git: string }> &
-    Partial<Omit<PackageManagersType, 'useBun'>>
+  options: Partial<BasicProps> & Partial<Omit<PackageManagersType, 'useBun'>>
 }
 
 export const createNestJsApp = async (props: Props) => {
@@ -23,7 +23,8 @@ export const createNestJsApp = async (props: Props) => {
   if (isCancel(PACKAGE_MANAGER)) return process.exit(1)
 
   const USE_BIOME =
-    props.options.useBiome ?? (await confirm({ message: 'Add Biome ? (Default ESlint)' }))
+    props.options.useBiome ??
+    (await confirm({ message: 'Add Biome ? (Default ESlint)' }))
   if (isCancel(USE_BIOME)) return process.exit(1)
 
   await execa('npm', ['i', '-g', '@nestjs/cli'], { stdio: 'inherit' })
