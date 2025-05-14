@@ -27,6 +27,25 @@ export async function getPackageManager(props: PackageManagersType) {
             })
 }
 
+export async function getPackageManagerForNestJs(
+  props: Omit<PackageManagersType, 'useBun'>,
+) {
+  return props.usePnpm
+    ? 'pnpm'
+    : props.useYarn
+      ? 'yarn'
+      : props.useNpm
+        ? 'npm'
+        : await select({
+            message: 'Select your package manager:',
+            options: [
+              { value: 'npm', label: 'npm' },
+              { value: 'yarn', label: 'yarn' },
+              { value: 'pnpm', label: 'pnpm' },
+            ],
+          })
+}
+
 export async function getPackageManagerForReactApp(
   props: {
     useVite: boolean

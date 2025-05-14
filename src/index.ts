@@ -5,6 +5,7 @@ import { createNextJsApp } from './commands/create-nextjs-app.js'
 import { createReactApp } from './commands/create-react-app.js'
 import { createHono } from './commands/create-hono.js'
 import { init } from './commands/init.js'
+import { createNestJsApp } from './commands/create-nestjs-app.js'
 
 const program = new Command()
 
@@ -109,5 +110,29 @@ program
   )
   .option('--use-biome', 'Use Biome to format and lint your code.')
   .action(async (name, options) => await createHono({ name, options }))
+
+program
+  .command('nestjs <name>')
+  .description(
+    'Create a Hono app with my own template. NPM is used by default.',
+  )
+  .option(
+    '--use-npm',
+    ' Explicitly tell the CLI to bootstrap the application using bun.',
+  )
+  .option(
+    '--use-pnpm',
+    ' Explicitly tell the CLI to bootstrap the application using pnpm. Only for Vite.',
+  )
+  .option(
+    '--use-yarn',
+    ' Explicitly tell the CLI to bootstrap the application using yarn.',
+  )
+  .option(
+    '-g, --git <repository>',
+    'Connect and commit to the GitHub repository.',
+  )
+  .option('--use-biome', 'Use Biome to format and lint your code.')
+  .action(async (name, options) => await createNestJsApp({ name, options }))
 
 program.parse(process.argv)
