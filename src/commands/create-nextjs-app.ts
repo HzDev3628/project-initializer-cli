@@ -1,16 +1,15 @@
 import chalk from 'chalk'
-import { log, logAlert } from '../lib/utils.js'
+import { log, logAlert } from '@/lib/utils'
 import { execa } from 'execa'
 import { chdir } from 'node:process'
-import { promises as fs } from 'node:fs'
-import { DEFAULT_CONFIG_BIOME } from '../lib/constants.js'
 import { confirm, isCancel } from '@clack/prompts'
 import {
   getPackageManager,
   type PackageManagersType,
-} from '../lib/services/package-manager.js'
-import { pushToRepo } from '../lib/services/push-to-repo.js'
-import type { BasicProps } from '../lib/services/basic-props.js'
+} from '@/lib/services/package-manager'
+import { pushToRepo } from '@/lib/services/push-to-repo'
+import type { BasicProps } from '@/lib/services/basic-props'
+import { installBiome } from '@/lib/services/install-biome'
 
 interface Props {
   name: string
@@ -76,57 +75,10 @@ export async function createNextJsApp(props: Props) {
   chdir(PROJECT_PATH)
 
   if (IS_USE_BIOME) {
-    //@NOTE: install biome.
-    logAlert('Set up Biome 📚')
-
-    PACKAGE_MANAGER === 'bun'
-      ? await execa('bun', ['add', '--dev', '--exact', '@biomejs/biome'])
-      : PACKAGE_MANAGER === 'pnpm'
-        ? await execa('pnpm', [
-            'add',
-            '--save-dev',
-            '--save-exact',
-            '@biomejs/biome',
-          ])
-        : PACKAGE_MANAGER === 'yarn'
-          ? await execa('yarn', ['add', '--dev', '--exact', '@biomejs/biome'])
-          : await execa(
-              'npm',
-              ['install', '--save-dev', '--save-exact', '@biomejs/biome'],
-              { stdio: 'inherit' },
-            )
-
-    await execa(
-      PACKAGE_MANAGER === 'bun'
-        ? 'bunx'
-        : PACKAGE_MANAGER === 'pnpm'
-          ? 'pnpm'
-          : PACKAGE_MANAGER === 'yarn'
-            ? 'yarn'
-            : 'npx',
-      [PACKAGE_MANAGER === 'npm' ? '@biomejs/biome' : 'biome', 'init'],
-      { stdio: 'inherit' },
-    )
-
-    //@NOTE: overwrite biome config.
-    try {
-      const data = await fs.readFile(`${PROJECT_PATH}/biome.json`, 'utf-8')
-      const currentConfig = JSON.parse(data)
-
-      const newConfig = {
-        $schema: currentConfig.$schema,
-        ...DEFAULT_CONFIG_BIOME,
-      }
-
-      await fs.writeFile(
-        `${PROJECT_PATH}/biome.json`,
-        JSON.stringify(newConfig, null, 2),
-        'utf-8',
-      )
-    } catch (e) {
-      log(chalk.red(e))
-      return process.exit(1)
-    }
+    await installBiome({
+      packageManager: PACKAGE_MANAGER,
+      projectPath: PROJECT_PATH,
+    })
   }
 
   if (SHADCN) {

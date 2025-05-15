@@ -2,14 +2,14 @@ import { confirm, isCancel } from '@clack/prompts'
 import {
   getPackageManager,
   type PackageManagersType,
-} from '../lib/services/package-manager.js'
+} from '@/lib/services/package-manager'
 import { execa } from 'execa'
 import { chdir } from 'node:process'
-import { installBiome } from '../lib/services/install-biome.js'
+import { installBiome } from '@/lib/services/install-biome'
 import chalk from 'chalk'
-import { log } from '../lib/utils.js'
-import { pushToRepo } from '../lib/services/push-to-repo.js'
-import type { BasicProps } from '../lib/services/basic-props.js'
+import { log } from '@/lib/utils'
+import { pushToRepo } from '@/lib/services/push-to-repo'
+import type { BasicProps } from '@/lib/services/basic-props'
 
 interface Props {
   name: string
@@ -59,5 +59,6 @@ export const createHono = async (props: Props) => {
 
   log(chalk.green('Successful install'))
 
-  return process.exit(1)
+  process.exit(0)
+  // return { status: 'success' }
 }

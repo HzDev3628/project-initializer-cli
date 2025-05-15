@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { log } from '../lib/utils.js'
+import { log } from '@/lib/utils'
 
 export function about() {
   return log(

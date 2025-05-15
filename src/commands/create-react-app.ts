@@ -1,17 +1,17 @@
 import chalk from 'chalk'
-import { log } from '../lib/utils.js'
+import { log } from '@/lib/utils'
 import { execa } from 'execa'
 import { chdir } from 'node:process'
 import { confirm, isCancel } from '@clack/prompts'
 import { rmSync } from 'node:fs'
 import path from 'node:path'
-import { installBiome } from '../lib/services/install-biome.js'
+import { installBiome } from '@/lib/services/install-biome'
 import {
   getPackageManagerForReactApp,
   type PackageManagersType,
-} from '../lib/services/package-manager.js'
-import { pushToRepo } from '../lib/services/push-to-repo.js'
-import type { BasicProps } from '../lib/services/basic-props.js'
+} from '@/lib/services/package-manager'
+import { pushToRepo } from '@/lib/services/push-to-repo'
+import type { BasicProps } from '@/lib/services/basic-props'
 
 interface Props {
   name: string

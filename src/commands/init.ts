@@ -1,7 +1,7 @@
 import { isCancel, select, text } from '@clack/prompts'
-import { createNextJsApp } from './create-nextjs-app.js'
-import { createHono } from './create-hono.js'
-import { createReactApp } from './create-react-app.js'
+import { createNextJsApp } from './create-nextjs-app'
+import { createHono } from './create-hono'
+import { createReactApp } from './create-react-app'
 
 export const init = async () => {
   const projectName = await text({ message: 'Project name:' })

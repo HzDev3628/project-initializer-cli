@@ -3,13 +3,13 @@ import { rmSync } from 'node:fs'
 import {
   getPackageManagerForNestJs,
   type PackageManagersType,
-} from '../lib/services/package-manager.js'
+} from '@/lib/services/package-manager'
 import { confirm, isCancel } from '@clack/prompts'
 import path from 'node:path'
-import { installBiome } from '../lib/services/install-biome.js'
+import { installBiome } from '@/lib/services/install-biome'
 import { chdir } from 'node:process'
-import { pushToRepo } from '../lib/services/push-to-repo.js'
-import type { BasicProps } from '../lib/services/basic-props.js'
+import { pushToRepo } from '@/lib/services/push-to-repo'
+import type { BasicProps } from '@/lib/services/basic-props'
 
 interface Props {
   name: string
@@ -36,7 +36,7 @@ export const createNestJsApp = async (props: Props) => {
 
   if (USE_BIOME) {
     await execa(PACKAGE_MANAGER, [
-      'uninstall',
+      PACKAGE_MANAGER === 'yarn' ? 'remove' : 'uninstall',
       '@eslint/eslintrc',
       '@eslint/js',
       'eslint',
