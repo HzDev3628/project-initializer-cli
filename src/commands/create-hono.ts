@@ -11,6 +11,7 @@ import { log } from '@/lib/utils'
 import { pushToRepo } from '@/lib/services/push-to-repo'
 import type { BasicProps, ResponseStatus } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
+import path from 'node:path'
 
 interface Props {
   name: string
@@ -18,7 +19,7 @@ interface Props {
 }
 
 export const createHono = async (props: Props): Promise<ResponseStatus> => {
-  const PROJECT_PATH = `/Users/hzdev/Documents/Development/speed-cli/${props.name}` //@TODO: make dynamic.
+  const PROJECT_PATH = path.resolve(process.cwd(), props.name)
 
   const PACKAGE_MANAGER = await getPackageManager(props.options)
   if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
@@ -27,19 +28,38 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
     props.options.useBiome ?? (await confirm({ message: 'Add Biome ?' }))
   if (isCancel(USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
 
-  await execa(PACKAGE_MANAGER, [
-    'create',
-    PACKAGE_MANAGER === 'yarn' || PACKAGE_MANAGER === 'pnpm'
-      ? 'hono'
-      : 'hono@latest',
-    props.name,
-    PACKAGE_MANAGER === 'npm' ? '--' : '',
-    '--template',
-    'nodejs',
-    '--install',
-    '--pm',
-    PACKAGE_MANAGER,
-  ])
+  PACKAGE_MANAGER === 'npm'
+    ? await execa(
+        PACKAGE_MANAGER,
+        [
+          'create',
+          'hono@latest',
+          props.name,
+          '--',
+          '--template',
+          'nodejs',
+          '--install',
+          '--pm',
+          PACKAGE_MANAGER,
+        ],
+        { stdio: 'inherit' },
+      )
+    : await execa(
+        PACKAGE_MANAGER,
+        [
+          'create',
+          PACKAGE_MANAGER === 'yarn' || PACKAGE_MANAGER === 'pnpm'
+            ? 'hono'
+            : 'hono@latest',
+          props.name,
+          '--template',
+          'nodejs',
+          '--install',
+          '--pm',
+          PACKAGE_MANAGER,
+        ],
+        { stdio: 'inherit' },
+      )
 
   chdir(PROJECT_PATH)
 

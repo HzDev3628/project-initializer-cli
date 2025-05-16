@@ -33,7 +33,6 @@ describe('Hono', () => {
       })
 
       expect(res.status).toBe(RESPONSE_STATUS.SUCCESS)
-      process.exit(1)
     },
     TIMEOUT,
   )
@@ -50,7 +49,6 @@ describe('Hono', () => {
       })
 
       expect(res.status).toBe(RESPONSE_STATUS.SUCCESS)
-      process.exit(1)
     },
     TIMEOUT,
   )
@@ -67,7 +65,6 @@ describe('Hono', () => {
       })
 
       expect(res.status).toBe(RESPONSE_STATUS.SUCCESS)
-      process.exit(1)
     },
     TIMEOUT,
   )
@@ -84,7 +81,6 @@ describe('Hono', () => {
       })
 
       expect(res.status).toBe(RESPONSE_STATUS.SUCCESS)
-      process.exit(1)
     },
     TIMEOUT,
   )
