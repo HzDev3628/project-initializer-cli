@@ -138,6 +138,10 @@ program
     'Connect and commit to the GitHub repository.',
   )
   .option('--use-biome', 'Use Biome to format and lint your code.')
-  .action(async (name, options) => await createNestJsApp({ name, options }))
+  .action(async (name, options) => {
+    const res = await createNestJsApp({ name, options })
+    if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
+    return process.exit(0)
+  })
 
 program.parse(process.argv)

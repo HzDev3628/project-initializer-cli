@@ -74,7 +74,7 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
     await pushToRepo({ repoUrl: props.options.git })
   }
 
-  log(chalk.green('Successful initialized Hono project 🚀'))
+  log(chalk.green('Successful initialized Hono.js project 🚀'))
 
   // process.exit(0)
   return { status: RESPONSE_STATUS.SUCCESS }
