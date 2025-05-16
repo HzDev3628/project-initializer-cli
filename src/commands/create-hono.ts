@@ -9,40 +9,37 @@ import { installBiome } from '@/lib/services/install-biome'
 import chalk from 'chalk'
 import { log } from '@/lib/utils'
 import { pushToRepo } from '@/lib/services/push-to-repo'
-import type { BasicProps } from '@/lib/services/basic-props'
+import type { BasicProps, ResponseStatus } from '@/lib/types'
+import { RESPONSE_STATUS } from '@/lib/constants'
 
 interface Props {
   name: string
   options: Partial<BasicProps> & Partial<PackageManagersType>
 }
 
-export const createHono = async (props: Props) => {
-  const PROJECT_PATH = `/Users/hzdev/Documents/Development/${props.name}` //@TODO: make dynamic.
+export const createHono = async (props: Props): Promise<ResponseStatus> => {
+  const PROJECT_PATH = `/Users/hzdev/Documents/Development/speed-cli/${props.name}` //@TODO: make dynamic.
 
   const PACKAGE_MANAGER = await getPackageManager(props.options)
-  if (isCancel(PACKAGE_MANAGER)) return process.exit(1)
+  if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
 
   const USE_BIOME =
     props.options.useBiome ?? (await confirm({ message: 'Add Biome ?' }))
-  if (isCancel(USE_BIOME)) return process.exit(1)
+  if (isCancel(USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
 
-  await execa(
+  await execa(PACKAGE_MANAGER, [
+    'create',
+    PACKAGE_MANAGER === 'yarn' || PACKAGE_MANAGER === 'pnpm'
+      ? 'hono'
+      : 'hono@latest',
+    props.name,
+    PACKAGE_MANAGER === 'npm' ? '--' : '',
+    '--template',
+    'nodejs',
+    '--install',
+    '--pm',
     PACKAGE_MANAGER,
-    [
-      'create',
-      PACKAGE_MANAGER === 'yarn' || PACKAGE_MANAGER === 'pnpm'
-        ? 'hono'
-        : 'hono@latest',
-      props.name,
-      // PACKAGE_MANAGER === 'npm' ? '--' : '',
-      '--template',
-      'nodejs',
-      '--install',
-      '--pm',
-      PACKAGE_MANAGER,
-    ],
-    { stdio: 'inherit' },
-  )
+  ])
 
   chdir(PROJECT_PATH)
 
@@ -57,8 +54,8 @@ export const createHono = async (props: Props) => {
     await pushToRepo({ repoUrl: props.options.git })
   }
 
-  log(chalk.green('Successful install'))
+  log(chalk.green('Successful initialized Hono project 🚀'))
 
-  process.exit(0)
-  // return { status: 'success' }
+  // process.exit(0)
+  return { status: RESPONSE_STATUS.SUCCESS }
 }

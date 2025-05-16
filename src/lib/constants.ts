@@ -1,3 +1,8 @@
+export const RESPONSE_STATUS = {
+  CANCELED: 'canceled',
+  SUCCESS: 'success',
+} as const
+
 export const DEFAULT_CONFIG_BIOME = {
   files: {
     ignore: ['pnpm-lock.yaml', 'tsconfig.json', 'package-lock.json'],

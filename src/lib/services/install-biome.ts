@@ -1,7 +1,7 @@
 import { execa } from 'execa'
-import { log, logAlert } from '../utils.js'
+import { log, logAlert } from '@/lib/utils'
 import { promises as fs } from 'node:fs'
-import { DEFAULT_CONFIG_BIOME } from '../constants.js'
+import { DEFAULT_CONFIG_BIOME } from '@/lib/constants'
 import chalk from 'chalk'
 
 export const installBiome = async (props: {

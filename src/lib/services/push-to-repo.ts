@@ -1,5 +1,5 @@
 import { execa } from 'execa'
-import { logAlert } from '../utils.js'
+import { logAlert } from '@/lib/utils'
 
 export const pushToRepo = async ({ repoUrl }: { repoUrl: string }) => {
   logAlert('Connect git repository 📕')

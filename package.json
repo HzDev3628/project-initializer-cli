@@ -37,12 +37,8 @@
     "@types/node": "^22.15.12",
     "jest": "^29.7.0",
     "ts-jest": "^29.3.3",
+    "ts-node": "^10.9.2",
     "tsup": "^8.4.0",
     "typescript": "^5.8.3"
-  },
-  "jest": {
-    "rootDir": "./src/test",
-    "transform": {},
-    "extensionsToTreatAsEsm": [".ts"]
   }
 }

@@ -6,6 +6,7 @@ import { createReactApp } from './commands/create-react-app.js'
 import { createHono } from './commands/create-hono.js'
 import { init } from './commands/init.js'
 import { createNestJsApp } from './commands/create-nestjs-app.js'
+import { RESPONSE_STATUS } from './lib/constants.js'
 
 const program = new Command()
 
@@ -109,7 +110,11 @@ program
     'Connect and commit to the GitHub repository.',
   )
   .option('--use-biome', 'Use Biome to format and lint your code.')
-  .action(async (name, options) => await createHono({ name, options }))
+  .action(async (name, options) => {
+    const res = await createHono({ name, options })
+    if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
+    return process.exit(0)
+  })
 
 program
   .command('nestjs <name>')
