@@ -8,7 +8,7 @@ import {
   type PackageManagersType,
 } from '@/lib/services/package-manager'
 import { pushToRepo } from '@/lib/services/push-to-repo'
-import type { BasicProps } from '@/lib/services/basic-props'
+import type { BasicProps } from '@/lib/types/basic-props'
 import { installBiome } from '@/lib/services/install-biome'
 
 interface Props {
