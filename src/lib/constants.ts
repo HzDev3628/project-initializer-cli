@@ -1,4 +1,4 @@
-export const TIMEOUT = 10000 // 10 sec
+export const TIMEOUT = 100000 // 100 sec
 
 export const RESPONSE_STATUS = {
   CANCELED: 'canceled',

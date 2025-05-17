@@ -11,6 +11,9 @@ import { chdir } from 'node:process'
 import { pushToRepo } from '@/lib/services/push-to-repo'
 import type { BasicProps, ResponseStatus } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
+import { oraPromise } from 'ora'
+import { log } from '@/lib/utils'
+import chalk from 'chalk'
 
 interface Props {
   name: string
@@ -30,10 +33,27 @@ export const createNestJsApp = async (
     (await confirm({ message: 'Add Biome ? (Default ESlint)' }))
   if (isCancel(USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
 
-  await execa('npm', ['i', '-g', '@nestjs/cli'], { stdio: 'inherit' })
-  await execa('nest', ['new', props.name, '--strict', '-p', PACKAGE_MANAGER], {
-    stdio: 'inherit',
-  })
+  try {
+    await oraPromise(
+      async () => {
+        await execa('npm', ['i', '-g', '@nestjs/cli'])
+        await execa('nest', [
+          'new',
+          props.name,
+          '--strict',
+          '-p',
+          PACKAGE_MANAGER,
+        ])
+      },
+      {
+        text: 'Install Nest.js and init project',
+        successText: 'Successful install Nest CLI and init project.',
+        failText: 'Something went wrong. Please, try again.',
+      },
+    )
+  } catch {
+    return { status: RESPONSE_STATUS.CANCELED }
+  }
 
   chdir(PROJECT_PATH) //@NOTE: Enter to the project.
 
@@ -63,5 +83,6 @@ export const createNestJsApp = async (
     await pushToRepo({ repoUrl: props.options.git })
   }
 
+  log(chalk.green('Successful creation Nest.js project.'))
   return { status: RESPONSE_STATUS.SUCCESS }
 }
