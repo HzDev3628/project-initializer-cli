@@ -53,7 +53,11 @@ program
     '--use-bun',
     ' Explicitly tell the CLI to bootstrap the application using bun.',
   )
-  .action(async (name, options) => await createNextJsApp({ name, options }))
+  .action(async (name, options) => {
+    const res = await createNextJsApp({ name, options })
+    if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
+    return process.exit(0)
+  })
 
 program
   .command('react-app <name>')
@@ -82,7 +86,11 @@ program
     '--use-bun',
     ' Explicitly tell the CLI to bootstrap the application using bun. Only for Vite.',
   )
-  .action(async (name, options) => await createReactApp({ name, options }))
+  .action(async (name, options) => {
+    const res = await createReactApp({ name, options })
+    if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
+    return process.exit(0)
+  })
 
 program
   .command('hono <name>')

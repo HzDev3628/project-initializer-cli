@@ -11,7 +11,10 @@ import {
   type PackageManagersType,
 } from '@/lib/services/package-manager'
 import { pushToRepo } from '@/lib/services/push-to-repo'
-import type { BasicProps } from '@/lib/services/basic-props'
+import type { BasicProps } from '@/lib/types/basic-props'
+import type { ResponseStatus } from '@/lib/types'
+import { RESPONSE_STATUS } from '@/lib/constants'
+import { oraPromise } from 'ora'
 
 interface Props {
   name: string
@@ -22,8 +25,8 @@ interface Props {
     Partial<BasicProps>
 }
 
-export async function createReactApp(props: Props) {
-  const PROJECT_PATH = `/Users/hzdev/Documents/Development/${props.name}` //@TODO: make dynamic.
+export async function createReactApp(props: Props): Promise<ResponseStatus> {
+  const PROJECT_PATH = path.resolve(process.cwd(), props.name)
 
   if (!props.options) return process.exit(1)
 
@@ -45,22 +48,39 @@ export async function createReactApp(props: Props) {
   if (isCancel(USE_BIOME)) return process.exit(1)
 
   if (USE_VITE) {
-    await execa(
-      PACKAGE_MANAGER,
-      [
-        'create',
-        PACKAGE_MANAGER === 'npm' ? 'vite@latest' : 'vite',
-        props.name,
-        PACKAGE_MANAGER === 'npm' ? '--' : '',
-        '--template',
-        'react-swc-ts',
-      ],
-      { stdio: 'inherit' },
-    ) // @NOTE: Init react app.
+    try {
+      await oraPromise(
+        async () => {
+          await execa(PACKAGE_MANAGER, [
+            'create',
+            PACKAGE_MANAGER === 'npm' ? 'vite@latest' : 'vite',
+            props.name,
+            PACKAGE_MANAGER === 'npm' ? '--' : '',
+            '--template',
+            'react-swc-ts',
+          ])
+        },
+        {
+          text: 'Initializing React.js project with Vite...',
+          successText: 'Project initialized successfully.',
+          failText: 'Something went wrong. Please, try again.',
+        },
+      )
+    } catch {
+      return { status: RESPONSE_STATUS.CANCELED }
+    }
 
-    chdir(PROJECT_PATH) //@NOTE: Enter to the project.
+    chdir(PROJECT_PATH)
 
-    await execa(PACKAGE_MANAGER, ['install'], { stdio: 'inherit' }) // @NOTE: Install all packages.
+    await oraPromise(
+      async () => {
+        await execa(PACKAGE_MANAGER, ['install'])
+      },
+      {
+        text: 'Installing dependencies...',
+        successText: 'Dependencies installed successfully.',
+      },
+    )
 
     if (USE_BIOME) {
       await execa(PACKAGE_MANAGER, [
@@ -87,26 +107,35 @@ export async function createReactApp(props: Props) {
 
     log(chalk.green('Successful installation!'))
 
-    return process.exit(1)
+    return { status: RESPONSE_STATUS.SUCCESS }
   }
 
   if (!USE_VITE) {
     if (PACKAGE_MANAGER === 'bun' || PACKAGE_MANAGER === 'pnpm')
-      return process.exit(1)
+      return { status: RESPONSE_STATUS.CANCELED }
 
-    await execa(
-      PACKAGE_MANAGER,
-      [
-        PACKAGE_MANAGER === 'npm' ? 'init' : 'create',
-        'react-app',
-        props.name,
-        '--template',
-        'typescript',
-      ],
-      { stdio: 'inherit' },
-    ) // @NOTE: Init react app.
+    try {
+      await oraPromise(
+        async () => {
+          await execa(PACKAGE_MANAGER, [
+            PACKAGE_MANAGER === 'npm' ? 'init' : 'create',
+            'react-app',
+            props.name,
+            '--template',
+            'typescript',
+          ])
+        },
+        {
+          text: 'Initializing React.js project...',
+          successText: 'Project initialized successfully.',
+          failText: 'Something went wrong. Please, try again.',
+        },
+      )
+    } catch {
+      return { status: RESPONSE_STATUS.CANCELED }
+    }
 
-    chdir(PROJECT_PATH) //@NOTE: Enter to the project.
+    chdir(PROJECT_PATH)
 
     if (USE_BIOME) {
       await installBiome({
@@ -116,24 +145,39 @@ export async function createReactApp(props: Props) {
     }
 
     if (!USE_BIOME) {
-      await execa(
-        PACKAGE_MANAGER,
-        [
-          PACKAGE_MANAGER === 'npm' ? 'init' : 'create',
-          PACKAGE_MANAGER === 'npm'
-            ? '@eslint/config@latest'
-            : '@eslint/config',
-        ],
-        { stdio: 'inherit' },
-      )
+      try {
+        await oraPromise(
+          //@TODO: set up config file.
+          async () => {
+            await execa(PACKAGE_MANAGER, [
+              'install',
+              'eslint',
+              '@eslint/js',
+              'eslint-plugin-react-hooks',
+              'eslint-plugin-react-refresh',
+              'typescript-eslint',
+              'globals',
+            ])
+          },
+          {
+            text: 'Installing ESlint...',
+            successText: 'ESlint installed successfully.',
+            failText: 'Something went wrong.',
+          },
+        )
+      } catch {
+        return { status: RESPONSE_STATUS.CANCELED }
+      }
     }
 
     if (props.options.git) {
       await pushToRepo({ repoUrl: props.options.git })
     }
 
-    log(chalk.green('Successful installation!'))
+    log(chalk.green('Successful installation React.js project!'))
 
-    return process.exit(1)
+    return { status: RESPONSE_STATUS.SUCCESS }
   }
+
+  return { status: RESPONSE_STATUS.SUCCESS }
 }

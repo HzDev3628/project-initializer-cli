@@ -10,6 +10,10 @@ import {
 import { pushToRepo } from '@/lib/services/push-to-repo'
 import type { BasicProps } from '@/lib/types/basic-props'
 import { installBiome } from '@/lib/services/install-biome'
+import path from 'node:path'
+import { oraPromise } from 'ora'
+import type { ResponseStatus } from '@/lib/types'
+import { RESPONSE_STATUS } from '@/lib/constants'
 
 interface Props {
   name: string
@@ -22,8 +26,8 @@ interface Props {
     Partial<BasicProps>
 }
 
-export async function createNextJsApp(props: Props) {
-  const PROJECT_PATH = `/Users/hzdev/Documents/Development/${props.name}`
+export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
+  const PROJECT_PATH = path.resolve(process.cwd(), props.name)
 
   const PACKAGE_MANAGER = await getPackageManager(props.options)
   if (isCancel(PACKAGE_MANAGER)) return process.exit(1)
@@ -52,25 +56,34 @@ export async function createNextJsApp(props: Props) {
 
   if (isCancel(SHADCN)) return process.exit(1)
 
-  await execa(
-    'npx',
-    [
-      'create-next-app@latest',
-      PROJECT_PATH,
-      props.name,
-      '--ts',
-      '--import-alias',
-      '@/*',
-      '--src-dir',
-      'src',
-      '--app',
-      TURBOPACK ? '--turbopack' : '--no-turbopack',
-      TAILWIND ? '--tailwind' : '--no-tailwind',
-      IS_USE_BIOME ? '--no-eslint' : '--eslint',
-      `--use-${PACKAGE_MANAGER}`,
-    ],
-    { stdio: 'inherit' },
-  )
+  try {
+    await oraPromise(
+      async () => {
+        await execa('npx', [
+          'create-next-app@latest',
+          PROJECT_PATH,
+          props.name,
+          '--ts',
+          '--import-alias',
+          '@/*',
+          '--src-dir',
+          'src',
+          '--app',
+          TURBOPACK ? '--turbopack' : '--no-turbopack',
+          TAILWIND ? '--tailwind' : '--no-tailwind',
+          IS_USE_BIOME ? '--no-eslint' : '--eslint',
+          `--use-${PACKAGE_MANAGER}`,
+        ])
+      },
+      {
+        text: 'Initializing Next.js project...',
+        successText: 'Project initialized successfully.',
+        failText: 'Something went wrong. Please, try again.',
+      },
+    )
+  } catch {
+    return { status: RESPONSE_STATUS.CANCELED }
+  }
 
   chdir(PROJECT_PATH)
 
@@ -82,7 +95,6 @@ export async function createNextJsApp(props: Props) {
   }
 
   if (SHADCN) {
-    //@NOTE: shadcn ui.
     logAlert('Set up Shadcn UI ✨')
     await execa('npx', ['shadcn@latest', 'init'], { stdio: 'inherit' })
   }
@@ -98,5 +110,5 @@ export async function createNextJsApp(props: Props) {
       `),
   )
 
-  return process.exit(1)
+  return { status: RESPONSE_STATUS.SUCCESS }
 }
