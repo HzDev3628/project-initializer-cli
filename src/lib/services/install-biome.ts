@@ -64,8 +64,8 @@ export const installBiome = async (props: {
         )
       },
       {
-        text: 'Install Biome',
-        successText: 'Successful install Biome and setup config file.',
+        text: 'Installing Biome...',
+        successText: 'Successfully set up Biome and config file.',
         failText: 'Something went wrong.',
       },
     )

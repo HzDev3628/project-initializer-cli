@@ -12,6 +12,7 @@ import { pushToRepo } from '@/lib/services/push-to-repo'
 import type { BasicProps, ResponseStatus } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
 import path from 'node:path'
+import { oraPromise } from 'ora'
 
 interface Props {
   name: string
@@ -28,38 +29,43 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
     props.options.useBiome ?? (await confirm({ message: 'Add Biome ?' }))
   if (isCancel(USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
 
-  PACKAGE_MANAGER === 'npm'
-    ? await execa(
-        PACKAGE_MANAGER,
-        [
-          'create',
-          'hono@latest',
-          props.name,
-          '--',
-          '--template',
-          'nodejs',
-          '--install',
-          '--pm',
-          PACKAGE_MANAGER,
-        ],
-        { stdio: 'inherit' },
-      )
-    : await execa(
-        PACKAGE_MANAGER,
-        [
-          'create',
-          PACKAGE_MANAGER === 'yarn' || PACKAGE_MANAGER === 'pnpm'
-            ? 'hono'
-            : 'hono@latest',
-          props.name,
-          '--template',
-          'nodejs',
-          '--install',
-          '--pm',
-          PACKAGE_MANAGER,
-        ],
-        { stdio: 'inherit' },
-      )
+  try {
+    await oraPromise(
+      async () => {
+        PACKAGE_MANAGER === 'npm'
+          ? await execa(PACKAGE_MANAGER, [
+              'create',
+              'hono@latest',
+              props.name,
+              '--',
+              '--template',
+              'nodejs',
+              '--install',
+              '--pm',
+              PACKAGE_MANAGER,
+            ])
+          : await execa(PACKAGE_MANAGER, [
+              'create',
+              PACKAGE_MANAGER === 'yarn' || PACKAGE_MANAGER === 'pnpm'
+                ? 'hono'
+                : 'hono@latest',
+              props.name,
+              '--template',
+              'nodejs',
+              '--install',
+              '--pm',
+              PACKAGE_MANAGER,
+            ])
+      },
+      {
+        text: 'Initializing Hono.js project...',
+        successText: 'Project initialized successfully.',
+        failText: 'Something went wrong. Please, try again.',
+      },
+    )
+  } catch {
+    return { status: RESPONSE_STATUS.CANCELED }
+  }
 
   chdir(PROJECT_PATH)
 
@@ -76,6 +82,5 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
 
   log(chalk.green('Successful initialized Hono.js project 🚀'))
 
-  // process.exit(0)
   return { status: RESPONSE_STATUS.SUCCESS }
 }
