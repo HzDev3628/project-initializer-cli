@@ -1,19 +1,18 @@
-import chalk from 'chalk'
-import { log } from '@/lib/utils'
+import path from 'node:path'
 import { execa } from 'execa'
 import { chdir } from 'node:process'
+import { rmSync, promises as fs } from 'node:fs'
+import chalk from 'chalk'
 import { confirm, isCancel } from '@clack/prompts'
-import { rmSync } from 'node:fs'
-import path from 'node:path'
-import { installBiome } from '@/lib/services/install-biome'
 import {
+  installBiome,
   getPackageManagerForReactApp,
   type PackageManagersType,
-} from '@/lib/services/package-manager'
-import { pushToRepo } from '@/lib/services/push-to-repo'
-import type { BasicProps } from '@/lib/types/basic-props'
-import type { ResponseStatus } from '@/lib/types'
-import { RESPONSE_STATUS } from '@/lib/constants'
+  pushToRepo,
+} from '@/lib/services'
+import { log } from '@/lib/utils'
+import type { BasicProps, ResponseStatus } from '@/lib/types'
+import { DEFAULT_CONFIG_ESLINT, RESPONSE_STATUS } from '@/lib/constants'
 import { oraPromise } from 'ora'
 
 interface Props {
@@ -105,7 +104,7 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
       await pushToRepo({ repoUrl: props.options.git })
     }
 
-    log(chalk.green('Successful installation!'))
+    log(chalk.green('Successful installation React.js project with Vite!'))
 
     return { status: RESPONSE_STATUS.SUCCESS }
   }
@@ -147,7 +146,6 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
     if (!USE_BIOME) {
       try {
         await oraPromise(
-          //@TODO: set up config file.
           async () => {
             await execa(PACKAGE_MANAGER, [
               PACKAGE_MANAGER === 'yarn' ? 'add' : 'install',
@@ -162,6 +160,21 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
           {
             text: 'Installing ESlint...',
             successText: 'ESlint installed successfully.',
+            failText: 'Something went wrong.',
+          },
+        )
+
+        await oraPromise(
+          async () => {
+            await fs.writeFile(
+              `${PROJECT_PATH}/eslint.config.ts`,
+              DEFAULT_CONFIG_ESLINT,
+              'utf-8',
+            )
+          },
+          {
+            text: 'Setting up ESlint...',
+            successText: 'ESlint was set up successfully.',
             failText: 'Something went wrong.',
           },
         )

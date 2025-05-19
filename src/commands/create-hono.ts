@@ -1,18 +1,18 @@
+import path from 'node:path'
+import { chdir } from 'node:process'
 import { confirm, isCancel } from '@clack/prompts'
+import { oraPromise } from 'ora'
+import chalk from 'chalk'
+import { execa } from 'execa'
 import {
   getPackageManager,
   type PackageManagersType,
-} from '@/lib/services/package-manager'
-import { execa } from 'execa'
-import { chdir } from 'node:process'
-import { installBiome } from '@/lib/services/install-biome'
-import chalk from 'chalk'
+  installBiome,
+  pushToRepo,
+} from '@/lib/services'
 import { log } from '@/lib/utils'
-import { pushToRepo } from '@/lib/services/push-to-repo'
 import type { BasicProps, ResponseStatus } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
-import path from 'node:path'
-import { oraPromise } from 'ora'
 
 interface Props {
   name: string

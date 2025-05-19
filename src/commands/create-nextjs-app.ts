@@ -1,17 +1,17 @@
 import chalk from 'chalk'
-import { log, logAlert } from '@/lib/utils'
-import { execa } from 'execa'
 import { chdir } from 'node:process'
+import path from 'node:path'
+import { execa } from 'execa'
+import { oraPromise } from 'ora'
+import { log } from '@/lib/utils'
 import { confirm, isCancel } from '@clack/prompts'
 import {
   getPackageManager,
   type PackageManagersType,
-} from '@/lib/services/package-manager'
-import { pushToRepo } from '@/lib/services/push-to-repo'
+  pushToRepo,
+  installBiome,
+} from '@/lib/services'
 import type { BasicProps } from '@/lib/types/basic-props'
-import { installBiome } from '@/lib/services/install-biome'
-import path from 'node:path'
-import { oraPromise } from 'ora'
 import type { ResponseStatus } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
 
@@ -95,7 +95,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   }
 
   if (SHADCN) {
-    logAlert('Set up Shadcn UI ✨')
+    log(chalk.green('----- Set up Shadcn UI ✨ -----'))
     await execa('npx', ['shadcn@latest', 'init'], { stdio: 'inherit' })
   }
 

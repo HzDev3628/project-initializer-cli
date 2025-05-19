@@ -11,6 +11,7 @@ import { RESPONSE_STATUS } from './lib/constants.js'
 const program = new Command()
 
 // @TODO: rewrite descriptions.
+// @TODO: rewrite error messages.
 
 program
   .name('speed-cli')

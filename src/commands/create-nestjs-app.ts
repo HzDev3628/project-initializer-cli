@@ -1,14 +1,14 @@
-import { execa } from 'execa'
 import { rmSync } from 'node:fs'
+import { chdir } from 'node:process'
+import path from 'node:path'
+import { execa } from 'execa'
 import {
   getPackageManagerForNestJs,
   type PackageManagersType,
-} from '@/lib/services/package-manager'
+  installBiome,
+  pushToRepo,
+} from '@/lib/services'
 import { confirm, isCancel } from '@clack/prompts'
-import path from 'node:path'
-import { installBiome } from '@/lib/services/install-biome'
-import { chdir } from 'node:process'
-import { pushToRepo } from '@/lib/services/push-to-repo'
 import type { BasicProps, ResponseStatus } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
 import { oraPromise } from 'ora'
