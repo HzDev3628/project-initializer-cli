@@ -2,6 +2,9 @@ import { isCancel, select, text } from '@clack/prompts'
 import { createNextJsApp } from './create-nextjs-app'
 import { createHono } from './create-hono'
 import { createReactApp } from './create-react-app'
+import type { ResponseStatus } from '@/lib/types'
+import { createNestJsApp } from './create-nestjs-app'
+import { RESPONSE_STATUS } from '@/lib/constants'
 
 export const init = async () => {
   const projectName = await text({ message: 'Project name:' })
@@ -13,21 +16,27 @@ export const init = async () => {
       { value: 'nextjs', label: 'Next' },
       { value: 'react-app', label: 'React' },
       { value: 'hono', label: 'Hono' },
+      { value: 'nestjs', label: 'Nest.js' },
     ],
   })
+
   if (isCancel(projectType)) return process.exit(1)
 
-  switch (projectType) {
-    case 'nextjs':
-      await createNextJsApp({ name: projectName, options: {} })
-      break
-    case 'hono':
-      await createHono({ name: projectName, options: {} })
-      break
-    case 'react-app':
-      await createReactApp({ name: projectName, options: {} })
-      break
+  async function initFn(name: string): Promise<ResponseStatus> {
+    switch (projectType) {
+      case 'hono':
+        return await createHono({ name, options: {} })
+      case 'react-app':
+        return await createReactApp({ name, options: {} })
+      case 'nestjs':
+        return await createNestJsApp({ name, options: {} })
+      default: // Next.js
+        return await createNextJsApp({ name, options: {} })
+    }
   }
 
-  return process.exit(1)
+  const resInitFn = await initFn(projectName)
+
+  if (resInitFn.status === RESPONSE_STATUS.SUCCESS) return process.exit(1)
+  return process.exit(0)
 }
