@@ -84,7 +84,7 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
 
     if (USE_BIOME) {
       await execa(PACKAGE_MANAGER, [
-        'uninstall',
+        PACKAGE_MANAGER === 'yarn' ? 'remove' : 'uninstall',
         'eslint',
         '@eslint/js',
         'eslint-plugin-react-hooks',
@@ -150,7 +150,7 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
           //@TODO: set up config file.
           async () => {
             await execa(PACKAGE_MANAGER, [
-              'install',
+              PACKAGE_MANAGER === 'yarn' ? 'add' : 'install',
               'eslint',
               '@eslint/js',
               'eslint-plugin-react-hooks',
