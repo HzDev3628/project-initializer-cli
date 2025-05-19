@@ -26,7 +26,7 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
   if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
 
   const USE_BIOME =
-    props.options.useBiome ?? (await confirm({ message: 'Add Biome ?' }))
+    props.options.biome ?? (await confirm({ message: 'Add Biome ?' }))
   if (isCancel(USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
 
   try {

@@ -1,4 +1,5 @@
 export interface BasicProps {
   git: string
-  useBiome: boolean
+  biome: boolean
+  eslint: boolean
 }

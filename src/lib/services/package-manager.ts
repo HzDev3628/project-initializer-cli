@@ -1,20 +1,20 @@
 import { select } from '@clack/prompts'
 
 export interface PackageManagersType {
-  usePnpm?: boolean
-  useYarn?: boolean
-  useBun?: boolean
-  useNpm?: boolean
+  pnpm?: boolean
+  yarn?: boolean
+  bun?: boolean
+  npm?: boolean
 }
 
 export async function getPackageManager(props: PackageManagersType) {
-  return props.useBun
+  return props.bun
     ? 'bun'
-    : props.usePnpm
+    : props.pnpm
       ? 'pnpm'
-      : props.useYarn
+      : props.yarn
         ? 'yarn'
-        : props.useNpm
+        : props.npm
           ? 'npm'
           : await select({
               message: 'Select your package manager:',
@@ -28,13 +28,13 @@ export async function getPackageManager(props: PackageManagersType) {
 }
 
 export async function getPackageManagerForNestJs(
-  props: Omit<PackageManagersType, 'useBun'>,
+  props: Omit<PackageManagersType, 'bun'>,
 ) {
-  return props.usePnpm
+  return props.pnpm
     ? 'pnpm'
-    : props.useYarn
+    : props.yarn
       ? 'yarn'
-      : props.useNpm
+      : props.npm
         ? 'npm'
         : await select({
             message: 'Select your package manager:',
@@ -51,13 +51,13 @@ export async function getPackageManagerForReactApp(
     useVite: boolean
   } & PackageManagersType,
 ) {
-  return props.useBun
+  return props.bun
     ? 'bun'
-    : props.usePnpm
+    : props.pnpm
       ? 'pnpm'
-      : props.useYarn
+      : props.yarn
         ? 'yarn'
-        : props.useNpm
+        : props.npm
           ? 'npm'
           : await select({
               message: 'Select your package manager:',

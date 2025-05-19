@@ -10,8 +10,8 @@ describe('Hono.js', () => {
       const res = await createHono({
         name: 'test-hono-npm',
         options: {
-          useNpm: true,
-          useBiome: true,
+          npm: true,
+          biome: true,
         },
       })
 
@@ -26,8 +26,8 @@ describe('Hono.js', () => {
       const res = await createHono({
         name: 'test-hono-pnpm',
         options: {
-          usePnpm: true,
-          useBiome: true,
+          pnpm: true,
+          biome: true,
         },
       })
 
@@ -42,8 +42,8 @@ describe('Hono.js', () => {
       const res = await createHono({
         name: 'test-hono-bun',
         options: {
-          useBun: true,
-          useBiome: true,
+          bun: true,
+          biome: true,
         },
       })
 
@@ -58,8 +58,8 @@ describe('Hono.js', () => {
       const res = await createHono({
         name: 'test-hono-yarn',
         options: {
-          useYarn: true,
-          useBiome: true,
+          yarn: true,
+          biome: true,
         },
       })
 
@@ -74,8 +74,8 @@ describe('Hono.js', () => {
       const res = await createHono({
         name: 'test-hono-without-biome',
         options: {
-          useYarn: true,
-          useBiome: false,
+          yarn: true,
+          biome: false,
         },
       })
 

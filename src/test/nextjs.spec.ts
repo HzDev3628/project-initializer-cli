@@ -9,8 +9,8 @@ describe('Next.js', () => {
       const res = await createNextJsApp({
         name: 'test-next-js-npm',
         options: {
-          useNpm: true,
-          useBiome: true,
+          npm: true,
+          biome: true,
           turbopack: true,
           tailwind: true,
           shadcn: false,
@@ -28,8 +28,8 @@ describe('Next.js', () => {
       const res = await createNextJsApp({
         name: 'test-next-js-pnpm',
         options: {
-          usePnpm: true,
-          useBiome: true,
+          pnpm: true,
+          biome: true,
           turbopack: true,
           tailwind: true,
           shadcn: false,
@@ -47,8 +47,8 @@ describe('Next.js', () => {
       const res = await createNextJsApp({
         name: 'test-next-js-bun',
         options: {
-          useBun: true,
-          useBiome: true,
+          bun: true,
+          biome: true,
           turbopack: true,
           tailwind: true,
           shadcn: false,
@@ -66,8 +66,8 @@ describe('Next.js', () => {
       const res = await createNextJsApp({
         name: 'test-next-js-yarn',
         options: {
-          useYarn: true,
-          useBiome: true,
+          yarn: true,
+          biome: true,
           turbopack: true,
           tailwind: true,
           shadcn: false,
@@ -85,8 +85,8 @@ describe('Next.js', () => {
       const res = await createNextJsApp({
         name: 'test-next-js-npm-without-biome',
         options: {
-          useNpm: true,
-          useBiome: false,
+          npm: true,
+          biome: false,
           turbopack: true,
           tailwind: true,
           shadcn: false,
@@ -104,8 +104,8 @@ describe('Next.js', () => {
       const res = await createNextJsApp({
         name: 'test-next-js-bun-without-tailwind',
         options: {
-          useBun: true,
-          useBiome: true,
+          bun: true,
+          biome: true,
           turbopack: true,
           tailwind: false,
           shadcn: false,

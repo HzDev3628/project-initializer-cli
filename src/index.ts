@@ -37,23 +37,24 @@ program
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
   )
-  .option('--use-biome', 'Use Biome to format and lint your code.')
   .option(
-    '--use-npm',
+    '--npm',
     ' Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .option(
-    '--use-pnpm',
+    '--pnpm',
     ' Explicitly tell the CLI to bootstrap the application using pnpm.',
   )
   .option(
-    '--use-yarn',
+    '--yarn',
     ' Explicitly tell the CLI to bootstrap the application using yarn.',
   )
   .option(
-    '--use-bun',
+    '--bun',
     ' Explicitly tell the CLI to bootstrap the application using bun.',
   )
+  .option('--biome', 'Use Biome to format and lint your code.')
+  .option('--eslint', 'Use ESlint to lint your code.')
   .action(async (name, options) => {
     const res = await createNextJsApp({ name, options })
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
@@ -70,21 +71,22 @@ program
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
   )
-  .option('--use-biome', 'Use Biome to format and lint your code.')
+  .option('--biome', 'Use Biome to format and lint your code.')
+  .option('--eslint', 'Use ESlint to lint your code.')
   .option(
-    '--use-npm',
+    '--npm',
     ' Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .option(
-    '--use-pnpm',
+    '--pnpm',
     ' Explicitly tell the CLI to bootstrap the application using pnpm. Only for Vite.',
   )
   .option(
-    '--use-yarn',
+    '--yarn',
     ' Explicitly tell the CLI to bootstrap the application using yarn.',
   )
   .option(
-    '--use-bun',
+    '--bun',
     ' Explicitly tell the CLI to bootstrap the application using bun. Only for Vite.',
   )
   .action(async (name, options) => {
@@ -99,26 +101,27 @@ program
     'Create a Hono app with my own template. NPM is used by default.',
   )
   .option(
-    '--use-npm',
+    '--npm',
     ' Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .option(
-    '--use-pnpm',
+    '--pnpm',
     ' Explicitly tell the CLI to bootstrap the application using pnpm. Only for Vite.',
   )
   .option(
-    '--use-yarn',
+    '--yarn',
     ' Explicitly tell the CLI to bootstrap the application using yarn.',
   )
   .option(
-    '--use-bun',
+    '--bun',
     ' Explicitly tell the CLI to bootstrap the application using bun. Only for Vite.',
   )
   .option(
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
   )
-  .option('--use-biome', 'Use Biome to format and lint your code.')
+  .option('--biome', 'Use Biome to format and lint your code.')
+  .option('--eslint', 'Use ESlint to lint your code.')
   .action(async (name, options) => {
     const res = await createHono({ name, options })
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
@@ -131,22 +134,23 @@ program
     'Create a Hono app with my own template. NPM is used by default.',
   )
   .option(
-    '--use-npm',
+    '--npm',
     ' Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .option(
-    '--use-pnpm',
+    '--pnpm',
     ' Explicitly tell the CLI to bootstrap the application using pnpm. Only for Vite.',
   )
   .option(
-    '--use-yarn',
+    '--yarn',
     ' Explicitly tell the CLI to bootstrap the application using yarn.',
   )
   .option(
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
   )
-  .option('--use-biome', 'Use Biome to format and lint your code.')
+  .option('--biome', 'Use Biome to format and lint your code.')
+  .option('--eslint', 'Use ESlint to lint your code.')
   .action(async (name, options) => {
     const res = await createNestJsApp({ name, options })
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)

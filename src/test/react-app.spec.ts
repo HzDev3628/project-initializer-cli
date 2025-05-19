@@ -9,9 +9,9 @@ describe('React.js', () => {
       const res = await createReactApp({
         name: 'test-react-app-npm-vite',
         options: {
-          useNpm: true,
+          npm: true,
           vite: true,
-          useBiome: true,
+          biome: true,
         },
       })
 
@@ -26,9 +26,9 @@ describe('React.js', () => {
       const res = await createReactApp({
         name: 'test-react-app-bun-vite',
         options: {
-          useBun: true,
+          bun: true,
           vite: true,
-          useBiome: true,
+          biome: true,
         },
       })
 
@@ -43,9 +43,9 @@ describe('React.js', () => {
       const res = await createReactApp({
         name: 'test-react-app-yarn-vite',
         options: {
-          useYarn: true,
+          yarn: true,
           vite: true,
-          useBiome: true,
+          biome: true,
         },
       })
 
@@ -60,9 +60,9 @@ describe('React.js', () => {
       const res = await createReactApp({
         name: 'test-react-app-pnpm-vite',
         options: {
-          usePnpm: true,
+          pnpm: true,
           vite: true,
-          useBiome: true,
+          biome: true,
         },
       })
 
@@ -77,9 +77,9 @@ describe('React.js', () => {
       const res = await createReactApp({
         name: 'test-react-app-bun-vite-without-biome',
         options: {
-          useBun: true,
+          bun: true,
           vite: true,
-          useBiome: false,
+          biome: false,
         },
       })
 
@@ -94,9 +94,9 @@ describe('React.js', () => {
       const res = await createReactApp({
         name: 'test-react-app-npm-without-vite',
         options: {
-          useNpm: true,
+          npm: true,
           vite: false,
-          useBiome: true,
+          biome: true,
         },
       })
 
@@ -111,9 +111,9 @@ describe('React.js', () => {
       const res = await createReactApp({
         name: 'test-react-app-bun-without-vite',
         options: {
-          useBun: true,
+          bun: true,
           vite: false,
-          useBiome: true,
+          biome: true,
         },
       })
 
@@ -128,9 +128,9 @@ describe('React.js', () => {
       const res = await createReactApp({
         name: 'test-react-app-npm-without-vite-and-biome',
         options: {
-          useNpm: true,
+          npm: true,
           vite: false,
-          useBiome: false,
+          biome: false,
         },
       })
 

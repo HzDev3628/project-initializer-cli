@@ -17,7 +17,7 @@ import chalk from 'chalk'
 
 interface Props {
   name: string
-  options: Partial<BasicProps> & Partial<Omit<PackageManagersType, 'useBun'>>
+  options: Partial<BasicProps> & Partial<Omit<PackageManagersType, 'bun'>>
 }
 
 export const createNestJsApp = async (
@@ -29,7 +29,7 @@ export const createNestJsApp = async (
   if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
 
   const USE_BIOME =
-    props.options.useBiome ??
+    props.options.biome ??
     (await confirm({ message: 'Add Biome ? (Default ESlint)' }))
   if (isCancel(USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
 

@@ -9,8 +9,8 @@ describe('Nest.js', () => {
       const res = await createNestJsApp({
         name: 'test-nestjs-npm',
         options: {
-          useNpm: true,
-          useBiome: true,
+          npm: true,
+          biome: true,
         },
       })
 
@@ -25,8 +25,8 @@ describe('Nest.js', () => {
       const res = await createNestJsApp({
         name: 'test-nestjs-pnpm',
         options: {
-          usePnpm: true,
-          useBiome: true,
+          pnpm: true,
+          biome: true,
         },
       })
 
@@ -41,8 +41,8 @@ describe('Nest.js', () => {
       const res = await createNestJsApp({
         name: 'test-nestjs-yarn',
         options: {
-          useYarn: true,
-          useBiome: true,
+          yarn: true,
+          biome: true,
         },
       })
 
@@ -57,8 +57,8 @@ describe('Nest.js', () => {
       const res = await createNestJsApp({
         name: 'test-nestjs-without-biome',
         options: {
-          useYarn: true,
-          useBiome: false,
+          yarn: true,
+          biome: false,
         },
       })
 

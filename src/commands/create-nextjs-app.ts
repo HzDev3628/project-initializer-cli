@@ -44,7 +44,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   if (isCancel(TAILWIND)) return { status: RESPONSE_STATUS.CANCELED }
 
   const IS_USE_BIOME =
-    props.options.useBiome ?? (await confirm({ message: 'Add Biome ?' }))
+    props.options.biome ?? (await confirm({ message: 'Add Biome ?' }))
   if (isCancel(IS_USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
 
   const SHADCN = TAILWIND
