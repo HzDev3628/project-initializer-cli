@@ -55,7 +55,7 @@ export const createNestJsApp = async (
     return { status: RESPONSE_STATUS.CANCELED }
   }
 
-  chdir(PROJECT_PATH) //@NOTE: Enter to the project.
+  chdir(PROJECT_PATH)
 
   if (USE_BIOME) {
     await execa(PACKAGE_MANAGER, [
