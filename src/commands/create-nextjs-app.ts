@@ -30,22 +30,22 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   const PROJECT_PATH = path.resolve(process.cwd(), props.name)
 
   const PACKAGE_MANAGER = await getPackageManager(props.options)
-  if (isCancel(PACKAGE_MANAGER)) return process.exit(1)
+  if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
 
   const TURBOPACK =
     props.options.turbopack ?? (await confirm({ message: 'Add Turbopack ?' }))
-  if (isCancel(TURBOPACK)) return process.exit(1)
+  if (isCancel(TURBOPACK)) return { status: RESPONSE_STATUS.CANCELED }
 
   const TAILWIND =
     props.options.tailwind ??
     (await confirm({
       message: 'Add Tailwind CSS ?',
     }))
-  if (isCancel(TAILWIND)) return process.exit(1)
+  if (isCancel(TAILWIND)) return { status: RESPONSE_STATUS.CANCELED }
 
   const IS_USE_BIOME =
     props.options.useBiome ?? (await confirm({ message: 'Add Biome ?' }))
-  if (isCancel(IS_USE_BIOME)) return process.exit(1)
+  if (isCancel(IS_USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
 
   const SHADCN = TAILWIND
     ? (props.options.shadcn ??
@@ -54,7 +54,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
       })))
     : false
 
-  if (isCancel(SHADCN)) return process.exit(1)
+  if (isCancel(SHADCN)) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
     await oraPromise(

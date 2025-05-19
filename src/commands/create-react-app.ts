@@ -28,24 +28,24 @@ interface Props {
 export async function createReactApp(props: Props): Promise<ResponseStatus> {
   const PROJECT_PATH = path.resolve(process.cwd(), props.name)
 
-  if (!props.options) return process.exit(1)
+  if (!props.options) return { status: RESPONSE_STATUS.CANCELED }
 
   const USE_VITE =
     props.options.vite ??
     (await confirm({
       message: 'Will we use Vite?',
     }))
-  if (isCancel(USE_VITE)) return process.exit(1)
+  if (isCancel(USE_VITE)) return { status: RESPONSE_STATUS.CANCELED }
 
   const PACKAGE_MANAGER = await getPackageManagerForReactApp({
     useVite: USE_VITE,
     ...props.options,
   })
-  if (isCancel(PACKAGE_MANAGER)) return process.exit(1)
+  if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
 
   const USE_BIOME =
     props.options.useBiome ?? (await confirm({ message: 'Add Biome ?' }))
-  if (isCancel(USE_BIOME)) return process.exit(1)
+  if (isCancel(USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
 
   if (USE_VITE) {
     try {
