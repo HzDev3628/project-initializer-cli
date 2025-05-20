@@ -1,19 +1,24 @@
 import path from 'node:path'
 import { execa } from 'execa'
 import { chdir } from 'node:process'
-import { rmSync, promises as fs } from 'node:fs'
+import { rmSync } from 'node:fs'
 import chalk from 'chalk'
 import { confirm, isCancel } from '@clack/prompts'
 import {
   installBiome,
   getPackageManagerForReactApp,
-  type PackageManagersType,
   pushToRepo,
+  codeStyleTools,
 } from '@/lib/services'
 import { log } from '@/lib/utils'
-import type { BasicProps, ResponseStatus } from '@/lib/types'
-import { DEFAULT_CONFIG_ESLINT, RESPONSE_STATUS } from '@/lib/constants'
+import type {
+  BasicProps,
+  PackageManagersType,
+  ResponseStatus,
+} from '@/lib/types'
+import { RESPONSE_STATUS } from '@/lib/constants'
 import { oraPromise } from 'ora'
+import { installEslintReact } from '@/lib/services/install-eslint'
 
 interface Props {
   name: string
@@ -42,9 +47,11 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
   })
   if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
 
-  const USE_BIOME =
-    props.options.biome ?? (await confirm({ message: 'Add Biome ?' }))
-  if (isCancel(USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
+  const CODE_STYLE_TOOL = await codeStyleTools({
+    eslint: props.options.eslint,
+    biome: props.options.biome,
+  })
+  if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
 
   if (USE_VITE) {
     try {
@@ -81,7 +88,7 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
       },
     )
 
-    if (USE_BIOME) {
+    if (CODE_STYLE_TOOL.biome) {
       await execa(PACKAGE_MANAGER, [
         PACKAGE_MANAGER === 'yarn' ? 'remove' : 'uninstall',
         'eslint',
@@ -136,51 +143,20 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
 
     chdir(PROJECT_PATH)
 
-    if (USE_BIOME) {
+    if (CODE_STYLE_TOOL.biome) {
       await installBiome({
         packageManager: PACKAGE_MANAGER,
         projectPath: PROJECT_PATH,
       })
     }
 
-    if (!USE_BIOME) {
-      try {
-        await oraPromise(
-          async () => {
-            await execa(PACKAGE_MANAGER, [
-              PACKAGE_MANAGER === 'yarn' ? 'add' : 'install',
-              'eslint',
-              '@eslint/js',
-              'eslint-plugin-react-hooks',
-              'eslint-plugin-react-refresh',
-              'typescript-eslint',
-              'globals',
-            ])
-          },
-          {
-            text: 'Installing ESlint...',
-            successText: 'ESlint installed successfully.',
-            failText: 'Something went wrong.',
-          },
-        )
-
-        await oraPromise(
-          async () => {
-            await fs.writeFile(
-              `${PROJECT_PATH}/eslint.config.ts`,
-              DEFAULT_CONFIG_ESLINT,
-              'utf-8',
-            )
-          },
-          {
-            text: 'Setting up ESlint...',
-            successText: 'ESlint was set up successfully.',
-            failText: 'Something went wrong.',
-          },
-        )
-      } catch {
+    if (CODE_STYLE_TOOL.eslint) {
+      const res = await installEslintReact({
+        packageManager: PACKAGE_MANAGER,
+        projectPath: PROJECT_PATH,
+      })
+      if (res.status === RESPONSE_STATUS.CANCELED)
         return { status: RESPONSE_STATUS.CANCELED }
-      }
     }
 
     if (props.options.git) {

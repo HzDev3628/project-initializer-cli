@@ -69,13 +69,13 @@ describe('Hono.js', () => {
   )
 
   test(
-    'Without Biome',
+    'With ESlint',
     async () => {
       const res = await createHono({
-        name: 'test-hono-without-biome',
+        name: 'test-hono-with-eslint',
         options: {
           yarn: true,
-          biome: false,
+          eslint: true,
         },
       })
 

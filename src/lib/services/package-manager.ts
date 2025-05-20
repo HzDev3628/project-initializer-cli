@@ -1,11 +1,5 @@
 import { select } from '@clack/prompts'
-
-export interface PackageManagersType {
-  pnpm?: boolean
-  yarn?: boolean
-  bun?: boolean
-  npm?: boolean
-}
+import type { PackageManagersType } from '../types'
 
 export async function getPackageManager(props: PackageManagersType) {
   return props.bun

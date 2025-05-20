@@ -1,18 +1,23 @@
 import path from 'node:path'
 import { chdir } from 'node:process'
-import { confirm, isCancel } from '@clack/prompts'
+import { isCancel } from '@clack/prompts'
 import { oraPromise } from 'ora'
 import chalk from 'chalk'
 import { execa } from 'execa'
 import {
+  codeStyleTools,
   getPackageManager,
-  type PackageManagersType,
   installBiome,
   pushToRepo,
 } from '@/lib/services'
 import { log } from '@/lib/utils'
-import type { BasicProps, ResponseStatus } from '@/lib/types'
+import type {
+  BasicProps,
+  PackageManagersType,
+  ResponseStatus,
+} from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
+import { installEslint } from '@/lib/services/install-eslint'
 
 interface Props {
   name: string
@@ -25,9 +30,11 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
   const PACKAGE_MANAGER = await getPackageManager(props.options)
   if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
 
-  const USE_BIOME =
-    props.options.biome ?? (await confirm({ message: 'Add Biome ?' }))
-  if (isCancel(USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
+  const CODE_STYLE_TOOL = await codeStyleTools({
+    eslint: props.options.eslint,
+    biome: props.options.biome,
+  })
+  if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
     await oraPromise(
@@ -69,11 +76,20 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
 
   chdir(PROJECT_PATH)
 
-  if (USE_BIOME) {
+  if (CODE_STYLE_TOOL.biome) {
     await installBiome({
       packageManager: PACKAGE_MANAGER,
       projectPath: PROJECT_PATH,
     })
+  }
+
+  if (CODE_STYLE_TOOL.eslint) {
+    const res = await installEslint({
+      packageManager: PACKAGE_MANAGER,
+      projectPath: PROJECT_PATH,
+    })
+    if (res.status === RESPONSE_STATUS.CANCELED)
+      return { status: RESPONSE_STATUS.CANCELED }
   }
 
   if (props.options.git) {

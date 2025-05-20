@@ -80,13 +80,13 @@ describe('Next.js', () => {
   )
 
   test(
-    'NPM without Biome and Turbopack',
+    'NPM with ESlint without Turbopack',
     async () => {
       const res = await createNextJsApp({
         name: 'test-next-js-npm-without-biome',
         options: {
           npm: true,
-          biome: false,
+          eslint: true,
           turbopack: true,
           tailwind: true,
           shadcn: false,

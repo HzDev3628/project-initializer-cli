@@ -3,13 +3,17 @@ import { chdir } from 'node:process'
 import path from 'node:path'
 import { execa } from 'execa'
 import {
+  codeStyleTools,
   getPackageManagerForNestJs,
-  type PackageManagersType,
   installBiome,
   pushToRepo,
 } from '@/lib/services'
-import { confirm, isCancel } from '@clack/prompts'
-import type { BasicProps, ResponseStatus } from '@/lib/types'
+import { isCancel } from '@clack/prompts'
+import type {
+  BasicProps,
+  PackageManagersType,
+  ResponseStatus,
+} from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
 import { oraPromise } from 'ora'
 import { log } from '@/lib/utils'
@@ -28,10 +32,11 @@ export const createNestJsApp = async (
   const PACKAGE_MANAGER = await getPackageManagerForNestJs(props.options)
   if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
 
-  const USE_BIOME =
-    props.options.biome ??
-    (await confirm({ message: 'Add Biome ? (Default ESlint)' }))
-  if (isCancel(USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
+  const CODE_STYLE_TOOL = await codeStyleTools({
+    eslint: props.options.eslint,
+    biome: props.options.biome,
+  })
+  if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
     await oraPromise(
@@ -57,7 +62,7 @@ export const createNestJsApp = async (
 
   chdir(PROJECT_PATH)
 
-  if (USE_BIOME) {
+  if (CODE_STYLE_TOOL.biome) {
     await execa(PACKAGE_MANAGER, [
       PACKAGE_MANAGER === 'yarn' ? 'remove' : 'uninstall',
       '@eslint/eslintrc',

@@ -7,12 +7,12 @@ import { log } from '@/lib/utils'
 import { confirm, isCancel } from '@clack/prompts'
 import {
   getPackageManager,
-  type PackageManagersType,
   pushToRepo,
   installBiome,
+  codeStyleTools,
 } from '@/lib/services'
 import type { BasicProps } from '@/lib/types/basic-props'
-import type { ResponseStatus } from '@/lib/types'
+import type { PackageManagersType, ResponseStatus } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
 
 interface Props {
@@ -43,9 +43,11 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
     }))
   if (isCancel(TAILWIND)) return { status: RESPONSE_STATUS.CANCELED }
 
-  const IS_USE_BIOME =
-    props.options.biome ?? (await confirm({ message: 'Add Biome ?' }))
-  if (isCancel(IS_USE_BIOME)) return { status: RESPONSE_STATUS.CANCELED }
+  const CODE_STYLE_TOOL = await codeStyleTools({
+    eslint: props.options.eslint,
+    biome: props.options.biome,
+  })
+  if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
 
   const SHADCN = TAILWIND
     ? (props.options.shadcn ??
@@ -71,7 +73,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
           '--app',
           TURBOPACK ? '--turbopack' : '--no-turbopack',
           TAILWIND ? '--tailwind' : '--no-tailwind',
-          IS_USE_BIOME ? '--no-eslint' : '--eslint',
+          CODE_STYLE_TOOL.biome ? '--no-eslint' : '--eslint',
           `--use-${PACKAGE_MANAGER}`,
         ])
       },
@@ -87,7 +89,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
 
   chdir(PROJECT_PATH)
 
-  if (IS_USE_BIOME) {
+  if (CODE_STYLE_TOOL.biome) {
     await installBiome({
       packageManager: PACKAGE_MANAGER,
       projectPath: PROJECT_PATH,

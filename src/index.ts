@@ -6,7 +6,7 @@ import { createReactApp } from './commands/create-react-app.js'
 import { createHono } from './commands/create-hono.js'
 import { init } from './commands/init.js'
 import { createNestJsApp } from './commands/create-nestjs-app.js'
-import { RESPONSE_STATUS } from './lib/constants.js'
+import { RESPONSE_STATUS } from './lib/constants'
 
 const program = new Command()
 

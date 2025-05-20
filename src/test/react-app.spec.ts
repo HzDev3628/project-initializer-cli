@@ -72,14 +72,14 @@ describe('React.js', () => {
   )
 
   test(
-    'BUN Vite without Biome',
+    'BUN Vite with ESlint',
     async () => {
       const res = await createReactApp({
-        name: 'test-react-app-bun-vite-without-biome',
+        name: 'test-react-app-bun-vite-with-eslint',
         options: {
           bun: true,
           vite: true,
-          biome: false,
+          eslint: true,
         },
       })
 
@@ -123,14 +123,14 @@ describe('React.js', () => {
   )
 
   test(
-    'NPM without Vite and Biome',
+    'NPM with ESlint without Vite',
     async () => {
       const res = await createReactApp({
-        name: 'test-react-app-npm-without-vite-and-biome',
+        name: 'test-react-app-npm--eslint-without-vite',
         options: {
           npm: true,
           vite: false,
-          biome: false,
+          eslint: true,
         },
       })
 

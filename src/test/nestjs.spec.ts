@@ -52,13 +52,13 @@ describe('Nest.js', () => {
   )
 
   test(
-    'Without Biome',
+    'ESlint',
     async () => {
       const res = await createNestJsApp({
-        name: 'test-nestjs-without-biome',
+        name: 'test-nestjs-eslint',
         options: {
           yarn: true,
-          biome: false,
+          eslint: true,
         },
       })
 
