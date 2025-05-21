@@ -69,13 +69,13 @@ describe('Hono.js', () => {
   )
 
   test(
-    'With ESlint',
+    'With ESlint & Prettier',
     async () => {
       const res = await createHono({
-        name: 'test-hono-with-eslint',
+        name: 'test-hono-with-eslint-prettier',
         options: {
           yarn: true,
-          eslint: true,
+          eslintPrettier: true,
         },
       })
 

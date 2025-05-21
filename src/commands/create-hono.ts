@@ -17,7 +17,7 @@ import type {
   ResponseStatus,
 } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
-import { installEslint } from '@/lib/services/install-eslint'
+import { installEslintPrettier } from '@/lib/services/install-eslint-prettier'
 
 interface Props {
   name: string
@@ -31,8 +31,9 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
   if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
 
   const CODE_STYLE_TOOL = await codeStyleTools({
-    eslint: props.options.eslint,
+    eslintPrettier: props.options.eslintPrettier,
     biome: props.options.biome,
+    withPrettier: true,
   })
   if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
 
@@ -83,8 +84,8 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
     })
   }
 
-  if (CODE_STYLE_TOOL.eslint) {
-    const res = await installEslint({
+  if (CODE_STYLE_TOOL.eslintPrettier) {
+    const res = await installEslintPrettier({
       packageManager: PACKAGE_MANAGER,
       projectPath: PROJECT_PATH,
     })

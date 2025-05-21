@@ -46,6 +46,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   const CODE_STYLE_TOOL = await codeStyleTools({
     eslint: props.options.eslint,
     biome: props.options.biome,
+    withPrettier: false,
   })
   if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
 

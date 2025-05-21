@@ -52,13 +52,13 @@ describe('Nest.js', () => {
   )
 
   test(
-    'ESlint',
+    'ESlint & Prettier',
     async () => {
       const res = await createNestJsApp({
-        name: 'test-nestjs-eslint',
+        name: 'test-nestjs-eslint-prettier',
         options: {
           yarn: true,
-          eslint: true,
+          eslintPrettier: true,
         },
       })
 

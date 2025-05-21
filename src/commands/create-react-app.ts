@@ -18,7 +18,7 @@ import type {
 } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
 import { oraPromise } from 'ora'
-import { installEslintReact } from '@/lib/services/install-eslint'
+import { installEslint } from '@/lib/services/install-eslint-prettier'
 
 interface Props {
   name: string
@@ -50,6 +50,7 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
   const CODE_STYLE_TOOL = await codeStyleTools({
     eslint: props.options.eslint,
     biome: props.options.biome,
+    withPrettier: false,
   })
   if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
 
@@ -151,7 +152,7 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
     }
 
     if (CODE_STYLE_TOOL.eslint) {
-      const res = await installEslintReact({
+      const res = await installEslint({
         packageManager: PACKAGE_MANAGER,
         projectPath: PROJECT_PATH,
       })

@@ -1,9 +1,11 @@
 export const DEFAULT_CONFIG_ESLINT = `
 import eslint from '@eslint/js'
 import tseslint from 'typescript-eslint'
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
 export default tseslint.config(
   eslint.configs.recommended,
+  eslintPluginPrettierRecommended,
   {
     files: ['**/*.ts'],
     languageOptions: {
@@ -41,8 +43,10 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
 export default tseslint.config(
+  eslintPluginPrettierRecommended,
   { ignores: ['dist'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],

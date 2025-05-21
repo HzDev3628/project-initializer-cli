@@ -54,7 +54,7 @@ program
     ' Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .option('--biome', 'Use Biome to format and lint your code.')
-  .option('--eslint', 'Use ESlint to lint your code.')
+  .option('--eslint', 'use eslint to lint your code.')
   .action(async (name, options) => {
     const res = await createNextJsApp({ name, options })
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
@@ -121,7 +121,10 @@ program
     'Connect and commit to the GitHub repository.',
   )
   .option('--biome', 'Use Biome to format and lint your code.')
-  .option('--eslint', 'Use ESlint to lint your code.')
+  .option(
+    '--eslint-prettier',
+    'Use ESlint to lint your code and use Prettier to format your code.',
+  )
   .action(async (name, options) => {
     const res = await createHono({ name, options })
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
@@ -150,7 +153,10 @@ program
     'Connect and commit to the GitHub repository.',
   )
   .option('--biome', 'Use Biome to format and lint your code.')
-  .option('--eslint', 'Use ESlint to lint your code.')
+  .option(
+    '--eslint-prettier',
+    'Use ESlint to lint your code and use Prettier to format your code.',
+  )
   .action(async (name, options) => {
     const res = await createNestJsApp({ name, options })
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)

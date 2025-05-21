@@ -33,8 +33,9 @@ export const createNestJsApp = async (
   if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
 
   const CODE_STYLE_TOOL = await codeStyleTools({
-    eslint: props.options.eslint,
+    eslintPrettier: props.options.eslintPrettier,
     biome: props.options.biome,
+    withPrettier: true,
   })
   if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
 

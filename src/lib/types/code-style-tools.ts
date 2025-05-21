@@ -1,4 +1,5 @@
 export interface CodeStyleToolsType {
-  eslint?: boolean
+  eslintPrettier?: boolean
   biome?: boolean
+  eslint?: boolean
 }
