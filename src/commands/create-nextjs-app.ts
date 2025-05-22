@@ -10,6 +10,7 @@ import {
   pushToRepo,
   installBiome,
   codeStyleTools,
+  tailwindConfirm,
 } from '@/lib/services'
 import type { BasicProps } from '@/lib/types/basic-props'
 import type { PackageManagersType, ResponseStatus } from '@/lib/types'
@@ -36,12 +37,9 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
     props.options.turbopack ?? (await confirm({ message: 'Add Turbopack ?' }))
   if (isCancel(TURBOPACK)) return { status: RESPONSE_STATUS.CANCELED }
 
-  const TAILWIND =
-    props.options.tailwind ??
-    (await confirm({
-      message: 'Add Tailwind CSS ?',
-    }))
-  if (isCancel(TAILWIND)) return { status: RESPONSE_STATUS.CANCELED }
+  const TAILWIND = await tailwindConfirm({ tailwind: props.options.tailwind })
+  if (TAILWIND === RESPONSE_STATUS.CANCELED)
+    return { status: RESPONSE_STATUS.CANCELED }
 
   const CODE_STYLE_TOOL = await codeStyleTools({
     eslint: props.options.eslint,

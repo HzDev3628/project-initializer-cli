@@ -4,3 +4,7 @@ export interface PackageManagersType {
   bun?: boolean
   npm?: boolean
 }
+
+export interface PropsPackageManagersType {
+  packageManager: 'pnpm' | 'yarn' | 'npm' | 'bun'
+}

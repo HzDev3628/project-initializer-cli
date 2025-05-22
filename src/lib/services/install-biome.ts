@@ -4,11 +4,13 @@ import { promises as fs } from 'node:fs'
 import { DEFAULT_CONFIG_BIOME } from '@/lib/constants'
 import chalk from 'chalk'
 import { oraPromise } from 'ora'
+import type { PropsPackageManagersType } from '../types'
 
-export const installBiome = async (props: {
-  packageManager: 'bun' | 'npm' | 'yarn' | 'pnpm'
-  projectPath: string
-}) => {
+export const installBiome = async (
+  props: PropsPackageManagersType & {
+    projectPath: string
+  },
+) => {
   try {
     await oraPromise(
       async () => {

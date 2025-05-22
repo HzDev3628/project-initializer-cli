@@ -67,6 +67,7 @@ program
     'Create a React app with my own template. NPM is used by default.',
   )
   .option('-v, --vite', 'Use Vite.')
+  .option('-t, --tailwind', 'Install the Tailwind CSS.')
   .option(
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',

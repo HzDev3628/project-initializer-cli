@@ -9,6 +9,7 @@ import {
   getPackageManagerForReactApp,
   pushToRepo,
   codeStyleTools,
+  tailwindConfirm,
 } from '@/lib/services'
 import { log } from '@/lib/utils'
 import type {
@@ -19,11 +20,13 @@ import type {
 import { RESPONSE_STATUS } from '@/lib/constants'
 import { oraPromise } from 'ora'
 import { installEslint } from '@/lib/services/install-eslint-prettier'
+import { installTailwindReactVite } from '@/lib/services/install-tailwind-react-vite'
 
 interface Props {
   name: string
   options: Partial<{
     vite: boolean
+    tailwind: boolean
   }> &
     Partial<PackageManagersType> &
     Partial<BasicProps>
@@ -46,6 +49,10 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
     ...props.options,
   })
   if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
+
+  const TAILWIND = await tailwindConfirm({ tailwind: props.options.tailwind })
+  if (TAILWIND === RESPONSE_STATUS.CANCELED)
+    return { status: RESPONSE_STATUS.CANCELED }
 
   const CODE_STYLE_TOOL = await codeStyleTools({
     eslint: props.options.eslint,
@@ -88,6 +95,17 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
         successText: 'Dependencies installed successfully.',
       },
     )
+
+    if (TAILWIND) {
+      try {
+        await installTailwindReactVite({
+          packageManager: PACKAGE_MANAGER,
+          projectPath: PROJECT_PATH,
+        })
+      } catch {
+        return { status: RESPONSE_STATUS.CANCELED }
+      }
+    }
 
     if (CODE_STYLE_TOOL.biome) {
       await execa(PACKAGE_MANAGER, [
