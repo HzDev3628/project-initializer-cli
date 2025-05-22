@@ -106,7 +106,7 @@ program
   )
   .option(
     '--pnpm',
-    ' Explicitly tell the CLI to bootstrap the application using pnpm. Only for Vite.',
+    ' Explicitly tell the CLI to bootstrap the application using pnpm.',
   )
   .option(
     '--yarn',
@@ -114,7 +114,7 @@ program
   )
   .option(
     '--bun',
-    ' Explicitly tell the CLI to bootstrap the application using bun. Only for Vite.',
+    ' Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .option(
     '-g, --git <repository>',
@@ -142,7 +142,7 @@ program
   )
   .option(
     '--pnpm',
-    ' Explicitly tell the CLI to bootstrap the application using pnpm. Only for Vite.',
+    ' Explicitly tell the CLI to bootstrap the application using pnpm.',
   )
   .option(
     '--yarn',
