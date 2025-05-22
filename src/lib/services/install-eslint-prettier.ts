@@ -6,7 +6,7 @@ import {
 } from '../constants'
 import { execa } from 'execa'
 import { promises as fs } from 'node:fs'
-import type { ResponseStatus } from '../types'
+import type { PropsPackageManagersType, ResponseStatus } from '../types'
 import { DEFAULT_CONFIG_PRETTIER } from '../constants/default-config-prettier'
 
 const MESSAGES_INSTALL = {
@@ -61,10 +61,11 @@ export async function installEslintPrettierReact(props: {
   return { status: RESPONSE_STATUS.SUCCESS }
 }
 
-export async function installEslint(props: {
-  packageManager: 'npm' | 'pnpm' | 'bun' | 'yarn'
-  projectPath: string
-}): Promise<ResponseStatus> {
+export async function installEslint(
+  props: PropsPackageManagersType & {
+    projectPath: string
+  },
+): Promise<ResponseStatus> {
   try {
     await oraPromise(
       async () => {
@@ -109,10 +110,11 @@ export async function installEslint(props: {
   return { status: RESPONSE_STATUS.SUCCESS }
 }
 
-export async function installEslintPrettier(props: {
-  packageManager: 'npm' | 'pnpm' | 'bun' | 'yarn'
-  projectPath: string
-}): Promise<ResponseStatus> {
+export async function installEslintPrettier(
+  props: PropsPackageManagersType & {
+    projectPath: string
+  },
+): Promise<ResponseStatus> {
   try {
     await oraPromise(async () => {
       await execa(props.packageManager, [

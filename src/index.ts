@@ -66,7 +66,6 @@ program
   .description(
     'Create a React app with my own template. NPM is used by default.',
   )
-  .option('-v, --vite', 'Use Vite.')
   .option('-t, --tailwind', 'Install the Tailwind CSS.')
   .option(
     '-g, --git <repository>',
@@ -80,7 +79,7 @@ program
   )
   .option(
     '--pnpm',
-    ' Explicitly tell the CLI to bootstrap the application using pnpm. Only for Vite.',
+    ' Explicitly tell the CLI to bootstrap the application using pnpm.',
   )
   .option(
     '--yarn',
@@ -88,7 +87,7 @@ program
   )
   .option(
     '--bun',
-    ' Explicitly tell the CLI to bootstrap the application using bun. Only for Vite.',
+    ' Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .action(async (name, options) => {
     const res = await createReactApp({ name, options })

@@ -31,13 +31,10 @@ export async function installTailwindReactVite(
         )
 
       // @TODO: write template.
-      const updatedIndexCss = `
-@import "tailwindcss";
-`
+      const updatedIndexCss = `@import "tailwindcss";`
 
       // @TODO: write template.
-      const updatedAppPage = `
-export default function App() {
+      const updatedAppPage = `export default function App() {
   return <div className="text-6xl font-bold">SPEED CLI</div>
 }`
 
