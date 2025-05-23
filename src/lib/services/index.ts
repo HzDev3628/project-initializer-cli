@@ -1,5 +1,5 @@
 export * from './install-biome'
 export * from './package-manager'
 export * from './push-to-repo'
-export * from './code-style-tools'
+export * from './get-code-style-tools'
 export * from './tailwind-confirm'

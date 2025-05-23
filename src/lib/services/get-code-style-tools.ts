@@ -2,7 +2,7 @@ import { confirm, isCancel } from '@clack/prompts'
 import type { BasicProps } from '../types'
 import { RESPONSE_STATUS } from '../constants'
 
-export async function codeStyleTools(
+export async function getCodeStyleTools(
   props: Partial<Omit<BasicProps, 'git'>> & { withPrettier: boolean },
 ) {
   let tool: 'biome' | 'eslint-prettier' | 'eslint' | null = props.biome

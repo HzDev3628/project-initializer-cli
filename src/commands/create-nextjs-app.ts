@@ -9,8 +9,8 @@ import {
   getPackageManager,
   pushToRepo,
   installBiome,
-  codeStyleTools,
   tailwindConfirm,
+  getCodeStyleTools,
 } from '@/lib/services'
 import type { BasicProps } from '@/lib/types/basic-props'
 import type { PackageManagersType, ResponseStatus } from '@/lib/types'
@@ -28,41 +28,41 @@ interface Props {
 }
 
 export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
-  const PROJECT_PATH = path.resolve(process.cwd(), props.name)
+  const projectPath = path.resolve(process.cwd(), props.name)
 
-  const PACKAGE_MANAGER = await getPackageManager(props.options)
-  if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
+  const packageManager = await getPackageManager(props.options)
+  if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
 
-  const TURBOPACK =
+  const turbopack =
     props.options.turbopack ?? (await confirm({ message: 'Add Turbopack ?' }))
-  if (isCancel(TURBOPACK)) return { status: RESPONSE_STATUS.CANCELED }
+  if (isCancel(turbopack)) return { status: RESPONSE_STATUS.CANCELED }
 
-  const TAILWIND = await tailwindConfirm({ tailwind: props.options.tailwind })
-  if (TAILWIND === RESPONSE_STATUS.CANCELED)
+  const tailwind = await tailwindConfirm({ tailwind: props.options.tailwind })
+  if (tailwind === RESPONSE_STATUS.CANCELED)
     return { status: RESPONSE_STATUS.CANCELED }
 
-  const CODE_STYLE_TOOL = await codeStyleTools({
+  const codeStyleTool = await getCodeStyleTools({
     eslint: props.options.eslint,
     biome: props.options.biome,
     withPrettier: false,
   })
-  if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
+  if (codeStyleTool.status) return { status: RESPONSE_STATUS.CANCELED }
 
-  const SHADCN = TAILWIND
+  const shadcn = tailwind
     ? (props.options.shadcn ??
       (await confirm({
         message: 'Add Shadcn UI ?',
       })))
     : false
 
-  if (isCancel(SHADCN)) return { status: RESPONSE_STATUS.CANCELED }
+  if (isCancel(shadcn)) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
     await oraPromise(
       async () => {
         await execa('npx', [
           'create-next-app@latest',
-          PROJECT_PATH,
+          projectPath,
           props.name,
           '--ts',
           '--import-alias',
@@ -70,10 +70,10 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
           '--src-dir',
           'src',
           '--app',
-          TURBOPACK ? '--turbopack' : '--no-turbopack',
-          TAILWIND ? '--tailwind' : '--no-tailwind',
-          CODE_STYLE_TOOL.biome ? '--no-eslint' : '--eslint',
-          `--use-${PACKAGE_MANAGER}`,
+          turbopack ? '--turbopack' : '--no-turbopack',
+          tailwind ? '--tailwind' : '--no-tailwind',
+          codeStyleTool.biome ? '--no-eslint' : '--eslint',
+          `--use-${packageManager}`,
         ])
       },
       {
@@ -86,16 +86,16 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
     return { status: RESPONSE_STATUS.CANCELED }
   }
 
-  chdir(PROJECT_PATH)
+  chdir(projectPath)
 
-  if (CODE_STYLE_TOOL.biome) {
+  if (codeStyleTool.biome) {
     await installBiome({
-      packageManager: PACKAGE_MANAGER,
-      projectPath: PROJECT_PATH,
+      packageManager,
+      projectPath,
     })
   }
 
-  if (SHADCN) {
+  if (shadcn) {
     log(chalk.green('----- Set up Shadcn UI ✨ -----'))
     await execa('npx', ['shadcn@latest', 'init'], { stdio: 'inherit' })
   }
@@ -107,7 +107,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   log(
     chalk.green(`
       Successful installation!
-      You can found your project at the following path: ${PROJECT_PATH}
+      You can found your project at the following path: ${projectPath}
       `),
   )
 

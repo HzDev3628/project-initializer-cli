@@ -7,7 +7,7 @@ import { isCancel } from '@clack/prompts'
 import {
   installBiome,
   pushToRepo,
-  codeStyleTools,
+  getCodeStyleTools,
   tailwindConfirm,
   getPackageManager,
 } from '@/lib/services'
@@ -31,20 +31,20 @@ interface Props {
 }
 
 export async function createReactApp(props: Props): Promise<ResponseStatus> {
-  const PROJECT_PATH = path.resolve(process.cwd(), props.name)
+  const projectPath = path.resolve(process.cwd(), props.name)
 
   if (!props.options) return { status: RESPONSE_STATUS.CANCELED }
 
-  const PACKAGE_MANAGER = await getPackageManager({
+  const packageManager = await getPackageManager({
     ...props.options,
   })
-  if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
+  if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
 
-  const TAILWIND = await tailwindConfirm({ tailwind: props.options.tailwind })
-  if (TAILWIND === RESPONSE_STATUS.CANCELED)
+  const tailwind = await tailwindConfirm({ tailwind: props.options.tailwind })
+  if (tailwind === RESPONSE_STATUS.CANCELED)
     return { status: RESPONSE_STATUS.CANCELED }
 
-  const CODE_STYLE_TOOL = await codeStyleTools({
+  const CODE_STYLE_TOOL = await getCodeStyleTools({
     eslint: props.options.eslint,
     biome: props.options.biome,
     withPrettier: false,
@@ -54,11 +54,11 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
   try {
     await oraPromise(
       async () => {
-        await execa(PACKAGE_MANAGER, [
+        await execa(packageManager, [
           'create',
-          PACKAGE_MANAGER === 'npm' ? 'vite@latest' : 'vite',
+          packageManager === 'npm' ? 'vite@latest' : 'vite',
           props.name,
-          PACKAGE_MANAGER === 'npm' ? '--' : '',
+          packageManager === 'npm' ? '--' : '',
           '--template',
           'react-swc-ts',
         ])
@@ -73,11 +73,11 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
     return { status: RESPONSE_STATUS.CANCELED }
   }
 
-  chdir(PROJECT_PATH)
+  chdir(projectPath)
 
   await oraPromise(
     async () => {
-      await execa(PACKAGE_MANAGER, ['install'])
+      await execa(packageManager, ['install'])
     },
     {
       text: 'Installing dependencies...',
@@ -85,11 +85,11 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
     },
   )
 
-  if (TAILWIND) {
+  if (tailwind) {
     try {
       await installTailwindReactVite({
-        packageManager: PACKAGE_MANAGER,
-        projectPath: PROJECT_PATH,
+        packageManager,
+        projectPath,
       })
     } catch {
       return { status: RESPONSE_STATUS.CANCELED }
@@ -97,8 +97,8 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
   }
 
   if (CODE_STYLE_TOOL.biome) {
-    await execa(PACKAGE_MANAGER, [
-      PACKAGE_MANAGER === 'yarn' ? 'remove' : 'uninstall',
+    await execa(packageManager, [
+      packageManager === 'yarn' ? 'remove' : 'uninstall',
       'eslint',
       '@eslint/js',
       'eslint-plugin-react-hooks',
@@ -107,11 +107,11 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
       'globals',
     ])
 
-    rmSync(path.join(PROJECT_PATH, 'eslint.config.js'))
+    rmSync(path.join(projectPath, 'eslint.config.js'))
 
     await installBiome({
-      packageManager: PACKAGE_MANAGER,
-      projectPath: PROJECT_PATH,
+      packageManager,
+      projectPath,
     })
   }
 

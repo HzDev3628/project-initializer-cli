@@ -3,7 +3,7 @@ import { chdir } from 'node:process'
 import path from 'node:path'
 import { execa } from 'execa'
 import {
-  codeStyleTools,
+  getCodeStyleTools,
   getPackageManagerForNestJs,
   installBiome,
   pushToRepo,
@@ -27,17 +27,17 @@ interface Props {
 export const createNestJsApp = async (
   props: Props,
 ): Promise<ResponseStatus> => {
-  const PROJECT_PATH = path.resolve(process.cwd(), props.name)
+  const projectPath = path.resolve(process.cwd(), props.name)
 
-  const PACKAGE_MANAGER = await getPackageManagerForNestJs(props.options)
-  if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
+  const packageManager = await getPackageManagerForNestJs(props.options)
+  if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
 
-  const CODE_STYLE_TOOL = await codeStyleTools({
+  const codeStyleTools = await getCodeStyleTools({
     eslintPrettier: props.options.eslintPrettier,
     biome: props.options.biome,
     withPrettier: true,
   })
-  if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
+  if (codeStyleTools.status) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
     await oraPromise(
@@ -48,7 +48,7 @@ export const createNestJsApp = async (
           props.name,
           '--strict',
           '-p',
-          PACKAGE_MANAGER,
+          packageManager,
         ])
       },
       {
@@ -61,11 +61,11 @@ export const createNestJsApp = async (
     return { status: RESPONSE_STATUS.CANCELED }
   }
 
-  chdir(PROJECT_PATH)
+  chdir(projectPath)
 
-  if (CODE_STYLE_TOOL.biome) {
-    await execa(PACKAGE_MANAGER, [
-      PACKAGE_MANAGER === 'yarn' ? 'remove' : 'uninstall',
+  if (codeStyleTools.biome) {
+    await execa(packageManager, [
+      packageManager === 'yarn' ? 'remove' : 'uninstall',
       '@eslint/eslintrc',
       '@eslint/js',
       'eslint',
@@ -76,12 +76,12 @@ export const createNestJsApp = async (
       'prettier',
     ])
 
-    rmSync(path.join(PROJECT_PATH, '.prettierrc'))
-    rmSync(path.join(PROJECT_PATH, 'eslint.config.mjs'))
+    rmSync(path.join(projectPath, '.prettierrc'))
+    rmSync(path.join(projectPath, 'eslint.config.mjs'))
 
     await installBiome({
-      packageManager: PACKAGE_MANAGER,
-      projectPath: PROJECT_PATH,
+      packageManager,
+      projectPath,
     })
   }
 

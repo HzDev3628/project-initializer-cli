@@ -5,7 +5,7 @@ import { oraPromise } from 'ora'
 import chalk from 'chalk'
 import { execa } from 'execa'
 import {
-  codeStyleTools,
+  getCodeStyleTools,
   getPackageManager,
   installBiome,
   pushToRepo,
@@ -25,23 +25,23 @@ interface Props {
 }
 
 export const createHono = async (props: Props): Promise<ResponseStatus> => {
-  const PROJECT_PATH = path.resolve(process.cwd(), props.name)
+  const projectPath = path.resolve(process.cwd(), props.name)
 
-  const PACKAGE_MANAGER = await getPackageManager(props.options)
-  if (isCancel(PACKAGE_MANAGER)) return { status: RESPONSE_STATUS.CANCELED }
+  const packageManager = await getPackageManager(props.options)
+  if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
 
-  const CODE_STYLE_TOOL = await codeStyleTools({
+  const codeStyleTools = await getCodeStyleTools({
     eslintPrettier: props.options.eslintPrettier,
     biome: props.options.biome,
     withPrettier: true,
   })
-  if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
+  if (codeStyleTools.status) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
     await oraPromise(
       async () => {
-        PACKAGE_MANAGER === 'npm'
-          ? await execa(PACKAGE_MANAGER, [
+        packageManager === 'npm'
+          ? await execa(packageManager, [
               'create',
               'hono@latest',
               props.name,
@@ -50,11 +50,11 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
               'nodejs',
               '--install',
               '--pm',
-              PACKAGE_MANAGER,
+              packageManager,
             ])
-          : await execa(PACKAGE_MANAGER, [
+          : await execa(packageManager, [
               'create',
-              PACKAGE_MANAGER === 'yarn' || PACKAGE_MANAGER === 'pnpm'
+              packageManager === 'yarn' || packageManager === 'pnpm'
                 ? 'hono'
                 : 'hono@latest',
               props.name,
@@ -62,7 +62,7 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
               'nodejs',
               '--install',
               '--pm',
-              PACKAGE_MANAGER,
+              packageManager,
             ])
       },
       {
@@ -75,19 +75,19 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
     return { status: RESPONSE_STATUS.CANCELED }
   }
 
-  chdir(PROJECT_PATH)
+  chdir(projectPath)
 
-  if (CODE_STYLE_TOOL.biome) {
+  if (codeStyleTools.biome) {
     await installBiome({
-      packageManager: PACKAGE_MANAGER,
-      projectPath: PROJECT_PATH,
+      packageManager,
+      projectPath,
     })
   }
 
-  if (CODE_STYLE_TOOL.eslintPrettier) {
+  if (codeStyleTools.eslintPrettier) {
     const res = await installEslintPrettier({
-      packageManager: PACKAGE_MANAGER,
-      projectPath: PROJECT_PATH,
+      packageManager,
+      projectPath,
     })
     if (res.status === RESPONSE_STATUS.CANCELED)
       return { status: RESPONSE_STATUS.CANCELED }
