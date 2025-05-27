@@ -3,11 +3,11 @@ import {
   DEFAULT_CONFIG_ESLINT,
   DEFAULT_CONFIG_ESLINT_REACT,
   RESPONSE_STATUS,
-} from '../constants'
+  DEFAULT_CONFIG_PRETTIER,
+} from '@/lib/constants'
 import { execa } from 'execa'
 import { promises as fs } from 'node:fs'
-import type { PropsPackageManagersType, ResponseStatus } from '../types'
-import { DEFAULT_CONFIG_PRETTIER } from '../constants/default-config-prettier'
+import type { PropsPackageManagersType, ResponseStatus } from '@/lib/types'
 
 const MESSAGES_INSTALL = {
   text: 'Installing ESlint & Prettier...',

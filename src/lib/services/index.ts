@@ -1,4 +1,4 @@
-export * from './install-biome'
+export * from './install'
 export * from './package-manager'
 export * from './push-to-repo'
 export * from './get-code-style-tools'

@@ -16,7 +16,7 @@ import type {
 } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
 import { oraPromise } from 'ora'
-import { log } from '@/lib/utils'
+import { log, uninstallCommand } from '@/lib/utils'
 import chalk from 'chalk'
 
 interface Props {
@@ -65,7 +65,7 @@ export const createNestJsApp = async (
 
   if (codeStyleTools.biome) {
     await execa(packageManager, [
-      packageManager === 'yarn' ? 'remove' : 'uninstall',
+      uninstallCommand({ packageManager }),
       '@eslint/eslintrc',
       '@eslint/js',
       'eslint',

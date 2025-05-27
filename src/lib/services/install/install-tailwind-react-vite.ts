@@ -1,7 +1,7 @@
 import { oraPromise } from 'ora'
 import { promises as fs } from 'node:fs'
 import { execa } from 'execa'
-import type { PropsPackageManagersType } from '../types'
+import type { PropsPackageManagersType } from '@/lib/types'
 
 export async function installTailwindReactVite(
   props: PropsPackageManagersType & {

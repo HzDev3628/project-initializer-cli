@@ -11,7 +11,7 @@ import {
   tailwindConfirm,
   getPackageManager,
 } from '@/lib/services'
-import { log } from '@/lib/utils'
+import { log, uninstallCommand } from '@/lib/utils'
 import type {
   BasicProps,
   PackageManagersType,
@@ -19,7 +19,7 @@ import type {
 } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
 import { oraPromise } from 'ora'
-import { installTailwindReactVite } from '@/lib/services/install-tailwind-react-vite'
+import { installTailwindReactVite } from '@/lib/services'
 
 interface Props {
   name: string
@@ -98,7 +98,7 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
 
   if (CODE_STYLE_TOOL.biome) {
     await execa(packageManager, [
-      packageManager === 'yarn' ? 'remove' : 'uninstall',
+      uninstallCommand({ packageManager }),
       'eslint',
       '@eslint/js',
       'eslint-plugin-react-hooks',

@@ -39,19 +39,19 @@ program
   )
   .option(
     '--npm',
-    ' Explicitly tell the CLI to bootstrap the application using bun.',
+    'Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .option(
     '--pnpm',
-    ' Explicitly tell the CLI to bootstrap the application using pnpm.',
+    'Explicitly tell the CLI to bootstrap the application using pnpm.',
   )
   .option(
     '--yarn',
-    ' Explicitly tell the CLI to bootstrap the application using yarn.',
+    'Explicitly tell the CLI to bootstrap the application using yarn.',
   )
   .option(
     '--bun',
-    ' Explicitly tell the CLI to bootstrap the application using bun.',
+    'Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .option('--biome', 'Use Biome to format and lint your code.')
   .option('--eslint', 'use eslint to lint your code.')
@@ -75,19 +75,19 @@ program
   .option('--eslint', 'Use ESlint to lint your code.')
   .option(
     '--npm',
-    ' Explicitly tell the CLI to bootstrap the application using bun.',
+    'Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .option(
     '--pnpm',
-    ' Explicitly tell the CLI to bootstrap the application using pnpm.',
+    'Explicitly tell the CLI to bootstrap the application using pnpm.',
   )
   .option(
     '--yarn',
-    ' Explicitly tell the CLI to bootstrap the application using yarn.',
+    'Explicitly tell the CLI to bootstrap the application using yarn.',
   )
   .option(
     '--bun',
-    ' Explicitly tell the CLI to bootstrap the application using bun.',
+    'Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .action(async (name, options) => {
     const res = await createReactApp({ name, options })
@@ -138,15 +138,15 @@ program
   )
   .option(
     '--npm',
-    ' Explicitly tell the CLI to bootstrap the application using bun.',
+    'Explicitly tell the CLI to bootstrap the application using bun.',
   )
   .option(
     '--pnpm',
-    ' Explicitly tell the CLI to bootstrap the application using pnpm.',
+    'Explicitly tell the CLI to bootstrap the application using pnpm.',
   )
   .option(
     '--yarn',
-    ' Explicitly tell the CLI to bootstrap the application using yarn.',
+    'Explicitly tell the CLI to bootstrap the application using yarn.',
   )
   .option(
     '-g, --git <repository>',

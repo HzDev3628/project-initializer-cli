@@ -7,6 +7,7 @@ import { execa } from 'execa'
 import {
   getCodeStyleTools,
   getPackageManager,
+  installEslintPrettier,
   installBiome,
   pushToRepo,
 } from '@/lib/services'
@@ -17,7 +18,6 @@ import type {
   ResponseStatus,
 } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
-import { installEslintPrettier } from '@/lib/services/install-eslint-prettier'
 
 interface Props {
   name: string
