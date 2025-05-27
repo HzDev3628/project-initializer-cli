@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { chdir } from 'node:process'
 import { isCancel } from '@clack/prompts'
-import { oraPromise } from 'ora'
+import { oraPromise } from '@/lib/ora-promise'
 import chalk from 'chalk'
 import { execa } from 'execa'
 import {
@@ -38,8 +38,10 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
   if (codeStyleTools.status) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
-    await oraPromise(
-      async () => {
+    await oraPromise({
+      text: 'Initializing Hono.js project...',
+      successText: 'Project initialized successfully.',
+      fn: async () => {
         packageManager === 'npm'
           ? await execa(packageManager, [
               'create',
@@ -65,12 +67,7 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
               packageManager,
             ])
       },
-      {
-        text: 'Initializing Hono.js project...',
-        successText: 'Project initialized successfully.',
-        failText: (e) => e.message,
-      },
-    )
+    })
   } catch {
     return { status: RESPONSE_STATUS.CANCELED }
   }

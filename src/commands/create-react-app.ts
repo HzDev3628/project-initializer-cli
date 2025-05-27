@@ -18,7 +18,7 @@ import type {
   ResponseStatus,
 } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
-import { oraPromise } from 'ora'
+import { oraPromise } from '@/lib/ora-promise'
 import { installTailwindReactVite } from '@/lib/services'
 
 interface Props {
@@ -52,8 +52,10 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
   if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
-    await oraPromise(
-      async () => {
+    await oraPromise({
+      text: 'Initializing React.js project with Vite...',
+      successText: 'Project initialized successfully.',
+      fn: async () => {
         await execa(packageManager, [
           'create',
           packageManager === 'npm' ? 'vite@latest' : 'vite',
@@ -63,27 +65,20 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
           'react-swc-ts',
         ])
       },
-      {
-        text: 'Initializing React.js project with Vite...',
-        successText: 'Project initialized successfully.',
-        failText: (e) => e.message,
-      },
-    )
+    })
   } catch {
     return { status: RESPONSE_STATUS.CANCELED }
   }
 
   chdir(projectPath)
 
-  await oraPromise(
-    async () => {
+  await oraPromise({
+    text: 'Installing dependencies...',
+    successText: 'Dependencies installed successfully.',
+    fn: async () => {
       await execa(packageManager, ['install'])
     },
-    {
-      text: 'Installing dependencies...',
-      successText: 'Dependencies installed successfully.',
-    },
-  )
+  })
 
   if (tailwind) {
     try {

@@ -3,7 +3,7 @@ import { log } from '@/lib/utils'
 import { promises as fs } from 'node:fs'
 import { DEFAULT_CONFIG_BIOME } from '@/lib/constants'
 import chalk from 'chalk'
-import { oraPromise } from 'ora'
+import { oraPromise } from '@/lib/ora-promise'
 import type { PropsPackageManagersType } from '../../types'
 
 export const installBiome = async (
@@ -13,8 +13,10 @@ export const installBiome = async (
   },
 ) => {
   try {
-    await oraPromise(
-      async () => {
+    await oraPromise({
+      text: 'Installing Biome...',
+      successText: 'Successfully set up Biome and config file.',
+      fn: async () => {
         props.packageManager === 'bun'
           ? await execa('bun', ['add', '--dev', '--exact', '@biomejs/biome'])
           : props.packageManager === 'pnpm'
@@ -66,12 +68,7 @@ export const installBiome = async (
           'utf-8',
         )
       },
-      {
-        text: 'Installing Biome...',
-        successText: 'Successfully set up Biome and config file.',
-        failText: (e) => e.message,
-      },
-    )
+    })
   } catch (e) {
     log(chalk.red(e))
     return process.exit(1)

@@ -15,7 +15,7 @@ import type {
   ResponseStatus,
 } from '@/lib/types'
 import { RESPONSE_STATUS } from '@/lib/constants'
-import { oraPromise } from 'ora'
+import { oraPromise } from '@/lib/ora-promise'
 import { log, uninstallCommand } from '@/lib/utils'
 import chalk from 'chalk'
 
@@ -40,8 +40,10 @@ export const createNestJsApp = async (
   if (codeStyleTools.status) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
-    await oraPromise(
-      async () => {
+    await oraPromise({
+      text: 'Installing Nest.js and initializing project...',
+      successText: 'Project initialized successfully with Nest CLI.',
+      fn: async () => {
         await execa('npm', ['i', '-g', '@nestjs/cli'])
         await execa('nest', [
           'new',
@@ -51,13 +53,7 @@ export const createNestJsApp = async (
           packageManager,
         ])
       },
-      {
-        text: 'Installing Nest.js and initializing project...',
-        successText: 'Project initialized successfully with Nest CLI.',
-        failText: (e) => e.message,
-
-      },
-    )
+    })
   } catch {
     return { status: RESPONSE_STATUS.CANCELED }
   }

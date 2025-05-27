@@ -1,4 +1,4 @@
-import { oraPromise } from 'ora'
+import { oraPromise } from '@/lib/ora-promise'
 import { promises as fs } from 'node:fs'
 import { execa } from 'execa'
 import type { PropsPackageManagersType } from '@/lib/types'
@@ -8,8 +8,10 @@ export async function installTailwindReactVite(
     projectPath: string
   },
 ) {
-  await oraPromise(
-    async () => {
+  await oraPromise({
+    text: 'Installing and setting up Tailwind CSS...',
+    successText: 'Tailwind CSS set up successfully.',
+    fn: async () => {
       await execa(props.packageManager, [
         props.packageManager === 'pnpm' || props.packageManager === 'yarn'
           ? 'add'
@@ -35,8 +37,8 @@ export async function installTailwindReactVite(
 
       // @TODO: write template.
       const updatedAppPage = `export default function App() {
-  return <div className="text-6xl font-bold">SPEED CLI</div>
-}`
+return <div className="text-6xl font-bold">SPEED CLI</div>
+  }`
 
       await fs.writeFile(
         `${props.projectPath}/vite.config.ts`,
@@ -46,10 +48,5 @@ export async function installTailwindReactVite(
       await fs.writeFile(`${props.projectPath}/src/App.tsx`, updatedAppPage)
       await fs.writeFile(`${props.projectPath}/src/index.css`, updatedIndexCss)
     },
-    {
-      text: 'Installing and setting up Tailwind CSS...',
-      successText: 'Tailwind CSS set up successfully.',
-      failText: (e) => e.message,
-    },
-  )
+  })
 }

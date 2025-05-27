@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import { chdir } from 'node:process'
 import path from 'node:path'
 import { execa } from 'execa'
-import { oraPromise } from 'ora'
+import { oraPromise } from '@/lib/ora-promise'
 import { log } from '@/lib/utils'
 import { confirm, isCancel } from '@clack/prompts'
 import {
@@ -58,8 +58,10 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   if (isCancel(shadcn)) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
-    await oraPromise(
-      async () => {
+    await oraPromise({
+      text: 'Initializing Next.js project...',
+      successText: 'Project initialized successfully.',
+      fn: async () => {
         await execa('npx', [
           'create-next-app@latest',
           projectPath,
@@ -76,12 +78,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
           `--use-${packageManager}`,
         ])
       },
-      {
-        text: 'Initializing Next.js project...',
-        successText: 'Project initialized successfully.',
-        failText: (e) => e.message,
-      },
-    )
+    })
   } catch {
     return { status: RESPONSE_STATUS.CANCELED }
   }
