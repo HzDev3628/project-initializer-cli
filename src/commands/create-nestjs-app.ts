@@ -54,7 +54,8 @@ export const createNestJsApp = async (
       {
         text: 'Installing Nest.js and initializing project...',
         successText: 'Project initialized successfully with Nest CLI.',
-        failText: 'Something went wrong. Please, try again.',
+        failText: (e) => e.message,
+
       },
     )
   } catch {

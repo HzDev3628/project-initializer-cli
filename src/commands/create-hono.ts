@@ -68,7 +68,7 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
       {
         text: 'Initializing Hono.js project...',
         successText: 'Project initialized successfully.',
-        failText: 'Something went wrong. Please, try again.',
+        failText: (e) => e.message,
       },
     )
   } catch {

@@ -12,13 +12,13 @@ import type { PropsPackageManagersType, ResponseStatus } from '@/lib/types'
 const MESSAGES_INSTALL = {
   text: 'Installing ESlint & Prettier...',
   successText: 'ESlint & Prettier installed successfully.',
-  failText: 'Something went wrong.',
+  failText: (e: Error) => e.message,
 }
 
 const MESSAGES_SET_UP = {
   text: 'Setting up ESlint & Prettier...',
   successText: 'ESlint & Prettier was set up successfully.',
-  failText: 'Something went wrong.',
+  failText: (e: Error) => e.message,
 }
 
 export async function installEslintPrettierReact(props: {

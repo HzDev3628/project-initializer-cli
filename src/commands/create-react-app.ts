@@ -66,7 +66,7 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
       {
         text: 'Initializing React.js project with Vite...',
         successText: 'Project initialized successfully.',
-        failText: 'Something went wrong. Please, try again.',
+        failText: (e) => e.message,
       },
     )
   } catch {

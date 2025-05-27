@@ -49,7 +49,7 @@ export async function installTailwindReactVite(
     {
       text: 'Installing and setting up Tailwind CSS...',
       successText: 'Tailwind CSS set up successfully.',
-      failText: 'Something when wrong. Please, try again.',
+      failText: (e) => e.message,
     },
   )
 }

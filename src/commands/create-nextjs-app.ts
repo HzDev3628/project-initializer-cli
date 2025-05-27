@@ -79,7 +79,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
       {
         text: 'Initializing Next.js project...',
         successText: 'Project initialized successfully.',
-        failText: 'Something went wrong. Please, try again.',
+        failText: (e) => e.message,
       },
     )
   } catch {
