@@ -7,6 +7,7 @@ import { createHono } from './commands/create-hono.js'
 import { init } from './commands/init.js'
 import { createNestJsApp } from './commands/create-nestjs-app.js'
 import { RESPONSE_STATUS } from './lib/constants'
+import { monorepo } from './commands/monorepo.js'
 
 const program = new Command()
 
@@ -159,6 +160,32 @@ program
   )
   .action(async (name, options) => {
     const res = await createNestJsApp({ name, options })
+    if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
+    return process.exit(0)
+  })
+
+program
+  .command('monorepo <name>')
+  .description('')
+  .option(
+    '--npm',
+    'Explicitly tell the CLI to bootstrap the application using bun.',
+  )
+  .option(
+    '--pnpm',
+    'Explicitly tell the CLI to bootstrap the application using pnpm.',
+  )
+  .option(
+    '--yarn',
+    'Explicitly tell the CLI to bootstrap the application using yarn.',
+  )
+  .option('--biome', 'Use Biome to format and lint your code.')
+  .option('--eslint', 'Use ESlint to lint your code.')
+  .option('--backend-hono', '')
+  .option('--backend-nest', '')
+  .option('--remove-ui-package', '')
+  .action(async (name, options) => {
+    const res = await monorepo({ name, options })
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
     return process.exit(0)
   })
