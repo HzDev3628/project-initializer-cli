@@ -5,11 +5,11 @@ export function about() {
   return log(
     chalk.white(
       `
-  ----------------------------------------------------    
-  |  ${chalk.bold.blueBright('-- Full Name: Artem Kharchuk')}                    |
-  |  ${chalk.bold.green('-- Nickname: HzDev')}                              | 
-  |  ${chalk.bold.cyan('-- Website: https://artem-kharchuk.vercel.app')}   | 
-  ----------------------------------------------------
++--------------------------------------------------+    
+|  ${chalk.bold.blueBright('-- Full Name: Artem Kharchuk')}                    |
+|  ${chalk.bold.green('-- Nickname: HzDev')}                              | 
+|  ${chalk.bold.cyan('-- Website: https://github.com/HzDev3628')}        | 
++--------------------------------------------------+
 `,
     ),
   )

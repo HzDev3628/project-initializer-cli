@@ -13,10 +13,10 @@ export const init = async () => {
   const projectType = await select({
     message: 'Select your template',
     options: [
-      { value: 'nextjs', label: 'Next' },
-      { value: 'react-app', label: 'React' },
+      { value: 'next', label: 'Next' },
+      { value: 'react', label: 'React' },
       { value: 'hono', label: 'Hono' },
-      { value: 'nestjs', label: 'Nest.js' },
+      { value: 'nest', label: 'Nest' },
     ],
   })
 
@@ -26,9 +26,9 @@ export const init = async () => {
     switch (projectType) {
       case 'hono':
         return await createHono({ name, options: {} })
-      case 'react-app':
+      case 'react':
         return await createReactApp({ name, options: {} })
-      case 'nestjs':
+      case 'nest':
         return await createNestJsApp({ name, options: {} })
       default: // Next.js
         return await createNextJsApp({ name, options: {} })

@@ -10,12 +10,9 @@ import { RESPONSE_STATUS } from './lib/constants'
 
 const program = new Command()
 
-// @TODO: rewrite descriptions.
-// @TODO: rewrite error messages.
-
 program
   .name('speed-cli')
-  .description('CLI to some JavaScript string utilities')
+  .description('CLI to some TypeScript string utilities')
   .version('0.0.1')
 
 program.command('about').action(about)
@@ -27,9 +24,7 @@ program
 
 program
   .command('nextjs <name>')
-  .description(
-    'Create a Next.js app with my own template. NPM is used by default.',
-  )
+  .description('Create a Next.js app.')
   .option('-s, --shadcn', 'Connect the Shadcn UI library.')
   .option('-t, --tailwind', 'Install the Tailwind CSS.')
   .option('-p, --turbopack', 'Add Turbopack.')
@@ -37,24 +32,12 @@ program
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
   )
-  .option(
-    '--npm',
-    'Explicitly tell the CLI to bootstrap the application using bun.',
-  )
-  .option(
-    '--pnpm',
-    'Explicitly tell the CLI to bootstrap the application using pnpm.',
-  )
-  .option(
-    '--yarn',
-    'Explicitly tell the CLI to bootstrap the application using yarn.',
-  )
-  .option(
-    '--bun',
-    'Explicitly tell the CLI to bootstrap the application using bun.',
-  )
+  .option('--npm', 'Package manager NPM.')
+  .option('--pnpm', 'Package manager PNPM.')
+  .option('--yarn', 'Package manager YARN.')
+  .option('--bun', 'Package manager BUN.')
   .option('--biome', 'Use Biome to format and lint your code.')
-  .option('--eslint', 'use eslint to lint your code.')
+  .option('--eslint', 'Use eslint to lint your code.')
   .action(async (name, options) => {
     const res = await createNextJsApp({ name, options })
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
@@ -63,9 +46,7 @@ program
 
 program
   .command('react-app <name>')
-  .description(
-    'Create a React app with my own template. NPM is used by default.',
-  )
+  .description('Create a React.js app.')
   .option('-t, --tailwind', 'Install the Tailwind CSS.')
   .option(
     '-g, --git <repository>',
@@ -73,22 +54,10 @@ program
   )
   .option('--biome', 'Use Biome to format and lint your code.')
   .option('--eslint', 'Use ESlint to lint your code.')
-  .option(
-    '--npm',
-    'Explicitly tell the CLI to bootstrap the application using bun.',
-  )
-  .option(
-    '--pnpm',
-    'Explicitly tell the CLI to bootstrap the application using pnpm.',
-  )
-  .option(
-    '--yarn',
-    'Explicitly tell the CLI to bootstrap the application using yarn.',
-  )
-  .option(
-    '--bun',
-    'Explicitly tell the CLI to bootstrap the application using bun.',
-  )
+  .option('--npm', 'Package manager NPM.')
+  .option('--pnpm', 'Package manager PNPM.')
+  .option('--yarn', 'Package manager YARN.')
+  .option('--bun', 'Package manager BUN.')
   .action(async (name, options) => {
     const res = await createReactApp({ name, options })
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
@@ -100,22 +69,10 @@ program
   .description(
     'Create a Hono app with my own template. NPM is used by default.',
   )
-  .option(
-    '--npm',
-    ' Explicitly tell the CLI to bootstrap the application using bun.',
-  )
-  .option(
-    '--pnpm',
-    ' Explicitly tell the CLI to bootstrap the application using pnpm.',
-  )
-  .option(
-    '--yarn',
-    ' Explicitly tell the CLI to bootstrap the application using yarn.',
-  )
-  .option(
-    '--bun',
-    ' Explicitly tell the CLI to bootstrap the application using bun.',
-  )
+  .option('--npm', 'Package manager NPM.')
+  .option('--pnpm', 'Package manager PNPM.')
+  .option('--yarn', 'Package manager YARN.')
+  .option('--bun', 'Package manager BUN.')
   .option(
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
@@ -136,18 +93,9 @@ program
   .description(
     'Create a Hono app with my own template. NPM is used by default.',
   )
-  .option(
-    '--npm',
-    'Explicitly tell the CLI to bootstrap the application using bun.',
-  )
-  .option(
-    '--pnpm',
-    'Explicitly tell the CLI to bootstrap the application using pnpm.',
-  )
-  .option(
-    '--yarn',
-    'Explicitly tell the CLI to bootstrap the application using yarn.',
-  )
+  .option('--npm', 'Package manager NPM.')
+  .option('--pnpm', 'Package manager PNPM.')
+  .option('--yarn', 'Package manager YARN.')
   .option(
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
