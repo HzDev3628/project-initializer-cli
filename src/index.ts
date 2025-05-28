@@ -52,6 +52,7 @@ program
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
   )
+  .option('-s, --shadcn', 'Connect the Shadcn UI library.')
   .option('--biome', 'Use Biome to format and lint your code.')
   .option('--eslint', 'Use ESlint to lint your code.')
   .option('--npm', 'Package manager NPM.')

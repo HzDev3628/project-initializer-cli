@@ -3,13 +3,14 @@ import { execa } from 'execa'
 import { chdir } from 'node:process'
 import { rmSync } from 'node:fs'
 import chalk from 'chalk'
-import { isCancel } from '@clack/prompts'
+import { confirm, isCancel } from '@clack/prompts'
 import {
   installBiome,
   pushToRepo,
   getCodeStyleTools,
   tailwindConfirm,
   getPackageManager,
+  installShadcnVite,
 } from '@/lib/services'
 import { log, uninstallCommand } from '@/lib/utils'
 import type {
@@ -25,6 +26,7 @@ interface Props {
   name: string
   options: Partial<{
     tailwind: boolean
+    shadcn: boolean
   }> &
     Partial<PackageManagersType> &
     Partial<BasicProps>
@@ -43,6 +45,15 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
   const tailwind = await tailwindConfirm({ tailwind: props.options.tailwind })
   if (tailwind === RESPONSE_STATUS.CANCELED)
     return { status: RESPONSE_STATUS.CANCELED }
+
+  const shadcn = tailwind
+    ? (props.options.shadcn ??
+      (await confirm({
+        message: 'Add Shadcn UI ?',
+      })))
+    : false
+
+  if (isCancel(shadcn)) return { status: RESPONSE_STATUS.CANCELED }
 
   const CODE_STYLE_TOOL = await getCodeStyleTools({
     eslint: props.options.eslint,
@@ -86,6 +97,14 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
         packageManager,
         projectPath,
       })
+    } catch {
+      return { status: RESPONSE_STATUS.CANCELED }
+    }
+  }
+
+  if (shadcn) {
+    try {
+      await installShadcnVite({ projectPath, packageManager })
     } catch {
       return { status: RESPONSE_STATUS.CANCELED }
     }
