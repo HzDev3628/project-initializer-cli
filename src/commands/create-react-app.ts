@@ -18,7 +18,7 @@ import type {
   PackageManagersType,
   ResponseStatus,
 } from '@/lib/types'
-import { RESPONSE_STATUS } from '@/lib/constants'
+import { MESSAGES_AFTER_INSTALL, RESPONSE_STATUS } from '@/lib/constants'
 import { oraPromise } from '@/lib/ora-promise'
 import { installTailwindReactVite } from '@/lib/services'
 
@@ -133,7 +133,7 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
     await pushToRepo({ repoUrl: props.options.git })
   }
 
-  log(chalk.green('Successful installation React.js project with Vite!'))
+  log(chalk.green(MESSAGES_AFTER_INSTALL.REACT))
 
   return { status: RESPONSE_STATUS.SUCCESS }
 }

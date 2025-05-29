@@ -14,7 +14,7 @@ import type {
   PackageManagersType,
   ResponseStatus,
 } from '@/lib/types'
-import { RESPONSE_STATUS } from '@/lib/constants'
+import { MESSAGES_AFTER_INSTALL, RESPONSE_STATUS } from '@/lib/constants'
 import { oraPromise } from '@/lib/ora-promise'
 import { log, uninstallCommand } from '@/lib/utils'
 import chalk from 'chalk'
@@ -86,6 +86,6 @@ export const createNestJsApp = async (
     await pushToRepo({ repoUrl: props.options.git })
   }
 
-  log(chalk.green('Successful creation Nest.js project.'))
+  log(chalk.green(MESSAGES_AFTER_INSTALL.NEST))
   return { status: RESPONSE_STATUS.SUCCESS }
 }

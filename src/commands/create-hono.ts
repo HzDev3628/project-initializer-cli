@@ -17,7 +17,7 @@ import type {
   PackageManagersType,
   ResponseStatus,
 } from '@/lib/types'
-import { RESPONSE_STATUS } from '@/lib/constants'
+import { MESSAGES_AFTER_INSTALL, RESPONSE_STATUS } from '@/lib/constants'
 
 interface Props {
   name: string
@@ -94,7 +94,7 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
     await pushToRepo({ repoUrl: props.options.git })
   }
 
-  log(chalk.green('Successful initialized Hono.js project 🚀'))
+  log(chalk.green(MESSAGES_AFTER_INSTALL.HONO))
 
   return { status: RESPONSE_STATUS.SUCCESS }
 }

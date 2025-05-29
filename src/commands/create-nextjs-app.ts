@@ -15,7 +15,7 @@ import {
 } from '@/lib/services'
 import type { BasicProps } from '@/lib/types/basic-props'
 import type { PackageManagersType, ResponseStatus } from '@/lib/types'
-import { RESPONSE_STATUS } from '@/lib/constants'
+import { MESSAGES_AFTER_INSTALL, RESPONSE_STATUS } from '@/lib/constants'
 
 interface Props {
   name: string
@@ -104,12 +104,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
     await pushToRepo({ repoUrl: props.options.git })
   }
 
-  log(
-    chalk.green(`
-      Successful installation!
-      You can found your project at the following path: ${projectPath}
-      `),
-  )
+  log(chalk.green(MESSAGES_AFTER_INSTALL.NEXT))
 
   return { status: RESPONSE_STATUS.SUCCESS }
 }
