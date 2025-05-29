@@ -11,6 +11,7 @@ import {
   installBiome,
   tailwindConfirm,
   getCodeStyleTools,
+  installShadcn,
 } from '@/lib/services'
 import type { BasicProps } from '@/lib/types/basic-props'
 import type { PackageManagersType, ResponseStatus } from '@/lib/types'
@@ -41,21 +42,20 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   if (tailwind === RESPONSE_STATUS.CANCELED)
     return { status: RESPONSE_STATUS.CANCELED }
 
-  const codeStyleTool = await getCodeStyleTools({
-    eslint: props.options.eslint,
-    biome: props.options.biome,
-    withPrettier: false,
-  })
-  if (codeStyleTool.status) return { status: RESPONSE_STATUS.CANCELED }
-
   const shadcn = tailwind
     ? (props.options.shadcn ??
       (await confirm({
         message: 'Add Shadcn UI ?',
       })))
     : false
-
   if (isCancel(shadcn)) return { status: RESPONSE_STATUS.CANCELED }
+
+  const codeStyleTool = await getCodeStyleTools({
+    eslint: props.options.eslint,
+    biome: props.options.biome,
+    withPrettier: false,
+  })
+  if (codeStyleTool.status) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
     await oraPromise({
@@ -93,8 +93,11 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   }
 
   if (shadcn) {
-    log(chalk.green('----- Set up Shadcn UI ✨ -----'))
-    await execa('npx', ['shadcn@latest', 'init'], { stdio: 'inherit' })
+    try {
+      await installShadcn()
+    } catch {
+      return { status: RESPONSE_STATUS.CANCELED }
+    }
   }
 
   if (props.options.git) {

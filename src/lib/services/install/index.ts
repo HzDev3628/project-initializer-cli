@@ -1,4 +1,4 @@
 export * from './install-biome'
 export * from './install-eslint-prettier'
 export * from './install-tailwind-react-vite'
-export * from './install-shadcn-vite'
+export * from './install-shadcn'

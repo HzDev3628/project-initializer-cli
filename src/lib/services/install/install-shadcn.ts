@@ -3,12 +3,25 @@ import type { PropsPackageManagersType } from '@/lib/types'
 import { execa } from 'execa'
 import { promises as fs } from 'node:fs'
 
-export const installShadcnVite = async (
-  props: PropsPackageManagersType & { projectPath: string },
-) => {
+type Props = PropsPackageManagersType & { projectPath: string }
+
+const MESSAGES = {
+  text: 'Connecting Shadcn UI...',
+  successText: 'Shadcn UI connected successfully.',
+}
+
+export const installShadcn = async () => {
   await oraPromise({
-    text: 'Connecting Shadcn UI...',
-    successText: 'Shadcn UI connected successfully.',
+    ...MESSAGES,
+    fn: async () => {
+      await execa('npx', ['shadcn@latest', 'init', '-b', 'neutral'])
+    },
+  })
+}
+
+export const installShadcnVite = async (props: Props) => {
+  await oraPromise({
+    ...MESSAGES,
     fn: async () => {
       const tsConfig = JSON.parse(
         await fs.readFile(`${props.projectPath}/tsconfig.json`, 'utf-8'),
@@ -80,9 +93,9 @@ export const installShadcnVite = async (
         'utf-8',
       )
 
-      await execa('npx', ['shadcn@latest', 'init', '-b', 'neutral'], {
-        stdio: 'inherit',
-      })
+      await execa('npx', ['shadcn@latest', 'init', '-b', 'neutral'])
+
+      await execa('npx', ['shadcn@latest', 'add', 'button'])
     },
   })
 }
