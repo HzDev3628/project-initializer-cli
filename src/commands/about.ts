@@ -1,16 +1,13 @@
 import chalk from 'chalk'
 import { log } from '@/lib/utils'
 
-export function about() {
+export function aboutAuthor() {
   return log(
-    chalk.white(
-      `
-+--------------------------------------------------+    
-|  ${chalk.bold.blueBright('-- Full Name: Artem Kharchuk')}                    |
-|  ${chalk.bold.green('-- Nickname: HzDev')}                              | 
-|  ${chalk.bold.cyan('-- Website: https://github.com/HzDev3628')}        | 
-+--------------------------------------------------+
+    `
+${chalk.bold('Full Name:')} Artem Kharhcuk
+${chalk.bold('Nickname:')} HzDev
+${chalk.bold('GitHub:')} https://github.com/HzDev3628 
+${chalk.bold('X:')} https://x.com/artem_kharchuk_
 `,
-    ),
   )
 }

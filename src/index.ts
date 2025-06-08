@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { Command } from 'commander'
-import { about } from './commands/about.js'
+import { aboutAuthor } from './commands/about.js'
 import { createNextJsApp } from './commands/create-nextjs-app.js'
 import { createReactApp } from './commands/create-react-app.js'
 import { createHono } from './commands/create-hono.js'
@@ -12,10 +12,13 @@ const program = new Command()
 
 program
   .name('speed-cli')
-  .description('CLI to some TypeScript string utilities')
+  .description('Less than 30s your time, and project already for building 🚀.')
   .version('0.0.1')
 
-program.command('about').action(about)
+program
+  .command('about-author')
+  .description('A little information about the author.')
+  .action(aboutAuthor)
 
 program
   .command('init')
@@ -37,7 +40,7 @@ program
   .option('--yarn', 'Package manager YARN.')
   .option('--bun', 'Package manager BUN.')
   .option('--biome', 'Use Biome to format and lint your code.')
-  .option('--eslint', 'Use eslint to lint your code.')
+  .option('--eslint', 'Use Eslint to lint your code.')
   .action(async (name, options) => {
     const res = await createNextJsApp({ name, options })
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
