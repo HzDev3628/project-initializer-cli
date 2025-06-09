@@ -1,12 +1,11 @@
 {
   "name": "speed-cli",
+  "version": "0.0.1",
+  "license": "MIT",
   "type": "module",
   "bin": {
     "speed-cli": "./dist/index.js"
   },
-  "version": "0.0.1",
-  "description": "",
-  "main": "dist/index.js",
   "scripts": {
     "link-cli": "(yarn --global unlink speed-cli || true) && chmod +x ./dist/index.js && yarn --global link",
     "dev": "tsup --watch",
@@ -15,15 +14,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HzDev3628/speed-cli.git"
+    "url": "https://github.com/HzDev3628/speed-cli.git"
   },
-  "keywords": [],
-  "author": "HzDev3628",
-  "license": "ISC",
-  "homepage": "https://github.com/HzDev3628/speed-cli#readme",
   "bugs": {
     "url": "https://github.com/HzDev3628/speed-cli/issues"
   },
+  "author": {
+    "name": "HzDev3628",
+    "url": "https://x.com/artem_kharchuk_"
+  },
+  "keywords": ["next", "hono", "nest", "react", "cli"],
+  "files": ["dist"],
+  "exports": "./dist/index.js",
+  "description": "",
+  "main": "dist/index.js",
   "dependencies": {
     "@clack/prompts": "^0.10.1",
     "chalk": "^5.4.1",
