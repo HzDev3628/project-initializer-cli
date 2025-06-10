@@ -24,23 +24,23 @@ pic nextjs <example-project> [flags]
 After you'll see options with beauty UI
 
 ```
-  Select your package manager:
-    - npm
-    - pnpm
-    - yarn
-    - bun
+Select your package manager:
+  - npm
+  - pnpm
+  - yarn
+  - bun
   
-  Add Turbopack ?
-    Yes / No
+Add Turbopack ?
+  Yes / No
   
-  Add Tailwind CSS ?
-    Yes / No
+Add Tailwind CSS ?
+  Yes / No
   
-  Add Shadcn UI ?
-    Yes / No (default if project without Tailwind)
+Add Shadcn UI ?
+  Yes / No (default if project without Tailwind)
 
-  What do you like use ?
-    Biome / ESlint
+What do you like use ?
+  Biome / ESlint
 ```
 Additionally, you can use `-g <repo link>` to initialize a commit and push it to the specified repository.
 
