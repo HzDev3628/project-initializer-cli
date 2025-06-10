@@ -11,7 +11,7 @@ import { RESPONSE_STATUS } from './lib/constants'
 const program = new Command()
 
 program
-  .name('speed-cli')
+  .name('pic')
   .description('Less than 30s your time, and project already for building 🚀.')
   .version('0.0.1')
 

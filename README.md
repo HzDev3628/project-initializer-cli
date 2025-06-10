@@ -1,25 +1,25 @@
-# Speed CLI ⚡️ (BETA)
+# Project Initializer CLI ⚡️ (BETA)
 
 This about **speed-up** your time for **first step in initialization project**.
-<img src="https://maroon-spare-jay-600.mypinata.cloud/ipfs/bafkreih352c6itbhbf3qyrtge74xzl4imafub4pohyuu2r3gzufpjetxcy" />
+<img src="https://maroon-spare-jay-600.mypinata.cloud/ipfs/bafkreihm4pzhpk2i5fyrjqp3l5fe7wr2bedl5bch7gakxkgblqthqyla5y" />
 
 ## How to use
 First, you need to install the CLI globally:
 
 ```
-npm install -g speed-cli
+npm install -g project-initializer-cli
 ```
 After that, you can already use it. Just run the `-h` flag to see all available commands.
 
 ```
-speed-cli -h
+pic -h
 ```
 
 ### Example with Next.js
 Use some key words, for initialization project. For example, we use nextjs key word. 
 
 ```
-speed-cli nextjs <example-project> [flags]
+pic nextjs <example-project> [flags]
 ```
 After you'll see options with beauty UI
 
@@ -48,4 +48,4 @@ Additionally, you can use `-g <repo link>` to initialize a commit and push it to
 TODO
 
 ## License
-Licensed under the <a href="https://github.com/HzDev3628/speed-cli/blob/main/LICENSE">MIT License.</a>
+Licensed under the <a href="https://github.com/HzDev3628/project-initializer-cli/blob/main/LICENSE">MIT License.</a>

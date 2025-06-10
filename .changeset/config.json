@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "HzDev3628/speed-cli" }
+    { "repo": "HzDev3628/project-initializer-cli" }
   ],
   "commit": false,
   "fixed": [],

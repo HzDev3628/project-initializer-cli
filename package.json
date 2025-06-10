@@ -1,26 +1,26 @@
 {
-  "name": "speed-cli",
-  "version": "0.0.0",
+  "name": "project-initializer-cli",
+  "version": "0.1.0",
   "license": "MIT",
   "type": "module",
   "bin": {
-    "speed-cli": "./dist/index.js"
+    "pic": "./dist/index.js"
   },
   "scripts": {
-    "link-cli": "(yarn --global unlink speed-cli || true) && chmod +x ./dist/index.js && yarn --global link",
+    "link-cli": "(yarn --global unlink pic || true) && chmod +x ./dist/index.js && yarn --global link",
     "dev": "tsup --watch",
     "build": "tsup",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/HzDev3628/speed-cli.git"
+    "url": "https://github.com/HzDev3628/project-initializer-cli.git"
   },
   "bugs": {
-    "url": "https://github.com/HzDev3628/speed-cli/issues"
+    "url": "https://github.com/HzDev3628/project-initializer-cli/issues"
   },
   "author": {
-    "name": "HzDev3628",
+    "name": "artem_hzdev",
     "url": "https://x.com/artem_kharchuk_"
   },
   "keywords": ["next", "hono", "nest", "react", "cli"],
