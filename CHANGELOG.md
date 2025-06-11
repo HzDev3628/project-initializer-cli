@@ -1,5 +1,11 @@
 # project-initializer-cli
 
+## 0.1.3
+
+### Patch Changes
+
+- [`bf7428a`](https://github.com/HzDev3628/project-initializer-cli/commit/bf7428a48e794f62c31d195ace47388231f8cc1f) Thanks [@HzDev3628](https://github.com/HzDev3628)! - Show a message if the `package manager not found` and update the shadcn install message.
+
 ## 0.1.2
 
 ### Patch Changes
