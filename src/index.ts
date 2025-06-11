@@ -44,6 +44,9 @@ program
   .option('--eslint', 'Use Eslint to lint your code.')
   .action(async (name, options) => {
     const res = await createNextJsApp({ name, options })
+    if (res.packageManagerNotFound) {
+      log('Package manager not found!')
+    }
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
     return process.exit(0)
   })
@@ -65,6 +68,9 @@ program
   .option('--bun', 'Package manager BUN.')
   .action(async (name, options) => {
     const res = await createReactApp({ name, options })
+    if (res.packageManagerNotFound) {
+      log('Package manager not found!')
+    }
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
     return process.exit(0)
   })
@@ -115,6 +121,9 @@ program
   )
   .action(async (name, options) => {
     const res = await createNestJsApp({ name, options })
+    if (res.packageManagerNotFound) {
+      log('Package manager not found!')
+    }
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
     return process.exit(0)
   })

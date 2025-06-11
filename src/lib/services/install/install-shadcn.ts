@@ -6,8 +6,8 @@ import { promises as fs } from 'node:fs'
 type Props = PropsPackageManagersType & { projectPath: string }
 
 const MESSAGES = {
-  text: 'Connecting Shadcn UI...',
-  successText: 'Shadcn UI connected successfully.',
+  text: 'Adding Shadcn UI to the project...',
+  successText: 'Successfully added Shadcn UI to the project.',
 }
 
 export const installShadcn = async () => {
