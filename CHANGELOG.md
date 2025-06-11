@@ -1,5 +1,11 @@
 # project-initializer-cli
 
+## 0.1.2
+
+### Patch Changes
+
+- [`2fb65a1`](https://github.com/HzDev3628/project-initializer-cli/commit/2fb65a1dee7778cd7c07ca99785bb742e772e76a) Thanks [@HzDev3628](https://github.com/HzDev3628)! - handling error "package not found"
+
 ## 0.1.1
 
 ### Patch Changes
