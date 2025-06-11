@@ -1,6 +1,6 @@
 {
   "name": "project-initializer-cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -26,8 +26,16 @@
     "name": "artem_hzdev",
     "url": "https://x.com/artem_kharchuk_"
   },
-  "keywords": ["next", "hono", "nest", "react", "cli"],
-  "files": ["dist"],
+  "keywords": [
+    "next",
+    "hono",
+    "nest",
+    "react",
+    "cli"
+  ],
+  "files": [
+    "dist"
+  ],
   "exports": "./dist/index.js",
   "description": "",
   "main": "dist/index.js",
