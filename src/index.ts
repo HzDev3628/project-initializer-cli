@@ -7,6 +7,7 @@ import { createHono } from './commands/create-hono.js'
 import { init } from './commands/init.js'
 import { createNestJsApp } from './commands/create-nestjs-app.js'
 import { RESPONSE_STATUS } from './lib/constants'
+import { log } from './lib/utils.js'
 
 const program = new Command()
 
@@ -88,6 +89,9 @@ program
   )
   .action(async (name, options) => {
     const res = await createHono({ name, options })
+    if (res.packageManagerNotFound) {
+      log('Package manager not found!')
+    }
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
     return process.exit(0)
   })
