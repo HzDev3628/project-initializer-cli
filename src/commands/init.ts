@@ -5,6 +5,7 @@ import { createReactApp } from './create-react-app'
 import type { ResponseStatus } from '@/lib/types'
 import { createNestJsApp } from './create-nestjs-app'
 import { RESPONSE_STATUS } from '@/lib/constants'
+import { log } from '@/lib/utils'
 
 export const init = async () => {
   const projectName = await text({ message: 'Project name:' })
@@ -36,6 +37,10 @@ export const init = async () => {
   }
 
   const resInitFn = await initFn(projectName)
+
+  if (resInitFn.packageManagerNotFound) {
+    log('Package manager not found!')
+  }
 
   if (resInitFn.status === RESPONSE_STATUS.SUCCESS) return process.exit(1)
   return process.exit(0)

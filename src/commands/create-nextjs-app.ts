@@ -34,6 +34,12 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   const packageManager = await getPackageManager(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
 
+  try {
+    await execa(packageManager, ['-v'])
+  } catch {
+    return { status: RESPONSE_STATUS.CANCELED, packageManagerNotFound: true }
+  }
+
   const turbopack =
     props.options.turbopack ?? (await confirm({ message: 'Add Turbopack ?' }))
   if (isCancel(turbopack)) return { status: RESPONSE_STATUS.CANCELED }

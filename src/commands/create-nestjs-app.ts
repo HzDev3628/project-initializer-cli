@@ -32,6 +32,12 @@ export const createNestJsApp = async (
   const packageManager = await getPackageManagerForNestJs(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
 
+  try {
+    await execa(packageManager, ['-v'])
+  } catch {
+    return { status: RESPONSE_STATUS.CANCELED, packageManagerNotFound: true }
+  }
+
   const codeStyleTools = await getCodeStyleTools({
     eslintPrettier: props.options.eslintPrettier,
     biome: props.options.biome,

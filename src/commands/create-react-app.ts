@@ -37,10 +37,14 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
 
   if (!props.options) return { status: RESPONSE_STATUS.CANCELED }
 
-  const packageManager = await getPackageManager({
-    ...props.options,
-  })
+  const packageManager = await getPackageManager(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
+
+  try {
+    await execa(packageManager, ['-v'])
+  } catch {
+    return { status: RESPONSE_STATUS.CANCELED, packageManagerNotFound: true }
+  }
 
   const tailwind = await tailwindConfirm({ tailwind: props.options.tailwind })
   if (tailwind === RESPONSE_STATUS.CANCELED)
