@@ -1,7 +1,7 @@
 # Project Initializer CLI ⚡️ (BETA)
 
 This about **speed-up** your time for **first step in initialization project**.
-<img src="https://maroon-spare-jay-600.mypinata.cloud/ipfs/bafkreihm4pzhpk2i5fyrjqp3l5fe7wr2bedl5bch7gakxkgblqthqyla5y" />
+<img src="https://maroon-spare-jay-600.mypinata.cloud/ipfs/bafkreigtw7ftlg66alsortigf37wytcm7ackow3o7zllo3vwihc2uypmt4" />
 
 ## How to use
 First, you need to install the CLI globally:
