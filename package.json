@@ -6,6 +6,9 @@
   "bin": {
     "pic": "./dist/index.js"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "link-cli": "(yarn --global unlink pic || true) && chmod +x ./dist/index.js && yarn --global link",
     "dev": "tsup --watch",
@@ -23,16 +26,8 @@
     "name": "artem_hzdev",
     "url": "https://x.com/artem_kharchuk_"
   },
-  "keywords": [
-    "next",
-    "hono",
-    "nest",
-    "react",
-    "cli"
-  ],
-  "files": [
-    "dist"
-  ],
+  "keywords": ["next", "hono", "nest", "react", "cli"],
+  "files": ["dist"],
   "exports": "./dist/index.js",
   "description": "",
   "main": "dist/index.js",
