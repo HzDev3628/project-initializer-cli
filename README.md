@@ -16,6 +16,8 @@ pic -h
 ```
 
 ### Example with Next.js
+Before initialization the project, **select directory** where you want place to project it.
+
 Use some key words, for initialization project. For example, we use nextjs key word. 
 
 ```
@@ -45,7 +47,7 @@ What do you like use ?
 Additionally, you can use `-g <repo link>` to initialize a commit and push it to the specified repository.
 
 ## Contributing
-TODO
+Please, before your contribution, read the <a href="https://github.com/HzDev3628/project-initializer-cli/blob/main/CONTRIBUTING">contributing guide</a>.
 
 ## License
 Licensed under the <a href="https://github.com/HzDev3628/project-initializer-cli/blob/main/LICENSE">MIT License.</a>
