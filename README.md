@@ -47,7 +47,7 @@ What do you like use ?
 Additionally, you can use `-g <repo link>` to initialize a commit and push it to the specified repository.
 
 ## Contributing
-Please, before your contribution, read the <a href="https://github.com/HzDev3628/project-initializer-cli/blob/main/CONTRIBUTING">contributing guide</a>.
+Please, before your contribution, read the <a href="https://github.com/HzDev3628/project-initializer-cli/blob/main/CONTRIBUTING.md">contributing guide</a>.
 
 ## License
 Licensed under the <a href="https://github.com/HzDev3628/project-initializer-cli/blob/main/LICENSE">MIT License.</a>

@@ -7,7 +7,11 @@ import { createNestJsApp } from './create-nestjs-app'
 import { RESPONSE_STATUS } from '@/lib/constants'
 import { log } from '@/lib/utils'
 
-export const init = async () => {
+interface Props {
+  options: Partial<{ cwd: string }>
+}
+
+export const init = async (props: Props) => {
   const projectName = await text({ message: 'Project name:' })
   if (isCancel(projectName)) return process.exit(1)
 
@@ -20,19 +24,27 @@ export const init = async () => {
       { value: 'nest', label: 'Nest' },
     ],
   })
-
   if (isCancel(projectType)) return process.exit(1)
 
   async function initFn(name: string): Promise<ResponseStatus> {
     switch (projectType) {
       case 'hono':
-        return await createHono({ name, options: {} })
+        return await createHono({ name, options: { cwd: props.options.cwd } })
       case 'react':
-        return await createReactApp({ name, options: {} })
+        return await createReactApp({
+          name,
+          options: { cwd: props.options.cwd },
+        })
       case 'nest':
-        return await createNestJsApp({ name, options: {} })
+        return await createNestJsApp({
+          name,
+          options: { cwd: props.options.cwd },
+        })
       default: // Next.js
-        return await createNextJsApp({ name, options: {} })
+        return await createNextJsApp({
+          name,
+          options: { cwd: props.options.cwd },
+        })
     }
   }
 
@@ -42,6 +54,6 @@ export const init = async () => {
     log('Package manager not found!')
   }
 
-  if (resInitFn.status === RESPONSE_STATUS.SUCCESS) return process.exit(1)
+  if (resInitFn.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
   return process.exit(0)
 }

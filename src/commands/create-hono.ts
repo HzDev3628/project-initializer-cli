@@ -1,4 +1,3 @@
-import path from 'node:path'
 import { chdir } from 'node:process'
 import { isCancel } from '@clack/prompts'
 import { oraPromise } from '@/lib/ora-promise'
@@ -10,6 +9,8 @@ import {
   installEslintPrettier,
   installBiome,
   pushToRepo,
+  getDirectory,
+  upOneDirectory,
 } from '@/lib/services'
 import { log } from '@/lib/utils'
 import type {
@@ -25,7 +26,10 @@ interface Props {
 }
 
 export const createHono = async (props: Props): Promise<ResponseStatus> => {
-  const projectPath = path.resolve(process.cwd(), props.name)
+  const { projectPath, workDirectory } = getDirectory({
+    projectName: props.name,
+    cwd: props.options.cwd,
+  })
 
   const packageManager = await getPackageManager(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
@@ -44,6 +48,7 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
   if (codeStyleTools.status) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
+    if (workDirectory) chdir(workDirectory)
     await oraPromise({
       text: 'Initializing Hono.js project...',
       successText: 'Project initialized successfully.',
@@ -101,6 +106,7 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
   }
 
   log(chalk.green(MESSAGES_AFTER_INSTALL.HONO))
+  chdir(upOneDirectory())
 
   return { status: RESPONSE_STATUS.SUCCESS }
 }

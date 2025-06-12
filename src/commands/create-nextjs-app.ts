@@ -1,6 +1,5 @@
 import chalk from 'chalk'
 import { chdir } from 'node:process'
-import path from 'node:path'
 import { execa } from 'execa'
 import { oraPromise } from '@/lib/ora-promise'
 import { log } from '@/lib/utils'
@@ -12,6 +11,8 @@ import {
   tailwindConfirm,
   getCodeStyleTools,
   installShadcn,
+  getDirectory,
+  upOneDirectory,
 } from '@/lib/services'
 import type { BasicProps } from '@/lib/types/basic-props'
 import type { PackageManagersType, ResponseStatus } from '@/lib/types'
@@ -29,7 +30,10 @@ interface Props {
 }
 
 export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
-  const projectPath = path.resolve(process.cwd(), props.name)
+  const { projectPath, workDirectory } = getDirectory({
+    projectName: props.name,
+    cwd: props.options.cwd,
+  })
 
   const packageManager = await getPackageManager(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
@@ -64,13 +68,13 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   if (codeStyleTool.status) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
+    if (workDirectory) chdir(workDirectory)
     await oraPromise({
       text: 'Initializing Next.js project...',
       successText: 'Project initialized successfully.',
       fn: async () => {
         await execa('npx', [
           'create-next-app@latest',
-          projectPath,
           props.name,
           '--ts',
           '--import-alias',
@@ -111,6 +115,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   }
 
   log(chalk.green(MESSAGES_AFTER_INSTALL.NEXT))
+  chdir(upOneDirectory())
 
   return { status: RESPONSE_STATUS.SUCCESS }
 }

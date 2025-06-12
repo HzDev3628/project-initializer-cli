@@ -11,6 +11,8 @@ import {
   tailwindConfirm,
   getPackageManager,
   installShadcnVite,
+  getDirectory,
+  upOneDirectory,
 } from '@/lib/services'
 import { log, uninstallCommand } from '@/lib/utils'
 import type {
@@ -33,7 +35,10 @@ interface Props {
 }
 
 export async function createReactApp(props: Props): Promise<ResponseStatus> {
-  const projectPath = path.resolve(process.cwd(), props.name)
+  const { projectPath, workDirectory } = getDirectory({
+    projectName: props.name,
+    cwd: props.options.cwd,
+  })
 
   if (!props.options) return { status: RESPONSE_STATUS.CANCELED }
 
@@ -64,9 +69,11 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
     biome: props.options.biome,
     withPrettier: false,
   })
+
   if (CODE_STYLE_TOOL.status) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
+    if (workDirectory) chdir(workDirectory)
     await oraPromise({
       text: 'Initializing React.js project with Vite...',
       successText: 'Project initialized successfully.',
@@ -113,7 +120,6 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
       return { status: RESPONSE_STATUS.CANCELED }
     }
   }
-
   if (CODE_STYLE_TOOL.biome) {
     await execa(packageManager, [
       uninstallCommand({ packageManager }),
@@ -138,6 +144,7 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
   }
 
   log(chalk.green(MESSAGES_AFTER_INSTALL.REACT))
+  chdir(upOneDirectory())
 
   return { status: RESPONSE_STATUS.SUCCESS }
 }

@@ -23,8 +23,12 @@ program
 
 program
   .command('init')
+  .option(
+    '-c, --cwd <path>',
+    'The working directory, default to the current directory.',
+  )
   .description('Just create your future.')
-  .action(async () => await init())
+  .action(async (options) => await init({ options }))
 
 program
   .command('nextjs <name>')
@@ -40,6 +44,10 @@ program
   .option('--pnpm', 'Package manager PNPM.')
   .option('--yarn', 'Package manager YARN.')
   .option('--bun', 'Package manager BUN.')
+  .option(
+    '-c, --cwd <path>',
+    'The working directory, default to the current directory.',
+  )
   .option('--biome', 'Use Biome to format and lint your code.')
   .option('--eslint', 'Use Eslint to lint your code.')
   .action(async (name, options) => {
@@ -62,6 +70,10 @@ program
   .option('-s, --shadcn', 'Connect the Shadcn UI library.')
   .option('--biome', 'Use Biome to format and lint your code.')
   .option('--eslint', 'Use ESlint to lint your code.')
+  .option(
+    '-c, --cwd <path>',
+    'The working directory, default to the current directory.',
+  )
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
   .option('--yarn', 'Package manager YARN.')
@@ -93,6 +105,10 @@ program
     '--eslint-prettier',
     'Use ESlint to lint your code and use Prettier to format your code.',
   )
+  .option(
+    '-c, --cwd <path>',
+    'The working directory, default to the current directory.',
+  )
   .action(async (name, options) => {
     const res = await createHono({ name, options })
     if (res.packageManagerNotFound) {
@@ -110,6 +126,10 @@ program
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
   .option('--yarn', 'Package manager YARN.')
+  .option(
+    '-c, --cwd <path>',
+    'The working directory, default to the current directory.',
+  )
   .option(
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
