@@ -1,8 +1,15 @@
 import { describe, test } from '@jest/globals'
-import { RESPONSE_STATUS, TIMEOUT } from '@/lib/constants'
+import { RESPONSE_STATUS, TEST_DIRECTORY, TIMEOUT } from '@/lib/constants'
 import { createNestJsApp } from '@/commands/create-nestjs-app'
+import { mkdir } from 'node:fs/promises'
+import path from 'node:path'
+import { chdir } from 'node:process'
 
 describe('Nest.js', () => {
+  ;(async () => {
+    await mkdir(path.resolve(process.cwd(), TEST_DIRECTORY.nest))
+  })()
+
   test(
     'NPM',
     async () => {
@@ -11,6 +18,7 @@ describe('Nest.js', () => {
         options: {
           npm: true,
           biome: true,
+          cwd: TEST_DIRECTORY.nest,
         },
       })
 
@@ -22,11 +30,13 @@ describe('Nest.js', () => {
   test(
     'PNPM',
     async () => {
+      chdir(path.resolve(process.cwd(), '..'))
       const res = await createNestJsApp({
         name: 'test-nestjs-pnpm',
         options: {
           pnpm: true,
           biome: true,
+          cwd: TEST_DIRECTORY.nest,
         },
       })
 
@@ -38,11 +48,13 @@ describe('Nest.js', () => {
   test(
     'YARN',
     async () => {
+      chdir(path.resolve(process.cwd(), '..'))
       const res = await createNestJsApp({
         name: 'test-nestjs-yarn',
         options: {
           yarn: true,
           biome: true,
+          cwd: TEST_DIRECTORY.nest,
         },
       })
 
@@ -54,11 +66,13 @@ describe('Nest.js', () => {
   test(
     'ESlint & Prettier',
     async () => {
+      chdir(path.resolve(process.cwd(), '..'))
       const res = await createNestJsApp({
         name: 'test-nestjs-eslint-prettier',
         options: {
           yarn: true,
           eslintPrettier: true,
+          cwd: TEST_DIRECTORY.nest,
         },
       })
 

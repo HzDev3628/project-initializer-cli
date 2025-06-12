@@ -3,4 +3,5 @@ export interface BasicProps {
   biome: boolean
   eslintPrettier: boolean
   eslint: boolean
+  cwd: string
 }

@@ -4,9 +4,11 @@ import path from 'node:path'
 import { execa } from 'execa'
 import {
   getCodeStyleTools,
+  getDirectory,
   getPackageManagerForNestJs,
   installBiome,
   pushToRepo,
+  upOneDirectory,
 } from '@/lib/services'
 import { isCancel } from '@clack/prompts'
 import type {
@@ -14,8 +16,8 @@ import type {
   PackageManagersType,
   ResponseStatus,
 } from '@/lib/types'
-import { RESPONSE_STATUS } from '@/lib/constants'
-import { oraPromise } from 'ora'
+import { MESSAGES_AFTER_INSTALL, RESPONSE_STATUS } from '@/lib/constants'
+import { oraPromise } from '@/lib/ora-promise'
 import { log, uninstallCommand } from '@/lib/utils'
 import chalk from 'chalk'
 
@@ -27,10 +29,19 @@ interface Props {
 export const createNestJsApp = async (
   props: Props,
 ): Promise<ResponseStatus> => {
-  const projectPath = path.resolve(process.cwd(), props.name)
+  const { projectPath, workDirectory } = getDirectory({
+    projectName: props.name,
+    cwd: props.options.cwd,
+  })
 
   const packageManager = await getPackageManagerForNestJs(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
+
+  try {
+    await execa(packageManager, ['-v'])
+  } catch {
+    return { status: RESPONSE_STATUS.CANCELED, packageManagerNotFound: true }
+  }
 
   const codeStyleTools = await getCodeStyleTools({
     eslintPrettier: props.options.eslintPrettier,
@@ -40,8 +51,11 @@ export const createNestJsApp = async (
   if (codeStyleTools.status) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
-    await oraPromise(
-      async () => {
+    if (workDirectory) chdir(workDirectory)
+    await oraPromise({
+      text: 'Installing Nest.js and initializing project...',
+      successText: 'Project initialized successfully with Nest CLI.',
+      fn: async () => {
         await execa('npm', ['i', '-g', '@nestjs/cli'])
         await execa('nest', [
           'new',
@@ -51,12 +65,7 @@ export const createNestJsApp = async (
           packageManager,
         ])
       },
-      {
-        text: 'Installing Nest.js and initializing project...',
-        successText: 'Project initialized successfully with Nest CLI.',
-        failText: 'Something went wrong. Please, try again.',
-      },
-    )
+    })
   } catch {
     return { status: RESPONSE_STATUS.CANCELED }
   }
@@ -89,6 +98,8 @@ export const createNestJsApp = async (
     await pushToRepo({ repoUrl: props.options.git })
   }
 
-  log(chalk.green('Successful creation Nest.js project.'))
+  log(chalk.green(MESSAGES_AFTER_INSTALL.NEST))
+  chdir(upOneDirectory())
+
   return { status: RESPONSE_STATUS.SUCCESS }
 }

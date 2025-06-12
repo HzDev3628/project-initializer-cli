@@ -1,9 +1,16 @@
 import { test, expect, describe } from '@jest/globals'
 import { createHono } from '@/commands/create-hono'
-import { RESPONSE_STATUS } from '@/lib/constants'
+import { RESPONSE_STATUS, TEST_DIRECTORY } from '@/lib/constants'
 import { TIMEOUT } from '@/lib/constants'
+import path from 'node:path'
+import { mkdir } from 'node:fs/promises'
+import { chdir } from 'node:process'
 
 describe('Hono.js', () => {
+  ;(async () => {
+    await mkdir(path.resolve(process.cwd(), TEST_DIRECTORY.hono))
+  })()
+
   test(
     'NPM',
     async () => {
@@ -12,6 +19,7 @@ describe('Hono.js', () => {
         options: {
           npm: true,
           biome: true,
+          cwd: TEST_DIRECTORY.hono,
         },
       })
 
@@ -23,11 +31,13 @@ describe('Hono.js', () => {
   test(
     'PNPM',
     async () => {
+      chdir(path.resolve(process.cwd(), '..'))
       const res = await createHono({
         name: 'test-hono-pnpm',
         options: {
           pnpm: true,
           biome: true,
+          cwd: TEST_DIRECTORY.hono,
         },
       })
 
@@ -39,11 +49,13 @@ describe('Hono.js', () => {
   test(
     'BUN',
     async () => {
+      chdir(path.resolve(process.cwd(), '..'))
       const res = await createHono({
         name: 'test-hono-bun',
         options: {
           bun: true,
           biome: true,
+          cwd: TEST_DIRECTORY.hono,
         },
       })
 
@@ -55,11 +67,13 @@ describe('Hono.js', () => {
   test(
     'YARN',
     async () => {
+      chdir(path.resolve(process.cwd(), '..'))
       const res = await createHono({
         name: 'test-hono-yarn',
         options: {
           yarn: true,
           biome: true,
+          cwd: TEST_DIRECTORY.hono,
         },
       })
 
@@ -71,11 +85,13 @@ describe('Hono.js', () => {
   test(
     'With ESlint & Prettier',
     async () => {
+      chdir(path.resolve(process.cwd(), '..'))
       const res = await createHono({
         name: 'test-hono-with-eslint-prettier',
         options: {
           yarn: true,
           eslintPrettier: true,
+          cwd: TEST_DIRECTORY.hono,
         },
       })
 

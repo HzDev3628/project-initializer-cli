@@ -14,7 +14,7 @@ export const pushToRepo = async ({ repoUrl }: { repoUrl: string }) => {
       text: 'Connecting Git and pushing to repository',
       successText:
         'Successful connected and pushed to repository. Check your GitHub ✅',
-      failText: 'Something went wrong',
+      failText: (e) => e.message,
     },
   )
   return

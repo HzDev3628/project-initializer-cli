@@ -1,8 +1,15 @@
 import { createNextJsApp } from '@/commands/create-nextjs-app'
-import { RESPONSE_STATUS, TIMEOUT } from '@/lib/constants'
+import { RESPONSE_STATUS, TEST_DIRECTORY, TIMEOUT } from '@/lib/constants'
 import { describe, expect, test } from '@jest/globals'
+import { mkdir } from 'node:fs/promises'
+import path from 'node:path'
+import { chdir } from 'node:process'
 
 describe('Next.js', () => {
+  ;(async () => {
+    await mkdir(path.resolve(process.cwd(), TEST_DIRECTORY.next))
+  })()
+
   test(
     'NPM',
     async () => {
@@ -14,6 +21,7 @@ describe('Next.js', () => {
           turbopack: true,
           tailwind: true,
           shadcn: false,
+          cwd: TEST_DIRECTORY.next,
         },
       })
 
@@ -25,6 +33,7 @@ describe('Next.js', () => {
   test(
     'PNPM',
     async () => {
+      chdir(path.resolve(process.cwd(), '..'))
       const res = await createNextJsApp({
         name: 'test-next-js-pnpm',
         options: {
@@ -33,6 +42,7 @@ describe('Next.js', () => {
           turbopack: true,
           tailwind: true,
           shadcn: false,
+          cwd: TEST_DIRECTORY.next,
         },
       })
 
@@ -44,6 +54,7 @@ describe('Next.js', () => {
   test(
     'BUN',
     async () => {
+      chdir(path.resolve(process.cwd(), '..'))
       const res = await createNextJsApp({
         name: 'test-next-js-bun',
         options: {
@@ -52,6 +63,7 @@ describe('Next.js', () => {
           turbopack: true,
           tailwind: true,
           shadcn: false,
+          cwd: TEST_DIRECTORY.next,
         },
       })
 
@@ -63,6 +75,7 @@ describe('Next.js', () => {
   test(
     'yarn',
     async () => {
+      chdir(path.resolve(process.cwd(), '..'))
       const res = await createNextJsApp({
         name: 'test-next-js-yarn',
         options: {
@@ -71,6 +84,7 @@ describe('Next.js', () => {
           turbopack: true,
           tailwind: true,
           shadcn: false,
+          cwd: TEST_DIRECTORY.next,
         },
       })
 
@@ -82,6 +96,7 @@ describe('Next.js', () => {
   test(
     'NPM with ESlint without Turbopack',
     async () => {
+      chdir(path.resolve(process.cwd(), '..'))
       const res = await createNextJsApp({
         name: 'test-next-js-npm-without-biome',
         options: {
@@ -90,6 +105,7 @@ describe('Next.js', () => {
           turbopack: true,
           tailwind: true,
           shadcn: false,
+          cwd: TEST_DIRECTORY.next,
         },
       })
 
@@ -101,6 +117,7 @@ describe('Next.js', () => {
   test(
     'BUN without Tailwind',
     async () => {
+      chdir(path.resolve(process.cwd(), '..'))
       const res = await createNextJsApp({
         name: 'test-next-js-bun-without-tailwind',
         options: {
@@ -109,6 +126,7 @@ describe('Next.js', () => {
           turbopack: true,
           tailwind: false,
           shadcn: false,
+          cwd: TEST_DIRECTORY.next,
         },
       })
 

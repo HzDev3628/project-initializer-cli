@@ -1,8 +1,7 @@
 import chalk from 'chalk'
 import { chdir } from 'node:process'
-import path from 'node:path'
 import { execa } from 'execa'
-import { oraPromise } from 'ora'
+import { oraPromise } from '@/lib/ora-promise'
 import { log } from '@/lib/utils'
 import { confirm, isCancel } from '@clack/prompts'
 import {
@@ -11,10 +10,13 @@ import {
   installBiome,
   tailwindConfirm,
   getCodeStyleTools,
+  installShadcn,
+  getDirectory,
+  upOneDirectory,
 } from '@/lib/services'
 import type { BasicProps } from '@/lib/types/basic-props'
 import type { PackageManagersType, ResponseStatus } from '@/lib/types'
-import { RESPONSE_STATUS } from '@/lib/constants'
+import { MESSAGES_AFTER_INSTALL, RESPONSE_STATUS } from '@/lib/constants'
 
 interface Props {
   name: string
@@ -28,10 +30,19 @@ interface Props {
 }
 
 export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
-  const projectPath = path.resolve(process.cwd(), props.name)
+  const { projectPath, workDirectory } = getDirectory({
+    projectName: props.name,
+    cwd: props.options.cwd,
+  })
 
   const packageManager = await getPackageManager(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
+
+  try {
+    await execa(packageManager, ['-v'])
+  } catch {
+    return { status: RESPONSE_STATUS.CANCELED, packageManagerNotFound: true }
+  }
 
   const turbopack =
     props.options.turbopack ?? (await confirm({ message: 'Add Turbopack ?' }))
@@ -41,6 +52,14 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   if (tailwind === RESPONSE_STATUS.CANCELED)
     return { status: RESPONSE_STATUS.CANCELED }
 
+  const shadcn = tailwind
+    ? (props.options.shadcn ??
+      (await confirm({
+        message: 'Add Shadcn UI ?',
+      })))
+    : false
+  if (isCancel(shadcn)) return { status: RESPONSE_STATUS.CANCELED }
+
   const codeStyleTool = await getCodeStyleTools({
     eslint: props.options.eslint,
     biome: props.options.biome,
@@ -48,21 +67,14 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   })
   if (codeStyleTool.status) return { status: RESPONSE_STATUS.CANCELED }
 
-  const shadcn = tailwind
-    ? (props.options.shadcn ??
-      (await confirm({
-        message: 'Add Shadcn UI ?',
-      })))
-    : false
-
-  if (isCancel(shadcn)) return { status: RESPONSE_STATUS.CANCELED }
-
   try {
-    await oraPromise(
-      async () => {
+    if (workDirectory) chdir(workDirectory)
+    await oraPromise({
+      text: 'Initializing Next.js project...',
+      successText: 'Project initialized successfully.',
+      fn: async () => {
         await execa('npx', [
           'create-next-app@latest',
-          projectPath,
           props.name,
           '--ts',
           '--import-alias',
@@ -76,12 +88,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
           `--use-${packageManager}`,
         ])
       },
-      {
-        text: 'Initializing Next.js project...',
-        successText: 'Project initialized successfully.',
-        failText: 'Something went wrong. Please, try again.',
-      },
-    )
+    })
   } catch {
     return { status: RESPONSE_STATUS.CANCELED }
   }
@@ -96,20 +103,19 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   }
 
   if (shadcn) {
-    log(chalk.green('----- Set up Shadcn UI ✨ -----'))
-    await execa('npx', ['shadcn@latest', 'init'], { stdio: 'inherit' })
+    try {
+      await installShadcn()
+    } catch {
+      return { status: RESPONSE_STATUS.CANCELED }
+    }
   }
 
   if (props.options.git) {
     await pushToRepo({ repoUrl: props.options.git })
   }
 
-  log(
-    chalk.green(`
-      Successful installation!
-      You can found your project at the following path: ${projectPath}
-      `),
-  )
+  log(chalk.green(MESSAGES_AFTER_INSTALL.NEXT))
+  chdir(upOneDirectory())
 
   return { status: RESPONSE_STATUS.SUCCESS }
 }
