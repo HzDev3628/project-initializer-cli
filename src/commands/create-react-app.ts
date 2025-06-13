@@ -40,8 +40,6 @@ export async function createReactApp(props: Props): Promise<ResponseStatus> {
     cwd: props.options.cwd,
   })
 
-  if (!props.options) return { status: RESPONSE_STATUS.CANCELED }
-
   const packageManager = await getPackageManager(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
 
