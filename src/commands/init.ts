@@ -8,12 +8,17 @@ import { RESPONSE_STATUS } from '@/lib/constants'
 import { log } from '@/lib/utils'
 
 interface Props {
-  options: Partial<{ cwd: string }>
+  options?: Partial<{ cwd: string }>
 }
 
 export const init = async (props: Props) => {
   const projectName = await text({ message: 'Project name:' })
   if (isCancel(projectName)) return process.exit(1)
+
+  const projectCwd =
+    props.options?.cwd ??
+    ((await text({ message: 'Project directory:' })) as string)
+  if (isCancel(projectCwd)) return process.exit(1)
 
   const projectType = await select({
     message: 'Select your template',
@@ -24,26 +29,27 @@ export const init = async (props: Props) => {
       { value: 'nest', label: 'Nest' },
     ],
   })
+
   if (isCancel(projectType)) return process.exit(1)
 
   async function initFn(name: string): Promise<ResponseStatus> {
     switch (projectType) {
       case 'hono':
-        return await createHono({ name, options: { cwd: props.options.cwd } })
+        return await createHono({ name, options: { cwd: projectCwd } })
       case 'react':
         return await createReactApp({
           name,
-          options: { cwd: props.options.cwd },
+          options: { cwd: projectCwd },
         })
       case 'nest':
         return await createNestJsApp({
           name,
-          options: { cwd: props.options.cwd },
+          options: { cwd: projectCwd },
         })
       default: // Next.js
         return await createNextJsApp({
           name,
-          options: { cwd: props.options.cwd },
+          options: { cwd: projectCwd },
         })
     }
   }

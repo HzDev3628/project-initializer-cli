@@ -16,6 +16,8 @@ program
   .description('Less than 30s your time, and project already for building 🚀.')
   .version('0.1.0')
 
+program.action(async () => await init({}))
+
 program
   .command('about-author')
   .description('A little information about the author.')
