@@ -82,3 +82,5 @@ When you create commit, please to follow the convention `category: message` in y
 - `test`: changes related to testing, such as adding or modifying tests.
 
 - `chore`: any changes that do not touch business logic.
+
+Well, now you know how to contribute to this repository. Thank you for your efforts — they are priceless.
