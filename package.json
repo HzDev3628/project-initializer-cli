@@ -31,11 +31,14 @@
     "hono",
     "nest",
     "react",
-    "cli"
+    "cli",
+    "projects",
+    "scripts",
+    "speed cli",
+    "project-initializer-cli",
+    "project-initializer"
   ],
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "exports": "./dist/index.js",
   "description": "",
   "main": "dist/index.js",
