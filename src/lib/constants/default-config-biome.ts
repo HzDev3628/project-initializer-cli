@@ -1,6 +1,7 @@
 export const DEFAULT_CONFIG_BIOME = {
+  $schema: 'https://biomejs.dev/schemas/2.0.0/schema.json',
   files: {
-    ignore: ['pnpm-lock.yaml', 'tsconfig.json', 'package-lock.json'],
+    includes: ['**', '!**/pnpm-lock.yaml', '!**/package-lock.json'],
   },
   formatter: {
     enabled: true,
@@ -22,8 +23,22 @@ export const DEFAULT_CONFIG_BIOME = {
         noDelete: 'off',
       },
       style: {
+        useTemplate: 'off',
         noNonNullAssertion: 'off',
-        useShorthandArrayType: 'error',
+        noParameterAssign: 'error',
+        useAsConstAssertion: 'error',
+        useDefaultParameterLast: 'error',
+        useEnumInitializers: 'error',
+        useSelfClosingElements: 'error',
+        useSingleVarDeclarator: 'error',
+        noUnusedTemplateLiteral: 'error',
+        useNumberNamespace: 'error',
+        noInferrableTypes: 'error',
+        noUselessElse: 'error',
+        useConsistentArrayType: {
+          level: 'error',
+          options: { syntax: 'shorthand' },
+        },
       },
       suspicious: {
         noArrayIndexKey: 'off',
@@ -32,6 +47,7 @@ export const DEFAULT_CONFIG_BIOME = {
       },
       a11y: {
         noSvgWithoutTitle: 'off',
+        useMediaCaption: 'off',
       },
     },
   },

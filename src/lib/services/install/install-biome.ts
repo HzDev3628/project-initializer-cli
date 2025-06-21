@@ -17,28 +17,12 @@ export const installBiome = async (
       text: 'Installing Biome...',
       successText: 'Successfully set up Biome and config file.',
       fn: async () => {
-        props.packageManager === 'bun'
-          ? await execa('bun', ['add', '--dev', '--exact', '@biomejs/biome'])
-          : props.packageManager === 'pnpm'
-            ? await execa('pnpm', [
-                'add',
-                '--save-dev',
-                '--save-exact',
-                '@biomejs/biome',
-              ])
-            : props.packageManager === 'yarn'
-              ? await execa('yarn', [
-                  'add',
-                  '--dev',
-                  '--exact',
-                  '@biomejs/biome',
-                ])
-              : await execa('npm', [
-                  'install',
-                  '--save-dev',
-                  '--save-exact',
-                  '@biomejs/biome',
-                ])
+        await execa(props.packageManager, [
+          props.packageManager === 'npm' ? 'i' : 'add',
+          '-D',
+          '-E',
+          '@biomejs/biome',
+        ])
 
         await execa(
           props.packageManager === 'bun'
@@ -48,7 +32,16 @@ export const installBiome = async (
               : props.packageManager === 'yarn'
                 ? 'yarn'
                 : 'npx',
-          [props.packageManager === 'npm' ? '@biomejs/biome' : 'biome', 'init'],
+          props.packageManager === 'npm'
+            ? ['@biomejs/biome', 'init']
+            : [
+                props.packageManager === 'pnpm' ||
+                props.packageManager === 'yarn'
+                  ? 'exec'
+                  : '--bun',
+                'biome',
+                'init',
+              ],
         )
 
         const data = await fs.readFile(
@@ -58,8 +51,8 @@ export const installBiome = async (
         const currentConfig = JSON.parse(data)
 
         const newConfig = {
-          $schema: currentConfig.$schema,
           ...DEFAULT_CONFIG_BIOME,
+          $schema: currentConfig.$schema,
         }
 
         await fs.writeFile(
