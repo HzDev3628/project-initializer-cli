@@ -36,7 +36,13 @@
     "scripts",
     "speed cli",
     "project-initializer-cli",
-    "project-initializer"
+    "project-initializer",
+    "tailwind",
+    "shadcn",
+    "templates",
+    "typescript",
+    "css",
+    "jest"
   ],
   "files": ["dist"],
   "exports": "./dist/index.js",
