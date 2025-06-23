@@ -48,7 +48,7 @@
     "dist"
   ],
   "exports": "./dist/index.js",
-  "description": "",
+  "description": "This about speed-up your time for first step in initialization project.",
   "main": "dist/index.js",
   "dependencies": {
     "@changesets/changelog-github": "^0.5.1",

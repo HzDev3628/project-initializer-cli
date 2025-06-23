@@ -15,7 +15,7 @@ const program = new Command()
 program
   .name('pic')
   .description('Less than 30s your time, and project already for building 🚀.')
-  .version('0.1.0')
+  .version('0.2.0')
 
 program.action(async () => {
   renderTitle()
