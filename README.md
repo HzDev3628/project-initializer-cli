@@ -3,17 +3,20 @@
 This about **speed-up** your time for **first step in initialization project**.
 <img src="https://maroon-spare-jay-600.mypinata.cloud/ipfs/bafkreigtw7ftlg66alsortigf37wytcm7ackow3o7zllo3vwihc2uypmt4" />
 
+## AI support coming soon
+
 ## How to use
-First, you need to install the CLI globally:
+There are **two** options for using the CLI:
+1. You can install the CLI globally:
+    ```
+    npm install -g project-initializer-cli
+    ```
+    and use the keyword `pic` to start the script.
 
-```
-npm install -g project-initializer-cli
-```
-After that, you can already use it. Just run the `-h` flag to see all available commands.
-
-```
-pic -h
-```
+2. You can use the CLI with a package manager:
+    ```
+    npx project-initializer-cli@latest
+    ```
 
 ### Example with Next.js
 Before initialization the project, **select directory** where you want place to project it.
@@ -22,6 +25,10 @@ Use some key words, for initialization project. For example, we use nextjs key w
 
 ```
 pic nextjs <example-project> [flags]
+```
+or
+```
+npx project-initializer-cli@latest nextjs <example-project> [flags]
 ```
 After you'll see options with beauty UI
 

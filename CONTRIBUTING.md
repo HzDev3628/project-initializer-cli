@@ -50,17 +50,37 @@ pnpm install
     ```bash
     pnpm run dev
     ```
-3. Create other terminal, for testing CLI:
+3. Create other tab in terminal, for testing CLI:
     ```bash
     pnpm pic -h
     ```
 
     Also for test, create some project:
     ```bash
-    pnpm pic hono test-hono-app
+    pnpm pic hono test-hono-app -c ~/Desktop
     ```
 
 Now you can solve a problem or development a new feature.
 
+## Testing
+We use <a href="https://jestjs.io/">Jest</a> to write tests. You can run all the tests from the root directory with:
+```
+pnpm run test
+```
+
 ## Commit Convention
-TODO
+When you create commit, please to follow the convention `category: message` in your commit message. Below, you'll see all the categories you can use. 
+
+- `feat`: any changes that introduce entirely new code or add new features.
+
+- `fix`: changes that resolve bugs (ideally, reference a related issue if available).
+
+- `refactor`: changes to existing code that improve performance and overall quality.
+
+- `build`: changes related to the build process, including dependency updates or additions.
+
+- `test`: changes related to testing, such as adding or modifying tests.
+
+- `chore`: any changes that do not touch business logic.
+
+Well, now you know how to contribute to this repository. Thank you for your efforts — they are priceless.

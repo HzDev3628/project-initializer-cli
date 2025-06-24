@@ -9,13 +9,19 @@ import { createNestJsApp } from './commands/create-nestjs-app.js'
 import { RESPONSE_STATUS } from './lib/constants'
 import { monorepo } from './commands/monorepo.js'
 import { log } from './lib/utils.js'
+import { renderTitle } from './lib/render-title.js'
 
 const program = new Command()
 
 program
   .name('pic')
   .description('Less than 30s your time, and project already for building 🚀.')
-  .version('0.1.0')
+  .version('0.2.0')
+
+program.action(async () => {
+  renderTitle()
+  await init({})
+})
 
 program
   .command('about-author')
@@ -29,7 +35,10 @@ program
     'The working directory, default to the current directory.',
   )
   .description('Just create your future.')
-  .action(async (options) => await init({ options }))
+  .action(async (options) => {
+    renderTitle()
+    await init({ options })
+  })
 
 program
   .command('nextjs <name>')
@@ -52,6 +61,7 @@ program
   .option('--biome', 'Use Biome to format and lint your code.')
   .option('--eslint', 'Use Eslint to lint your code.')
   .action(async (name, options) => {
+    renderTitle()
     const res = await createNextJsApp({ name, options })
     if (res.packageManagerNotFound) {
       log('Package manager not found!')
@@ -80,6 +90,7 @@ program
   .option('--yarn', 'Package manager YARN.')
   .option('--bun', 'Package manager BUN.')
   .action(async (name, options) => {
+    renderTitle()
     const res = await createReactApp({ name, options })
     if (res.packageManagerNotFound) {
       log('Package manager not found!')
@@ -111,6 +122,7 @@ program
     'The working directory, default to the current directory.',
   )
   .action(async (name, options) => {
+    renderTitle()
     const res = await createHono({ name, options })
     if (res.packageManagerNotFound) {
       log('Package manager not found!')
@@ -141,6 +153,7 @@ program
     'Use ESlint to lint your code and use Prettier to format your code.',
   )
   .action(async (name, options) => {
+    renderTitle()
     const res = await createNestJsApp({ name, options })
     if (res.packageManagerNotFound) {
       log('Package manager not found!')

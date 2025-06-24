@@ -1,7 +1,8 @@
 import path from 'node:path'
+import { resolvePath } from '../utils'
 
 export const getDirectory = (props: { cwd?: string; projectName: string }) => {
-  const workDirectory = props.cwd ? path.resolve(props.cwd) : undefined
+  const workDirectory = props.cwd ? resolvePath(props.cwd) : undefined
 
   const projectPath = workDirectory
     ? `${workDirectory}/${props.projectName}`

@@ -1,5 +1,5 @@
-export interface CodeStyleToolsType {
-  eslintPrettier?: boolean
-  biome?: boolean
-  eslint?: boolean
-}
+export type CodeStyleToolsType = Partial<{
+  eslintPrettier: boolean
+  biome: boolean
+  eslint: boolean
+}>

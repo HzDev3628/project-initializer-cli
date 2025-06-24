@@ -73,7 +73,7 @@ describe('Next.js', () => {
   )
 
   test(
-    'yarn',
+    'YARN',
     async () => {
       chdir(path.resolve(process.cwd(), '..'))
       const res = await createNextJsApp({
