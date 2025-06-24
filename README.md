@@ -1,9 +1,9 @@
-# Project Initializer CLI ⚡️ (BETA)
+# Project Initializer CLI ⚡️ 
 
 This about **speed-up** your time for **first step in initialization project**.
 <img src="https://maroon-spare-jay-600.mypinata.cloud/ipfs/bafkreigtw7ftlg66alsortigf37wytcm7ackow3o7zllo3vwihc2uypmt4" />
 
-## AI support coming soon
+## AI & Monorepo support coming soon
 
 ## How to use
 There are **two** options for using the CLI:
