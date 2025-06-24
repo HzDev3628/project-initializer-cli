@@ -1,17 +1,23 @@
 # project-initializer-cli
 
+## 0.2.1
+
+### Patch Changes
+
+- [`085c252`](https://github.com/HzDev3628/project-initializer-cli/commit/085c2524c9ee4d939b3e42a76b212e9292710f9c) Thanks [@HzDev3628](https://github.com/HzDev3628)! - Update README
+
 ## 0.2.0
 
 ### Minor Changes
 
--  Now you can use the CLI without global installation. Just run:
-    ```
-    npx project-initializer-cli@latest
-    ```
--   Add the `-c <path>` flag to select directory where you want to initialize the project. Also you can use a globally alias like `~/...`.
--   I have written the <a href="https://github.com/HzDev3628/project-initializer-cli/blob/main/CONTRIBUTING.md">CONTRIBUTION</a> documentation.
--   Add a title before start the commands.
--   Update <a href="https://biomejs.dev">Biome</a> config.
+- Now you can use the CLI without global installation. Just run:
+  ```
+  npx project-initializer-cli@latest
+  ```
+- Add the `-c <path>` flag to select directory where you want to initialize the project. Also you can use a globally alias like `~/...`.
+- I have written the <a href="https://github.com/HzDev3628/project-initializer-cli/blob/main/CONTRIBUTING.md">CONTRIBUTION</a> documentation.
+- Add a title before start the commands.
+- Update <a href="https://biomejs.dev">Biome</a> config.
 
 ## 0.1.3
 
