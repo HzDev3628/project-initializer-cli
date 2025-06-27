@@ -3,6 +3,13 @@ export const DEFAULT_CONFIG_BIOME = {
   files: {
     includes: ['**', '!**/pnpm-lock.yaml', '!**/package-lock.json'],
   },
+  assist: {
+    actions: {
+      source: {
+        organizeImports: 'off',
+      },
+    },
+  },
   formatter: {
     enabled: true,
     formatWithErrors: false,
