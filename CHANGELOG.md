@@ -1,5 +1,22 @@
 # project-initializer-cli
 
+## 0.2.2
+
+### Patch Changes
+
+- [`661a6e2`](https://github.com/HzDev3628/project-initializer-cli/commit/661a6e219380021ebde80765afeebf592daa1476) Thanks [@HzDev3628](https://github.com/HzDev3628)! - Update biome config
+  ```
+  {
+    assist: {
+      actions: {
+        source: {
+          organizeImports: 'off',
+        },
+      },
+    },
+  }
+  ```
+
 ## 0.2.1
 
 ### Patch Changes
