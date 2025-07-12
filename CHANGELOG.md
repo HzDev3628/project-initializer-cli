@@ -1,5 +1,11 @@
 # project-initializer-cli
 
+## 0.3.1
+
+### Patch Changes
+
+- [`cfa78b0`](https://github.com/HzDev3628/project-initializer-cli/commit/cfa78b07ecba5f32b2ce9aec7fafbca6036d4ee3) Thanks [@HzDev3628](https://github.com/HzDev3628)! - Update keywords in package.json
+
 ## 0.3.0
 
 ### Minor Changes
