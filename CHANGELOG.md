@@ -1,5 +1,11 @@
 # project-initializer-cli
 
+## 0.3.0
+
+### Minor Changes
+
+- [`b274eb5`](https://github.com/HzDev3628/project-initializer-cli/commit/b274eb500359c07f63dd83f3eeb257463c9c632a) Thanks [@HzDev3628](https://github.com/HzDev3628)! - Add Vue.js command.
+
 ## 0.2.2
 
 ### Patch Changes
