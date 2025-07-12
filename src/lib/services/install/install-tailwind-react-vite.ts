@@ -37,7 +37,7 @@ export async function installTailwindReactVite(
 
       // @TODO: write template.
       const updatedAppPage = `export default function App() {
-return <div className="text-6xl font-bold">SPEED CLI</div>
+return <div className="text-6xl font-bold">Initializer Project CLI</div>
   }`
 
       await fs.writeFile(

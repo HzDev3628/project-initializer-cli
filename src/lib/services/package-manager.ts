@@ -39,3 +39,22 @@ export async function getPackageManagerForNestJs(
             ],
           })
 }
+
+export async function getPackageManagerForVueJs(
+  props: Omit<PackageManagersType, 'yarn'>,
+) {
+  return props.pnpm
+    ? 'pnpm'
+    : props.bun
+      ? 'bun'
+      : props.npm
+        ? 'npm'
+        : await select({
+            message: 'Select your package manager:',
+            options: [
+              { value: 'npm', label: 'npm' },
+              { value: 'bun', label: 'bun' },
+              { value: 'pnpm', label: 'pnpm' },
+            ],
+          })
+}

@@ -167,10 +167,11 @@ program
   .description('Create a Vue app with my own template. NPM is used by default.')
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
-  .option('--yarn', 'Package manager YARN.')
+  // .option('--yarn', 'Package manager YARN.')
   .option('--bun', 'Package manager BUN.')
   .option('--jsx', 'Add JSX support.')
   .option('--vue-router', 'Add Vue router.')
+  .option('--tailwind', 'Add Tailwind CSS.')
   .option(
     '-c, --cwd <path>',
     'The working directory, default to the current directory.',
@@ -178,12 +179,6 @@ program
   .option(
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
-  )
-  .option('--biome', 'Use Biome to format and lint your code.')
-  .option('--eslint', 'Use ESlint to lint your code.')
-  .option(
-    '--eslint-prettier',
-    'Use ESlint to lint your code and use Prettier to format your code.',
   )
   .action(async (name, options) => {
     renderTitle()
