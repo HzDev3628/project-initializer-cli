@@ -1,6 +1,6 @@
 {
   "name": "project-initializer-cli",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -46,7 +46,9 @@
     "css",
     "jest"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "exports": "./dist/index.js",
   "description": "This about speed-up your time for first step in initialization project.",
   "main": "dist/index.js",
