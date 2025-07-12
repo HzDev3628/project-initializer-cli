@@ -6,6 +6,7 @@ import type { ResponseStatus } from '@/lib/types'
 import { createNestJsApp } from './create-nestjs-app'
 import { RESPONSE_STATUS } from '@/lib/constants'
 import { log } from '@/lib/utils'
+import { createVueJs } from './create-vuejs'
 
 interface Props {
   options?: Partial<{ cwd: string }>
@@ -25,6 +26,7 @@ export const init = async (props: Props) => {
     options: [
       { value: 'next', label: 'Next' },
       { value: 'react', label: 'React' },
+      { value: 'vue', label: 'Vue' },
       { value: 'hono', label: 'Hono' },
       { value: 'nest', label: 'Nest' },
     ],
@@ -46,6 +48,8 @@ export const init = async (props: Props) => {
           name,
           options: { cwd: projectCwd },
         })
+      case 'vue':
+        return await createVueJs({ name, options: { cwd: projectCwd } })
       default: // Next.js
         return await createNextJsApp({
           name,

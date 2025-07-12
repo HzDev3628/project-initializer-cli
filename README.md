@@ -1,7 +1,7 @@
 # Project Initializer CLI ⚡️ 
 
 This about **speed-up** your time for **first step in initialization project**.
-<img src="https://maroon-spare-jay-600.mypinata.cloud/ipfs/bafkreigtw7ftlg66alsortigf37wytcm7ackow3o7zllo3vwihc2uypmt4" />
+<img src="https://maroon-spare-jay-600.mypinata.cloud/ipfs/bafkreiev6vsi5g5yqstlrq3srzpqs3kfoqvbcx75c3oxhw5fp5ilpv4rqu" />
 
 ## AI & Monorepo support coming soon
 

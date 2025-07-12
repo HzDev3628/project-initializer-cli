@@ -3,4 +3,5 @@ export const TEST_DIRECTORY = {
   nest: './tests-nest',
   react: './tests-react',
   next: './tests-next',
+  vue: './tests-vue',
 }

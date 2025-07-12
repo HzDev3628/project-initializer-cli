@@ -2,6 +2,7 @@ node_modules
 dist
 
 tests-hono
+tests-vue
 tests-nest
 tests-next
 tests-react
