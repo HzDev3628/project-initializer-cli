@@ -31,6 +31,8 @@
     "hono",
     "nest",
     "react",
+    "vue",
+    "vue js",
     "cli",
     "projects",
     "scripts",
@@ -44,9 +46,7 @@
     "css",
     "jest"
   ],
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "exports": "./dist/index.js",
   "description": "This about speed-up your time for first step in initialization project.",
   "main": "dist/index.js",
