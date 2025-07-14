@@ -1,5 +1,11 @@
 # project-initializer-cli
 
+## 0.3.2
+
+### Patch Changes
+
+- [`c1db698`](https://github.com/HzDev3628/project-initializer-cli/commit/c1db6986fbcf5da095a691f9f1703ff0f60e34f6) Thanks [@HzDev3628](https://github.com/HzDev3628)! - Update descriptions and add success log for Vue.js
+
 ## 0.3.1
 
 ### Patch Changes
