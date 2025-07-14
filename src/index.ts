@@ -163,7 +163,6 @@ program
   .description('Create a Vue app with my own template.')
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
-  // .option('--yarn', 'Package manager YARN.')
   .option('--bun', 'Package manager BUN.')
   .option('--jsx', 'Add JSX support.')
   .option('--vue-router', 'Add Vue router.')

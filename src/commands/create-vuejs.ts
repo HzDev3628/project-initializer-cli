@@ -1,4 +1,4 @@
-import { RESPONSE_STATUS } from '@/lib/constants'
+import { MESSAGES_AFTER_INSTALL, RESPONSE_STATUS } from '@/lib/constants'
 import { oraPromise } from '@/lib/ora-promise'
 import {
   getDirectory,
@@ -12,7 +12,9 @@ import type {
   PackageManagersType,
   ResponseStatus,
 } from '@/lib/types'
+import { log } from '@/lib/utils'
 import { confirm, isCancel } from '@clack/prompts'
+import chalk from 'chalk'
 import { execa } from 'execa'
 import { chdir } from 'node:process'
 
@@ -86,5 +88,7 @@ export const createVueJs = async (props: Props): Promise<ResponseStatus> => {
   }
 
   chdir(upOneDirectory())
+  log(chalk.green(MESSAGES_AFTER_INSTALL.VUE))
+
   return { status: RESPONSE_STATUS.SUCCESS }
 }

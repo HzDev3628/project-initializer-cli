@@ -4,4 +4,5 @@ export const MESSAGES_AFTER_INSTALL = {
   NEXT: 'Successful initialized Next.js project. Ecosystem with Vercel ✨',
   REACT:
     'Successful installation React.js project with Vite. Reactive application ⚛️',
+  VUE: 'Successful initialized Vue.js project. Reactive power, Vue simplicity 🧩',
 } as const
