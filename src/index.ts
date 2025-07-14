@@ -101,9 +101,7 @@ program
 
 program
   .command('hono <name>')
-  .description(
-    'Create a Hono app with my own template. NPM is used by default.',
-  )
+  .description('Create a Hono app with my own template.')
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
   .option('--yarn', 'Package manager YARN.')
@@ -133,9 +131,7 @@ program
 
 program
   .command('nestjs <name>')
-  .description(
-    'Create a Hono app with my own template. NPM is used by default.',
-  )
+  .description('Create a Hono app with my own template.')
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
   .option('--yarn', 'Package manager YARN.')
@@ -164,7 +160,7 @@ program
 
 program
   .command('vue <name>')
-  .description('Create a Vue app with my own template. NPM is used by default.')
+  .description('Create a Vue app with my own template.')
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
   // .option('--yarn', 'Package manager YARN.')
