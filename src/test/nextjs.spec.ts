@@ -1,4 +1,4 @@
-import { createNextJsApp } from '@/commands/create-nextjs-app'
+import { createNextJsApp } from '@/commands/create-nextjs'
 import { RESPONSE_STATUS, TEST_DIRECTORY, TIMEOUT } from '@/lib/constants'
 import { describe, expect, test } from '@jest/globals'
 import { mkdir } from 'node:fs/promises'

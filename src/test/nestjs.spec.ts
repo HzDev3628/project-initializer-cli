@@ -1,6 +1,6 @@
 import { describe, test } from '@jest/globals'
 import { RESPONSE_STATUS, TEST_DIRECTORY, TIMEOUT } from '@/lib/constants'
-import { createNestJsApp } from '@/commands/create-nestjs-app'
+import { createNestJsApp } from '@/commands/create-nestjs'
 import { mkdir } from 'node:fs/promises'
 import path from 'node:path'
 import { chdir } from 'node:process'

@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import { Command } from 'commander'
 import { aboutAuthor } from './commands/about.js'
-import { createNextJsApp } from './commands/create-nextjs-app.js'
-import { createReactApp } from './commands/create-react-app.js'
+import { createNextJsApp } from './commands/create-nextjs.js'
+import { createReactApp } from './commands/create-react.js'
 import { createHono } from './commands/create-hono.js'
 import { init } from './commands/init.js'
-import { createNestJsApp } from './commands/create-nestjs-app.js'
+import { createNestJsApp } from './commands/create-nestjs.js'
 import { RESPONSE_STATUS } from './lib/constants'
 import { log } from './lib/utils.js'
 import { renderTitle } from './lib/render-title.js'
@@ -39,6 +39,8 @@ program
     renderTitle()
     await init({ options })
   })
+
+//@TODO: remove ' with my own template'.
 
 program
   .command('nextjs <name>')
@@ -184,5 +186,23 @@ program
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
     return process.exit(0)
   })
+
+program
+  .command('nuxt <name>')
+  .description('Create a Nuxt app.')
+  .option('--npm', 'Package manager NPM.')
+  .option('--pnpm', 'Package manager PNPM.')
+  .option('--yarn', 'Package manager YARN.')
+  .option('--bun', 'Package manager BUN.')
+  // .option('--tailwind', 'Add Tailwind CSS.')
+  .option('--nuxt-ui', 'Connect the Nuxt UI library.')
+  .option(
+    '-c, --cwd <path>',
+    'The working directory, default to the current directory.',
+  )
+  .option(
+    '-g, --git <repository>',
+    'Connect and commit to the GitHub repository.',
+  )
 
 program.parse(process.argv)
