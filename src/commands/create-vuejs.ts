@@ -4,6 +4,7 @@ import {
   getDirectory,
   getPackageManagerForVueJs,
   installTailwindVue,
+  pushToRepo,
   tailwindConfirm,
   upOneDirectory,
 } from '@/lib/services'
@@ -85,6 +86,10 @@ export const createVueJs = async (props: Props): Promise<ResponseStatus> => {
 
   if (tailwind) {
     await installTailwindVue({ packageManager, projectPath })
+  }
+
+  if (props.options.git) {
+    await pushToRepo({ repoUrl: props.options.git })
   }
 
   chdir(upOneDirectory())
