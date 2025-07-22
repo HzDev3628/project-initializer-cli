@@ -1,5 +1,11 @@
 # project-initializer-cli
 
+## 0.3.3
+
+### Patch Changes
+
+- [`677f204`](https://github.com/HzDev3628/project-initializer-cli/commit/677f2045a178690cb90281e815d7a55a40d00ec5) Thanks [@HzDev3628](https://github.com/HzDev3628)! - Add git push function for Vue.js
+
 ## 0.3.2
 
 ### Patch Changes
