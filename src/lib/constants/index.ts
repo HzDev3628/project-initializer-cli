@@ -1,5 +1,5 @@
 // @TODO: add TIMEOUTS for each command
-export const TIMEOUT = 100000 // 100 sec
+export const TIMEOUT = 300000 // 5 min
 
 export * from './default-config-biome'
 export * from './response-status'
