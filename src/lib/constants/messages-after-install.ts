@@ -5,4 +5,5 @@ export const MESSAGES_AFTER_INSTALL = {
   REACT:
     'Successful installation React.js project with Vite. Reactive application ⚛️',
   VUE: 'Successful initialized Vue.js project. Reactive power, Vue simplicity 🧩',
+  NUXT: 'Successful initialized Nuxt.js project. Routing, Data Fetching, SEO 👋🏻',
 } as const

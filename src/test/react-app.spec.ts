@@ -1,4 +1,4 @@
-import { createReactApp } from '@/commands/create-react-app'
+import { createReactApp } from '@/commands/create-react'
 import { RESPONSE_STATUS, TEST_DIRECTORY, TIMEOUT } from '@/lib/constants'
 import { describe, expect, test } from '@jest/globals'
 import { mkdir } from 'node:fs/promises'

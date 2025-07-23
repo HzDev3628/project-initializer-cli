@@ -1,24 +1,24 @@
-import { describe, test } from '@jest/globals'
+import { createNuxtJs } from '@/commands/create-nuxtjs'
 import { RESPONSE_STATUS, TEST_DIRECTORY, TIMEOUT } from '@/lib/constants'
-import { createNestJsApp } from '@/commands/create-nestjs'
+import { test, expect, describe } from '@jest/globals'
 import { mkdir } from 'node:fs/promises'
 import path from 'node:path'
 import { chdir } from 'node:process'
 
-describe('Nest.js', () => {
+describe('Nuxt.js', () => {
   ;(async () => {
-    await mkdir(path.resolve(process.cwd(), TEST_DIRECTORY.nest))
+    await mkdir(path.resolve(process.cwd(), TEST_DIRECTORY.nuxt))
   })()
 
   test(
     'NPM',
     async () => {
-      const res = await createNestJsApp({
-        name: 'test-nestjs-npm',
+      const res = await createNuxtJs({
+        name: 'test-nuxt-npm',
         options: {
           npm: true,
-          biome: true,
-          cwd: TEST_DIRECTORY.nest,
+          nuxtUI: true,
+          cwd: TEST_DIRECTORY.nuxt,
         },
       })
 
@@ -31,12 +31,12 @@ describe('Nest.js', () => {
     'PNPM',
     async () => {
       chdir(path.resolve(process.cwd(), '..'))
-      const res = await createNestJsApp({
-        name: 'test-nestjs-pnpm',
+      const res = await createNuxtJs({
+        name: 'test-nuxt-pnpm',
         options: {
           pnpm: true,
-          biome: true,
-          cwd: TEST_DIRECTORY.nest,
+          nuxtUI: true,
+          cwd: TEST_DIRECTORY.nuxt,
         },
       })
 
@@ -49,12 +49,12 @@ describe('Nest.js', () => {
     'YARN',
     async () => {
       chdir(path.resolve(process.cwd(), '..'))
-      const res = await createNestJsApp({
-        name: 'test-nestjs-yarn',
+      const res = await createNuxtJs({
+        name: 'test-nuxt-yarn',
         options: {
           yarn: true,
-          biome: true,
-          cwd: TEST_DIRECTORY.nest,
+          nuxtUI: true,
+          cwd: TEST_DIRECTORY.nuxt,
         },
       })
 
@@ -62,17 +62,16 @@ describe('Nest.js', () => {
     },
     TIMEOUT,
   )
-
   test(
-    'ESlint & Prettier',
+    'BUN',
     async () => {
       chdir(path.resolve(process.cwd(), '..'))
-      const res = await createNestJsApp({
-        name: 'test-nestjs-eslint-prettier',
+      const res = await createNuxtJs({
+        name: 'test-nuxt-bun',
         options: {
-          yarn: true,
-          eslintPrettier: true,
-          cwd: TEST_DIRECTORY.nest,
+          bun: true,
+          nuxtUI: true,
+          cwd: TEST_DIRECTORY.nuxt,
         },
       })
 
