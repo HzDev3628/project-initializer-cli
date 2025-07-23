@@ -4,4 +4,5 @@ export const TEST_DIRECTORY = {
   react: './tests-react',
   next: './tests-next',
   vue: './tests-vue',
+  nuxt: './tests-nuxt',
 }

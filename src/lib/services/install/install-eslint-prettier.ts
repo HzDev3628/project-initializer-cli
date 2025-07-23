@@ -19,6 +19,16 @@ const MESSAGES_SET_UP = {
   successText: 'ESlint & Prettier was set up successfully.',
 }
 
+const MESSAGES_INSTALL_PRETTIER = {
+  text: 'Installing ESlint & Prettier...',
+  successText: 'ESlint & Prettier installed successfully.',
+}
+
+const MESSAGES_SET_UP_PRETTIER = {
+  text: 'Setting up Prettier...',
+  successText: 'Prettier was set up successfully.',
+}
+
 export async function installEslintPrettierReact(props: {
   packageManager: 'npm' | 'yarn'
   projectPath: string
@@ -52,6 +62,42 @@ export async function installEslintPrettierReact(props: {
           'utf-8',
         )
 
+        await fs.writeFile(
+          `${props.projectPath}/.prettierrc`,
+          DEFAULT_CONFIG_PRETTIER,
+          'utf-8',
+        )
+      },
+    })
+  } catch {
+    return { status: RESPONSE_STATUS.CANCELED }
+  }
+
+  return { status: RESPONSE_STATUS.SUCCESS }
+}
+
+export async function installPrettier(
+  props: PropsPackageManagersType & {
+    projectPath: string
+  },
+): Promise<ResponseStatus> {
+  try {
+    await oraPromise({
+      ...MESSAGES_INSTALL_PRETTIER,
+      fn: async () => {
+        await execa(props.packageManager, [
+          props.packageManager === 'npm' ? 'install' : 'add',
+          props.packageManager === 'npm' || props.packageManager === 'pnpm'
+            ? '--save-dev'
+            : '--dev',
+          'prettier',
+        ])
+      },
+    })
+
+    await oraPromise({
+      ...MESSAGES_SET_UP_PRETTIER,
+      fn: async () => {
         await fs.writeFile(
           `${props.projectPath}/.prettierrc`,
           DEFAULT_CONFIG_PRETTIER,

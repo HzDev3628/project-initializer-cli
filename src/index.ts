@@ -10,6 +10,7 @@ import { RESPONSE_STATUS } from './lib/constants'
 import { log } from './lib/utils.js'
 import { renderTitle } from './lib/render-title.js'
 import { createVueJs } from './commands/create-vuejs.js'
+import { createNuxtJs } from './commands/create-nuxtjs.js'
 
 const program = new Command()
 
@@ -204,5 +205,14 @@ program
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
   )
+  .action(async (name, options) => {
+    renderTitle()
+    const res = await createNuxtJs({ name, options })
+    if (res.packageManagerNotFound) {
+      log('Package manager not found!')
+    }
+    if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
+    return process.exit(0)
+  })
 
 program.parse(process.argv)
