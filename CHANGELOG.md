@@ -1,5 +1,19 @@
 # project-initializer-cli
 
+## 0.4.0
+
+### Minor Changes
+
+- [`99bab1f`](https://github.com/HzDev3628/project-initializer-cli/commit/99bab1fe4f3c865cf92cbefe12d334026b6d1b28) Thanks [@HzDev3628](https://github.com/HzDev3628)! - - Add Nuxt.js initialization.
+  ```
+  pic nuxt <your-project> [options]
+  ```
+  - Rename constants.
+  - New constants for Nuxt.js.
+  - Update timeout for tests.
+  - Update prettier config.
+  - Update commands description.
+
 ## 0.3.3
 
 ### Patch Changes
