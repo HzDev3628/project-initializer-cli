@@ -16,7 +16,7 @@ const program = new Command()
 
 program
   .name('pic')
-  .description('Less than 30s your time, and project already for building 🚀.')
+  .description('Less than 50s your time, and project already for building 🚀.')
   .version('0.2.0')
 
 program.action(async () => {
@@ -40,8 +40,6 @@ program
     renderTitle()
     await init({ options })
   })
-
-//@TODO: remove ' with my own template'.
 
 program
   .command('nextjs <name>')
@@ -104,7 +102,7 @@ program
 
 program
   .command('hono <name>')
-  .description('Create a Hono app with my own template.')
+  .description('Create a Hono.js app.')
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
   .option('--yarn', 'Package manager YARN.')
@@ -134,7 +132,7 @@ program
 
 program
   .command('nestjs <name>')
-  .description('Create a Hono app with my own template.')
+  .description('Create a Nest.js app.')
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
   .option('--yarn', 'Package manager YARN.')
@@ -163,7 +161,7 @@ program
 
 program
   .command('vue <name>')
-  .description('Create a Vue app with my own template.')
+  .description('Create a Vue.js app.')
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
   .option('--bun', 'Package manager BUN.')
@@ -190,7 +188,7 @@ program
 
 program
   .command('nuxt <name>')
-  .description('Create a Nuxt app.')
+  .description('Create a Nuxt.js app.')
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
   .option('--yarn', 'Package manager YARN.')
