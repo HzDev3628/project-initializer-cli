@@ -7,6 +7,7 @@ import { createNestJsApp } from './create-nestjs'
 import { RESPONSE_STATUS } from '@/lib/constants'
 import { log } from '@/lib/utils'
 import { createVueJs } from './create-vuejs'
+import { createNuxtJs } from './create-nuxtjs'
 
 interface Props {
   options?: Partial<{ cwd: string }>
@@ -25,6 +26,7 @@ export const init = async (props: Props) => {
     message: 'Select your template',
     options: [
       { value: 'next', label: 'Next' },
+      { value: 'nuxt', label: 'Nuxt' },
       { value: 'react', label: 'React' },
       { value: 'vue', label: 'Vue' },
       { value: 'hono', label: 'Hono' },
@@ -50,6 +52,8 @@ export const init = async (props: Props) => {
         })
       case 'vue':
         return await createVueJs({ name, options: { cwd: projectCwd } })
+      case 'nuxt':
+        return await createNuxtJs({ name, options: { cwd: projectCwd } })
       default: // Next.js
         return await createNextJsApp({
           name,

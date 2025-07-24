@@ -1,5 +1,4 @@
-export const DEFAULT_CONFIG_PRETTIER = `
-{
+export const DEFAULT_CONFIG_PRETTIER = `{
 	"printWidth": 80,
 	"tabWidth": 2,
 	"useTabs": false,

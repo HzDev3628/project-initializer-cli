@@ -20,8 +20,8 @@ const MESSAGES_SET_UP = {
 }
 
 const MESSAGES_INSTALL_PRETTIER = {
-  text: 'Installing ESlint & Prettier...',
-  successText: 'ESlint & Prettier installed successfully.',
+  text: 'Installing Prettier...',
+  successText: 'Prettier installed successfully.',
 }
 
 const MESSAGES_SET_UP_PRETTIER = {
