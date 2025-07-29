@@ -50,7 +50,7 @@ export async function createNuxtJs(props: Props): Promise<ResponseStatus> {
   }
 
   const nuxtUi =
-    props.options.nuxtUI ?? (await confirm({ message: 'Add Nuxt UI ?' }))
+    props.options.nuxtUI ?? (await confirm({ message: 'Add Nuxt UI & Tailwind CSS ?' }))
   if (isCancel(nuxtUi)) return { status: RESPONSE_STATUS.CANCELED }
 
   try {

@@ -193,8 +193,7 @@ program
   .option('--pnpm', 'Package manager PNPM.')
   .option('--yarn', 'Package manager YARN.')
   .option('--bun', 'Package manager BUN.')
-  // .option('--tailwind', 'Add Tailwind CSS.')
-  .option('--nuxt-ui', 'Connect the Nuxt UI library.')
+  .option('--nuxt-ui', 'Connect the Nuxt UI library with Tailwind CSS.')
   .option(
     '-c, --cwd <path>',
     'The working directory, default to the current directory.',
