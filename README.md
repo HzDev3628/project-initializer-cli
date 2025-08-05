@@ -18,8 +18,8 @@ There are **two** options for using the CLI:
     npx project-initializer-cli@latest
     ```
 
-### Example with Next.js
-Before initialization the project, **select directory** where you want place to project it.
+### Example
+Before initialization the project, **select directory** where you want place to project it. Also you can add option a like this:`-c ~/<your dir>`.
 
 Use some key words, for initialization project. For example, we use nextjs key word. 
 
@@ -52,6 +52,12 @@ What do you like use ?
   Biome / ESlint
 ```
 Additionally, you can use `-g <repo link>` to initialize a commit and push it to the specified repository.
+
+Also you can use just global command, like this:
+```
+npx project-initializer-cli@latest
+```
+Create any project with any settings using a single command.
 
 ## Contributing
 Please, before your contribution, read the <a href="https://github.com/HzDev3628/project-initializer-cli/blob/main/CONTRIBUTING.md">contributing guide</a>.
