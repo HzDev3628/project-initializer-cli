@@ -1,5 +1,11 @@
 # project-initializer-cli
 
+## 0.4.1
+
+### Patch Changes
+
+- [`bf8091e`](https://github.com/HzDev3628/project-initializer-cli/commit/bf8091e8c6bf6f1b74a178e0404226db5472e46c) Thanks [@HzDev3628](https://github.com/HzDev3628)! - Add checking directory and update docs.
+
 ## 0.4.0
 
 ### Minor Changes
