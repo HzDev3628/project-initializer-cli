@@ -12,7 +12,7 @@ import {
   getDirectory,
   upOneDirectory,
 } from '@/lib/services'
-import { log } from '@/lib/utils'
+import { checkDir, log } from '@/lib/utils'
 import type {
   BasicProps,
   PackageManagersType,
@@ -30,6 +30,13 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
     projectName: props.name,
     cwd: props.options.cwd,
   })
+
+  const { isDirAlready } = await checkDir(projectPath)
+
+  if (isDirAlready) {
+    log(chalk.red('This project name is already taken.'))
+    return { status: RESPONSE_STATUS.CANCELED }
+  }
 
   const packageManager = await getPackageManager(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }

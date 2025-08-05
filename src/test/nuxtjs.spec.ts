@@ -79,4 +79,22 @@ describe('Nuxt.js', () => {
     },
     TIMEOUT,
   )
+
+  test(
+    'BUN with test dir',
+    async () => {
+      chdir(path.resolve(process.cwd(), '..'))
+      const res = await createNuxtJs({
+        name: 'test-nuxt-bun',
+        options: {
+          bun: true,
+          nuxtUI: true,
+          cwd: TEST_DIRECTORY.nuxt,
+        },
+      })
+
+      expect(res.status).toBe(RESPONSE_STATUS.CANCELED)
+    },
+    TIMEOUT,
+  )
 })

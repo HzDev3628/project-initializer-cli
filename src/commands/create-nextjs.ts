@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import { chdir } from 'node:process'
 import { execa } from 'execa'
 import { oraPromise } from '@/lib/ora-promise'
-import { log } from '@/lib/utils'
+import { checkDir, log } from '@/lib/utils'
 import { confirm, isCancel } from '@clack/prompts'
 import {
   getPackageManager,
@@ -34,6 +34,13 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
     projectName: props.name,
     cwd: props.options.cwd,
   })
+
+  const { isDirAlready } = await checkDir(projectPath)
+
+  if (isDirAlready) {
+    log(chalk.red('This project name is already taken.'))
+    return { status: RESPONSE_STATUS.CANCELED }
+  }
 
   const packageManager = await getPackageManager(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }

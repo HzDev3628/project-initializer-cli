@@ -13,7 +13,7 @@ import type {
   PackageManagersType,
   ResponseStatus,
 } from '@/lib/types'
-import { log } from '@/lib/utils'
+import { checkDir, log } from '@/lib/utils'
 import { confirm, isCancel } from '@clack/prompts'
 import chalk from 'chalk'
 import { execa } from 'execa'
@@ -37,6 +37,13 @@ export const createVueJs = async (props: Props): Promise<ResponseStatus> => {
     projectName: props.name,
     cwd: props.options.cwd,
   })
+
+  const { isDirAlready } = await checkDir(projectPath)
+
+  if (isDirAlready) {
+    log(chalk.red('This project name is already taken.'))
+    return { status: RESPONSE_STATUS.CANCELED }
+  }
 
   const packageManager = await getPackageManagerForVueJs(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }

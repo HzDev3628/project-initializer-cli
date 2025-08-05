@@ -134,4 +134,25 @@ describe('Next.js', () => {
     },
     TIMEOUT,
   )
+
+  test(
+    'BUN with test dir',
+    async () => {
+      chdir(path.resolve(process.cwd(), '..'))
+      const res = await createNextJsApp({
+        name: 'test-next-js-bun',
+        options: {
+          bun: true,
+          biome: true,
+          turbopack: true,
+          tailwind: true,
+          shadcn: false,
+          cwd: TEST_DIRECTORY.next,
+        },
+      })
+
+      expect(res.status).toBe(RESPONSE_STATUS.CANCELED)
+    },
+    TIMEOUT,
+  )
 })

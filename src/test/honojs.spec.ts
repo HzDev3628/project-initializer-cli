@@ -99,4 +99,22 @@ describe('Hono.js', () => {
     },
     TIMEOUT,
   )
+
+  test(
+    'BUN with test dir',
+    async () => {
+      chdir(path.resolve(process.cwd(), '..'))
+      const res = await createHono({
+        name: 'test-hono-bun',
+        options: {
+          bun: true,
+          biome: true,
+          cwd: TEST_DIRECTORY.hono,
+        },
+      })
+
+      expect(res.status).toBe(RESPONSE_STATUS.CANCELED)
+    },
+    TIMEOUT,
+  )
 })

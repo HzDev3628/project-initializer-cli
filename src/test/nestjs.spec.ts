@@ -80,4 +80,21 @@ describe('Nest.js', () => {
     },
     TIMEOUT,
   )
+
+  test(
+    'NPM with test dir',
+    async () => {
+      const res = await createNestJsApp({
+        name: 'test-nestjs-npm',
+        options: {
+          npm: true,
+          biome: true,
+          cwd: TEST_DIRECTORY.nest,
+        },
+      })
+
+      expect(res.status).toBe(RESPONSE_STATUS.CANCELED)
+    },
+    TIMEOUT,
+  )
 })

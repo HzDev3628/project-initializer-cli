@@ -128,4 +128,24 @@ describe('Vue.js', () => {
     },
     TIMEOUT,
   )
+
+  test(
+    'BUN with test dir',
+    async () => {
+      chdir(path.resolve(process.cwd(), '..'))
+      const res = await createVueJs({
+        name: 'test-vue-bun',
+        options: {
+          bun: true,
+          tailwind: false,
+          cwd: TEST_DIRECTORY.vue,
+          jsx: true,
+          vueRouter: false,
+        },
+      })
+
+      expect(res.status).toBe(RESPONSE_STATUS.CANCELED)
+    },
+    TIMEOUT,
+  )
 })

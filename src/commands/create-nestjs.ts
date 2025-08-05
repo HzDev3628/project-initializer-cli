@@ -18,7 +18,7 @@ import type {
 } from '@/lib/types'
 import { MESSAGES_AFTER_INSTALL, RESPONSE_STATUS } from '@/lib/constants'
 import { oraPromise } from '@/lib/ora-promise'
-import { log, uninstallCommand } from '@/lib/utils'
+import { checkDir, log, uninstallCommand } from '@/lib/utils'
 import chalk from 'chalk'
 
 interface Props {
@@ -33,6 +33,13 @@ export const createNestJsApp = async (
     projectName: props.name,
     cwd: props.options.cwd,
   })
+
+  const { isDirAlready } = await checkDir(projectPath)
+
+  if (isDirAlready) {
+    log(chalk.red('This project name is already taken.'))
+    return { status: RESPONSE_STATUS.CANCELED }
+  }
 
   const packageManager = await getPackageManagerForNestJs(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }

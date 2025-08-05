@@ -20,7 +20,7 @@ import type {
   PackageManagersType,
   ResponseStatus,
 } from '@/lib/types'
-import { log } from '@/lib/utils'
+import { checkDir, log } from '@/lib/utils'
 import { confirm, isCancel } from '@clack/prompts'
 import chalk from 'chalk'
 import { execa } from 'execa'
@@ -40,6 +40,13 @@ export async function createNuxtJs(props: Props): Promise<ResponseStatus> {
     cwd: props.options.cwd,
   })
 
+  const { isDirAlready } = await checkDir(projectPath)
+
+  if (isDirAlready) {
+    log(chalk.red('This project name is already taken.'))
+    return { status: RESPONSE_STATUS.CANCELED }
+  }
+
   const packageManager = await getPackageManager(props.options)
   if (isCancel(packageManager)) return { status: RESPONSE_STATUS.CANCELED }
 
@@ -50,7 +57,8 @@ export async function createNuxtJs(props: Props): Promise<ResponseStatus> {
   }
 
   const nuxtUi =
-    props.options.nuxtUI ?? (await confirm({ message: 'Add Nuxt UI & Tailwind CSS ?' }))
+    props.options.nuxtUI ??
+    (await confirm({ message: 'Add Nuxt UI & Tailwind CSS ?' }))
   if (isCancel(nuxtUi)) return { status: RESPONSE_STATUS.CANCELED }
 
   try {
