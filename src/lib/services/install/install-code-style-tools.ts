@@ -1,33 +1,20 @@
 import { oraPromise } from '@/lib/ora-promise'
+import { execa } from 'execa'
+import { promises as fs } from 'node:fs'
+import type { PropsPackageManagersType, ResponseStatus } from '@/lib/types'
+import { log } from '@/lib/utils'
+import chalk from 'chalk'
 import {
   DEFAULT_CONFIG_ESLINT,
   DEFAULT_CONFIG_ESLINT_REACT,
   RESPONSE_STATUS,
   DEFAULT_CONFIG_PRETTIER,
+  MESSAGES_INSTALL,
+  MESSAGES_INSTALL_PRETTIER,
+  MESSAGES_SET_UP,
+  MESSAGES_SET_UP_PRETTIER,
+  DEFAULT_CONFIG_BIOME,
 } from '@/lib/constants'
-import { execa } from 'execa'
-import { promises as fs } from 'node:fs'
-import type { PropsPackageManagersType, ResponseStatus } from '@/lib/types'
-
-const MESSAGES_INSTALL = {
-  text: 'Installing ESlint & Prettier...',
-  successText: 'ESlint & Prettier installed successfully.',
-}
-
-const MESSAGES_SET_UP = {
-  text: 'Setting up ESlint & Prettier...',
-  successText: 'ESlint & Prettier was set up successfully.',
-}
-
-const MESSAGES_INSTALL_PRETTIER = {
-  text: 'Installing Prettier...',
-  successText: 'Prettier installed successfully.',
-}
-
-const MESSAGES_SET_UP_PRETTIER = {
-  text: 'Setting up Prettier...',
-  successText: 'Prettier was set up successfully.',
-}
 
 export async function installEslintPrettierReact(props: {
   packageManager: 'npm' | 'yarn'
@@ -201,4 +188,66 @@ export async function installEslintPrettier(
   }
 
   return { status: RESPONSE_STATUS.SUCCESS }
+}
+
+export const installBiome = async (
+  props: PropsPackageManagersType & {
+    projectPath: string
+    monorepo?: boolean
+  },
+) => {
+  try {
+    await oraPromise({
+      text: 'Installing Biome...',
+      successText: 'Successfully set up Biome and config file.',
+      fn: async () => {
+        await execa(props.packageManager, [
+          props.packageManager === 'npm' ? 'i' : 'add',
+          '-D',
+          '-E',
+          '@biomejs/biome',
+        ])
+
+        await execa(
+          props.packageManager === 'bun'
+            ? 'bunx'
+            : props.packageManager === 'pnpm'
+              ? 'pnpm'
+              : props.packageManager === 'yarn'
+                ? 'yarn'
+                : 'npx',
+          props.packageManager === 'npm'
+            ? ['@biomejs/biome', 'init']
+            : [
+                props.packageManager === 'pnpm' ||
+                props.packageManager === 'yarn'
+                  ? 'exec'
+                  : '--bun',
+                'biome',
+                'init',
+              ],
+        )
+
+        const data = await fs.readFile(
+          `${props.projectPath}/biome.json`,
+          'utf-8',
+        )
+        const currentConfig = JSON.parse(data)
+
+        const newConfig = {
+          ...DEFAULT_CONFIG_BIOME,
+          $schema: currentConfig.$schema,
+        }
+
+        await fs.writeFile(
+          `${props.projectPath}/biome.json`,
+          JSON.stringify(newConfig, null, 2),
+          'utf-8',
+        )
+      },
+    })
+  } catch (e) {
+    log(chalk.red(e))
+    return process.exit(1)
+  }
 }

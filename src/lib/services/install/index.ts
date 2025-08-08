@@ -1,5 +1,3 @@
-export * from './install-biome'
-export * from './install-eslint-prettier'
-export * from './install-tailwind-react-vite'
+export * from './install-code-style-tools'
 export * from './install-shadcn'
-export * from './install-tailwind-vue'
+export * from './install-tailwind'
