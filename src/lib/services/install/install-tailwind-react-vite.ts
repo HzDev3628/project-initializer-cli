@@ -32,10 +32,8 @@ export async function installTailwindReactVite(
           'plugins: [react(), tailwindcss()]',
         )
 
-      // @TODO: write template.
       const updatedIndexCss = `@import "tailwindcss";`
 
-      // @TODO: write template.
       const updatedAppPage = `export default function App() {
 return <div className="text-6xl font-bold">Initializer Project CLI</div>
   }`

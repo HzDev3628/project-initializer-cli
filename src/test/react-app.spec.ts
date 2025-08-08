@@ -104,7 +104,21 @@ describe('React.js', () => {
     TIMEOUT,
   )
 
-  //@TODO: write test with shadcn and tailwind
+  test('BUN with Shadcn and Tailwind CSS', async () => {
+    chdir(path.resolve(process.cwd(), '..'))
+    const res = await createReactApp({
+      name: 'test-react-app-bun-vite-with-shadcn-tailwind',
+      options: {
+        bun: true,
+        biome: true,
+        tailwind: true,
+        shadcn: true,
+        cwd: TEST_DIRECTORY.react,
+      },
+    })
+
+    expect(res.status).toBe(RESPONSE_STATUS.SUCCESS)
+  }, TIMEOUT)
 
   test(
     'BUN Vite with test dir',

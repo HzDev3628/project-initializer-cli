@@ -8,6 +8,7 @@ import { RESPONSE_STATUS } from '@/lib/constants'
 import { log } from '@/lib/utils'
 import { createVueJs } from './create-vuejs'
 import { createNuxtJs } from './create-nuxtjs'
+import chalk from 'chalk'
 
 interface Props {
   options?: Partial<{ cwd: string }>
@@ -19,18 +20,20 @@ export const init = async (props: Props) => {
 
   const projectCwd =
     props.options?.cwd ??
-    ((await text({ message: 'Project directory:' })) as string)
+    ((await text({
+      message: 'Project directory (press "enter" to skip):',
+    })) as string)
   if (isCancel(projectCwd)) return process.exit(1)
 
   const projectType = await select({
-    message: 'Select your template',
+    message: 'Select a framework:',
     options: [
-      { value: 'next', label: 'Next' },
-      { value: 'nuxt', label: 'Nuxt' },
-      { value: 'react', label: 'React' },
-      { value: 'vue', label: 'Vue' },
-      { value: 'hono', label: 'Hono' },
-      { value: 'nest', label: 'Nest' },
+      { value: 'next', label: 'Next.js' },
+      { value: 'react', label: 'React.js' },
+      { value: 'nuxt', label: 'Nuxt.js' },
+      { value: 'vue', label: 'Vue.js' },
+      { value: 'nest', label: 'Nest.js' },
+      { value: 'hono', label: 'Hono.js' },
     ],
   })
 
@@ -65,7 +68,7 @@ export const init = async (props: Props) => {
   const resInitFn = await initFn(projectName)
 
   if (resInitFn.packageManagerNotFound) {
-    log('Package manager not found!')
+    log(chalk.red('Package manager not found!'))
   }
 
   if (resInitFn.status === RESPONSE_STATUS.CANCELED) return process.exit(1)

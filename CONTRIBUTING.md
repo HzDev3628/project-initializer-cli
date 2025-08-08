@@ -67,6 +67,11 @@ We use <a href="https://jestjs.io/">Jest</a> to write tests. You can run all the
 ```
 pnpm run test
 ```
+**We have constant like:**
+```
+export const TIMEOUT = 300000 // 5 min
+```
+**This is normal, because if the TIMEOUT is set to less than 5 minutes, the Nuxt.js test will crash.**
 
 ## Commit Convention
 When you create commit, please to follow the convention `category: message` in your commit message. Below, you'll see all the categories you can use. 
