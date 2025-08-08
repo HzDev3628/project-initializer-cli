@@ -1,5 +1,11 @@
 # project-initializer-cli
 
+## 0.4.2
+
+### Patch Changes
+
+- [`76e0a23`](https://github.com/HzDev3628/project-initializer-cli/commit/76e0a23f0c1153af8af8b5bd2c2bf262dc446a99) Thanks [@HzDev3628](https://github.com/HzDev3628)! - Create the new react test, update docs and titels in init command. Also update architecture, constants, and services.
+
 ## 0.4.1
 
 ### Patch Changes
