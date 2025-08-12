@@ -49,7 +49,7 @@ export const DEFAULT_CONFIG_BIOME = {
       },
       suspicious: {
         noArrayIndexKey: 'off',
-        noExplicitAny: 'error',
+        noExplicitAny: 'warn',
         noRedeclare: 'off',
       },
       a11y: {

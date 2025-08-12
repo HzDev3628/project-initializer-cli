@@ -20,6 +20,7 @@ describe('Hono.js', () => {
           npm: true,
           biome: true,
           cwd: TEST_DIRECTORY.hono,
+          zodMiddleware: false,
         },
       })
 
@@ -38,6 +39,7 @@ describe('Hono.js', () => {
           pnpm: true,
           biome: true,
           cwd: TEST_DIRECTORY.hono,
+          zodMiddleware: false,
         },
       })
 
@@ -56,6 +58,7 @@ describe('Hono.js', () => {
           bun: true,
           biome: true,
           cwd: TEST_DIRECTORY.hono,
+          zodMiddleware: false,
         },
       })
 
@@ -74,6 +77,7 @@ describe('Hono.js', () => {
           yarn: true,
           biome: true,
           cwd: TEST_DIRECTORY.hono,
+          zodMiddleware: false,
         },
       })
 
@@ -92,6 +96,26 @@ describe('Hono.js', () => {
           yarn: true,
           eslintPrettier: true,
           cwd: TEST_DIRECTORY.hono,
+          zodMiddleware: false,
+        },
+      })
+
+      expect(res.status).toBe(RESPONSE_STATUS.SUCCESS)
+    },
+    TIMEOUT,
+  )
+
+  test(
+    'BUN with Zod middleware',
+    async () => {
+      chdir(path.resolve(process.cwd(), '..'))
+      const res = await createHono({
+        name: 'test-hono-bun-with-zod-middleware',
+        options: {
+          bun: true,
+          biome: true,
+          cwd: TEST_DIRECTORY.hono,
+          zodMiddleware: true,
         },
       })
 
@@ -110,6 +134,7 @@ describe('Hono.js', () => {
           bun: true,
           biome: true,
           cwd: TEST_DIRECTORY.hono,
+          zodMiddleware: false,
         },
       })
 

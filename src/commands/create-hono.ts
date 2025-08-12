@@ -1,5 +1,5 @@
 import { chdir } from 'node:process'
-import { isCancel } from '@clack/prompts'
+import { confirm, isCancel } from '@clack/prompts'
 import { oraPromise } from '@/lib/ora-promise'
 import chalk from 'chalk'
 import { execa } from 'execa'
@@ -23,12 +23,14 @@ import {
   MESSAGES_AFTER_INSTALL,
   RESPONSE_STATUS,
   USER_ROUTE,
+  ZOD_MIDDLEWARE,
 } from '@/lib/constants'
 import { mkdir, writeFile } from 'node:fs/promises'
 
 interface Props {
   name: string
-  options: Partial<BasicProps> & Partial<PackageManagersType>
+  options: Partial<BasicProps> &
+    Partial<PackageManagersType> & { zodMiddleware: boolean }
 }
 
 export const createHono = async (props: Props): Promise<ResponseStatus> => {
@@ -60,8 +62,14 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
   })
   if (codeStyleTools.status) return { status: RESPONSE_STATUS.CANCELED }
 
+  const zodMiddleware =
+    props.options.zodMiddleware ??
+    (await confirm({ message: 'Create Zod middleware ?' }))
+  if (isCancel(zodMiddleware)) return { status: RESPONSE_STATUS.CANCELED }
+
   try {
     if (workDirectory) chdir(workDirectory)
+
     await oraPromise({
       text: 'Initializing Hono.js project...',
       successText: 'Project initialized successfully.',
@@ -111,6 +119,21 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
         )
 
         await writeFile(`${projectPath}/src/index.ts`, INDEX_ROUTE, 'utf-8')
+
+        if (zodMiddleware) {
+          await execa(packageManager, [
+            packageManager === 'npm' ? 'install' : 'add',
+            'zod',
+            'zod-validation-error',
+          ])
+
+          await mkdir(`${projectPath}/src/middleware`, { recursive: true })
+          await writeFile(
+            `${projectPath}/src/middleware/zod.middleware.ts`,
+            ZOD_MIDDLEWARE,
+            'utf-8',
+          )
+        }
       },
     })
   } catch {

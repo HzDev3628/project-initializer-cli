@@ -17,7 +17,7 @@ const program = new Command()
 program
   .name('pic')
   .description('In less than a minute, your project is ready to build 🚀.')
-  .version('0.4.3')
+  .version('0.4.4')
 
 program.action(async () => {
   renderTitle()
@@ -107,6 +107,7 @@ program
   .option('--pnpm', 'Package manager PNPM.')
   .option('--yarn', 'Package manager YARN.')
   .option('--bun', 'Package manager BUN.')
+  .option('-z, --zodMiddleware', 'Create Zod middleware for router validation.')
   .option(
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
