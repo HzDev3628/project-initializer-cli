@@ -72,6 +72,7 @@ pnpm run test
 export const TIMEOUT = 300000 // 5 min
 ```
 **This is normal, because if the TIMEOUT is set to less than 5 minutes, the Nuxt.js test will crash.**
+**Also test like <... test dir> must be a last test.**
 
 ## Commit Convention
 When you create commit, please to follow the convention `category: message` in your commit message. Below, you'll see all the categories you can use. 
