@@ -18,7 +18,13 @@ import type {
   PackageManagersType,
   ResponseStatus,
 } from '@/lib/types'
-import { MESSAGES_AFTER_INSTALL, RESPONSE_STATUS } from '@/lib/constants'
+import {
+  INDEX_ROUTE,
+  MESSAGES_AFTER_INSTALL,
+  RESPONSE_STATUS,
+  USER_ROUTE,
+} from '@/lib/constants'
+import { mkdir, writeFile } from 'node:fs/promises'
 
 interface Props {
   name: string
@@ -91,6 +97,25 @@ export const createHono = async (props: Props): Promise<ResponseStatus> => {
   }
 
   chdir(projectPath)
+
+  try {
+    await oraPromise({
+      text: 'Setting up Hono.js app...',
+      successText: 'Hono.js app set up successfully.',
+      fn: async () => {
+        await mkdir(`${projectPath}/src/routers`, { recursive: true })
+        await writeFile(
+          `${projectPath}/src/routers/user.ts`,
+          USER_ROUTE,
+          'utf-8',
+        )
+
+        await writeFile(`${projectPath}/src/index.ts`, INDEX_ROUTE, 'utf-8')
+      },
+    })
+  } catch {
+    return { status: RESPONSE_STATUS.CANCELED }
+  }
 
   if (codeStyleTools.biome) {
     await installBiome({
