@@ -24,7 +24,7 @@
   },
   "author": {
     "name": "artem_hzdev",
-    "url": "https://x.com/artem_kharchuk_"
+    "url": "https://artem-khar.vercel.app/links"
   },
   "keywords": [
     "next",
@@ -38,9 +38,9 @@
     "cli",
     "projects",
     "scripts",
-    "speed cli",
     "project-initializer-cli",
     "project-initializer",
+    "pic",
     "tailwind",
     "shadcn",
     "templates",

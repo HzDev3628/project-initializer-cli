@@ -7,7 +7,7 @@ import { createHono } from './commands/create-hono.js'
 import { init } from './commands/init.js'
 import { createNestJsApp } from './commands/create-nestjs.js'
 import { RESPONSE_STATUS } from './lib/constants'
-import { log } from './lib/utils.js'
+import { log, logPackageNotFound } from './lib/utils.js'
 import { renderTitle } from './lib/render-title.js'
 import { createVueJs } from './commands/create-vuejs.js'
 import { createNuxtJs } from './commands/create-nuxtjs.js'
@@ -65,14 +65,14 @@ program
     renderTitle()
     const res = await createNextJsApp({ name, options })
     if (res.packageManagerNotFound) {
-      log('Package manager not found!')
+      logPackageNotFound()
     }
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
     return process.exit(0)
   })
 
 program
-  .command('react-app <name>')
+  .command('reactjs <name>')
   .description('Create a React.js app.')
   .option('-t, --tailwind', 'Install the Tailwind CSS.')
   .option(
@@ -94,14 +94,14 @@ program
     renderTitle()
     const res = await createReactApp({ name, options })
     if (res.packageManagerNotFound) {
-      log('Package manager not found!')
+      logPackageNotFound()
     }
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
     return process.exit(0)
   })
 
 program
-  .command('hono <name>')
+  .command('honojs <name>')
   .description('Create a Hono.js app.')
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
@@ -125,7 +125,7 @@ program
     renderTitle()
     const res = await createHono({ name, options })
     if (res.packageManagerNotFound) {
-      log('Package manager not found!')
+      logPackageNotFound()
     }
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
     return process.exit(0)
@@ -154,14 +154,14 @@ program
     renderTitle()
     const res = await createNestJsApp({ name, options })
     if (res.packageManagerNotFound) {
-      log('Package manager not found!')
+      logPackageNotFound()
     }
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
     return process.exit(0)
   })
 
 program
-  .command('vue <name>')
+  .command('vuejs <name>')
   .description('Create a Vue.js app.')
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
@@ -181,14 +181,14 @@ program
     renderTitle()
     const res = await createVueJs({ name, options })
     if (res.packageManagerNotFound) {
-      log('Package manager not found!')
+      logPackageNotFound()
     }
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
     return process.exit(0)
   })
 
 program
-  .command('nuxt <name>')
+  .command('nuxtjs <name>')
   .description('Create a Nuxt.js app.')
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
@@ -207,7 +207,7 @@ program
     renderTitle()
     const res = await createNuxtJs({ name, options })
     if (res.packageManagerNotFound) {
-      log('Package manager not found!')
+      logPackageNotFound()
     }
     if (res.status === RESPONSE_STATUS.CANCELED) return process.exit(1)
     return process.exit(0)

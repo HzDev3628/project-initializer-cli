@@ -23,3 +23,5 @@ export const checkDir = async (projectPath: string) => {
       .catch(() => false),
   }
 }
+
+export const logPackageNotFound = () => log('Package manager not found!')
