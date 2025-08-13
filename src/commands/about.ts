@@ -6,8 +6,8 @@ export function aboutAuthor() {
     `
 ${chalk.bold('Full Name:')} Artem Kharhcuk
 ${chalk.bold('Nickname:')} HzDev
-${chalk.bold('GitHub:')} https://github.com/HzDev3628 
-${chalk.bold('X:')} https://x.com/artem_kharchuk_
+${chalk.bold('Email:')} artem.khar5uk@gmail.com
+${chalk.bold('Social Media Links:')} https://artem-khar.vercel.app/links
 `,
   )
 }
