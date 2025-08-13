@@ -30,7 +30,8 @@ import { mkdir, writeFile } from 'node:fs/promises'
 interface Props {
   name: string
   options: Partial<BasicProps> &
-    Partial<PackageManagersType> & { zodMiddleware: boolean }
+    Partial<PackageManagersType> &
+    Partial<{ zodMiddleware: boolean }>
 }
 
 export const createHono = async (props: Props): Promise<ResponseStatus> => {
