@@ -8,7 +8,7 @@ const TITLE_TEXT = `
 ██║     ██║╚██████╗     ███████║   ██║   ██║  ██║╚██████╗██║  ██╗
 ╚═╝     ╚═╝ ╚═════╝     ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
 `
-const neonTheme = ['#00f0ff', '#7b2ff7', '#f107a3']
+const neonTheme = ['#ffffffff','#979797ff', '#676767ff']
 const SIMPLIFIED_TITLE = `
 ╔══════════════╗
 ║  PIC STACK   ║

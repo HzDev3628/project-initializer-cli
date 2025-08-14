@@ -1,3 +1,74 @@
+export const DEFAULT_CONFIG_BIOME = {
+  $schema: 'https://biomejs.dev/schemas/2.0.0/schema.json',
+  files: {
+    includes: ['**', '!**/pnpm-lock.yaml', '!**/package-lock.json'],
+  },
+  assist: {
+    actions: {
+      source: {
+        organizeImports: 'off',
+      },
+    },
+  },
+  formatter: {
+    enabled: true,
+    formatWithErrors: false,
+    indentStyle: 'space',
+    indentWidth: 2,
+    lineWidth: 80,
+  },
+  linter: {
+    enabled: true,
+    rules: {
+      recommended: true,
+      correctness: {
+        noUnusedVariables: 'error',
+        noUnusedImports: 'error',
+      },
+      nursery: {},
+      performance: {
+        noDelete: 'off',
+      },
+      style: {
+        useTemplate: 'off',
+        noNonNullAssertion: 'off',
+        noParameterAssign: 'error',
+        useAsConstAssertion: 'error',
+        useDefaultParameterLast: 'error',
+        useEnumInitializers: 'error',
+        useSelfClosingElements: 'error',
+        useSingleVarDeclarator: 'error',
+        noUnusedTemplateLiteral: 'error',
+        useNumberNamespace: 'error',
+        noInferrableTypes: 'error',
+        noUselessElse: 'error',
+        useConsistentArrayType: {
+          level: 'error',
+          options: { syntax: 'shorthand' },
+        },
+      },
+      suspicious: {
+        noArrayIndexKey: 'off',
+        noExplicitAny: 'warn',
+        noRedeclare: 'off',
+      },
+      a11y: {
+        noSvgWithoutTitle: 'off',
+        useMediaCaption: 'off',
+      },
+    },
+  },
+  javascript: {
+    parser: {
+      unsafeParameterDecoratorsEnabled: true,
+    },
+    formatter: {
+      quoteStyle: 'single',
+      semicolons: 'asNeeded',
+    },
+  },
+}
+
 export const DEFAULT_CONFIG_ESLINT = `
 import eslint from '@eslint/js'
 import tseslint from 'typescript-eslint'
@@ -68,4 +139,15 @@ export default tseslint.config(
     },
   },
 )
+`
+export const DEFAULT_CONFIG_PRETTIER = `{
+	"printWidth": 80,
+	"tabWidth": 2,
+	"useTabs": false,
+	"semi": false,
+	"singleQuote": true,
+	"trailingComma": "none",
+	"bracketSpacing": true,
+	"arrowParens": "avoid"
+}
 `

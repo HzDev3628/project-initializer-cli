@@ -14,9 +14,9 @@ export async function getPackageManager(props: PackageManagersType) {
               message: 'Select your package manager:',
               options: [
                 { value: 'npm', label: 'npm' },
-                { value: 'yarn', label: 'yarn' },
                 { value: 'pnpm', label: 'pnpm' },
                 { value: 'bun', label: 'bun' },
+                { value: 'yarn', label: 'yarn' },
               ],
             })
 }
@@ -34,8 +34,8 @@ export async function getPackageManagerForNestJs(
             message: 'Select your package manager:',
             options: [
               { value: 'npm', label: 'npm' },
-              { value: 'yarn', label: 'yarn' },
               { value: 'pnpm', label: 'pnpm' },
+              { value: 'yarn', label: 'yarn' },
             ],
           })
 }
