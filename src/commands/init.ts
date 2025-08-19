@@ -5,10 +5,9 @@ import { createReactApp } from './create-react'
 import type { ResponseStatus } from '@/lib/types'
 import { createNestJsApp } from './create-nestjs'
 import { RESPONSE_STATUS } from '@/lib/constants'
-import { log } from '@/lib/utils'
+import { logPackageNotFound } from '@/lib/utils'
 import { createVueJs } from './create-vuejs'
 import { createNuxtJs } from './create-nuxtjs'
-import chalk from 'chalk'
 
 interface Props {
   options?: Partial<{ cwd: string }>
@@ -40,35 +39,33 @@ export const init = async (props: Props) => {
   if (isCancel(projectType)) return process.exit(1)
 
   async function initFn(name: string): Promise<ResponseStatus> {
+    const props = {
+      name,
+      options: {
+        cwd: projectCwd,
+      },
+    }
+
     switch (projectType) {
       case 'hono':
-        return await createHono({ name, options: { cwd: projectCwd } })
+        return await createHono(props)
       case 'react':
-        return await createReactApp({
-          name,
-          options: { cwd: projectCwd },
-        })
+        return await createReactApp(props)
       case 'nest':
-        return await createNestJsApp({
-          name,
-          options: { cwd: projectCwd },
-        })
+        return await createNestJsApp(props)
       case 'vue':
-        return await createVueJs({ name, options: { cwd: projectCwd } })
+        return await createVueJs(props)
       case 'nuxt':
-        return await createNuxtJs({ name, options: { cwd: projectCwd } })
+        return await createNuxtJs(props)
       default: // Next.js
-        return await createNextJsApp({
-          name,
-          options: { cwd: projectCwd },
-        })
+        return await createNextJsApp(props)
     }
   }
 
   const resInitFn = await initFn(projectName)
 
   if (resInitFn.packageManagerNotFound) {
-    log(chalk.red('Package manager not found!'))
+    logPackageNotFound()
   }
 
   if (resInitFn.status === RESPONSE_STATUS.CANCELED) return process.exit(1)

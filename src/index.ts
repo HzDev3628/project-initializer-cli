@@ -44,6 +44,10 @@ program
 program
   .command('nextjs <name>')
   .description('Create a Next.js app.')
+  .option('--npm', 'Package manager NPM.')
+  .option('--pnpm', 'Package manager PNPM.')
+  .option('--yarn', 'Package manager YARN.')
+  .option('--bun', 'Package manager BUN.')
   .option('-s, --shadcn', 'Connect the Shadcn UI library.')
   .option('-t, --tailwind', 'Install the Tailwind CSS.')
   .option('-p, --turbopack', 'Add Turbopack.')
@@ -51,16 +55,12 @@ program
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
   )
-  .option('--npm', 'Package manager NPM.')
-  .option('--pnpm', 'Package manager PNPM.')
-  .option('--yarn', 'Package manager YARN.')
-  .option('--bun', 'Package manager BUN.')
   .option(
     '-c, --cwd <path>',
     'The working directory, default to the current directory.',
   )
-  .option('--biome', 'Use Biome to format and lint your code.')
-  .option('--eslint', 'Use Eslint to lint your code.')
+  .option('-b, --biome', 'Use Biome to format and lint your code.')
+  .option('-e, --eslint', 'Use Eslint to lint your code.')
   .action(async (name, options) => {
     renderTitle()
     const res = await createNextJsApp({ name, options })
@@ -74,22 +74,22 @@ program
 program
   .command('reactjs <name>')
   .description('Create a React.js app.')
+  .option('--npm', 'Package manager NPM.')
+  .option('--pnpm', 'Package manager PNPM.')
+  .option('--yarn', 'Package manager YARN.')
+  .option('--bun', 'Package manager BUN.')
   .option('-t, --tailwind', 'Install the Tailwind CSS.')
   .option(
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
   )
   .option('-s, --shadcn', 'Connect the Shadcn UI library.')
-  .option('--biome', 'Use Biome to format and lint your code.')
-  .option('--eslint', 'Use ESlint to lint your code.')
+  .option('-b, --biome', 'Use Biome to format and lint your code.')
+  .option('-e, --eslint', 'Use ESlint to lint your code.')
   .option(
     '-c, --cwd <path>',
     'The working directory, default to the current directory.',
   )
-  .option('--npm', 'Package manager NPM.')
-  .option('--pnpm', 'Package manager PNPM.')
-  .option('--yarn', 'Package manager YARN.')
-  .option('--bun', 'Package manager BUN.')
   .action(async (name, options) => {
     renderTitle()
     const res = await createReactApp({ name, options })
@@ -108,11 +108,7 @@ program
   .option('--yarn', 'Package manager YARN.')
   .option('--bun', 'Package manager BUN.')
   .option('-z, --zodMiddleware', 'Create Zod middleware for router validation.')
-  .option(
-    '-g, --git <repository>',
-    'Connect and commit to the GitHub repository.',
-  )
-  .option('--biome', 'Use Biome to format and lint your code.')
+  .option('-b, --biome', 'Use Biome to format and lint your code.')
   .option(
     '--eslint-prettier',
     'Use ESlint to lint your code and use Prettier to format your code.',
@@ -120,6 +116,10 @@ program
   .option(
     '-c, --cwd <path>',
     'The working directory, default to the current directory.',
+  )
+  .option(
+    '-g, --git <repository>',
+    'Connect and commit to the GitHub repository.',
   )
   .action(async (name, options) => {
     renderTitle()
@@ -137,6 +137,11 @@ program
   .option('--npm', 'Package manager NPM.')
   .option('--pnpm', 'Package manager PNPM.')
   .option('--yarn', 'Package manager YARN.')
+  .option('-b, --biome', 'Use Biome to format and lint your code.')
+  .option(
+    '--eslint-prettier',
+    'Use ESlint to lint your code and use Prettier to format your code.',
+  )
   .option(
     '-c, --cwd <path>',
     'The working directory, default to the current directory.',
@@ -144,11 +149,6 @@ program
   .option(
     '-g, --git <repository>',
     'Connect and commit to the GitHub repository.',
-  )
-  .option('--biome', 'Use Biome to format and lint your code.')
-  .option(
-    '--eslint-prettier',
-    'Use ESlint to lint your code and use Prettier to format your code.',
   )
   .action(async (name, options) => {
     renderTitle()
@@ -194,7 +194,7 @@ program
   .option('--pnpm', 'Package manager PNPM.')
   .option('--yarn', 'Package manager YARN.')
   .option('--bun', 'Package manager BUN.')
-  .option('--nuxt-ui', 'Connect the Nuxt UI library with Tailwind CSS.')
+  .option('-u, --nuxt-ui', 'Connect the Nuxt UI library with Tailwind CSS.')
   .option(
     '-c, --cwd <path>',
     'The working directory, default to the current directory.',
