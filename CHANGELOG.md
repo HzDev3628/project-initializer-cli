@@ -1,5 +1,11 @@
 # project-initializer-cli
 
+## 0.4.4
+
+### Patch Changes
+
+- [`688867f`](https://github.com/HzDev3628/project-initializer-cli/commit/688867f33e0df8342c140cca10607cf0fa85f953) Thanks [@HzDev3628](https://github.com/HzDev3628)! - Update commands options
+
 ## 0.4.3
 
 ### Patch Changes
