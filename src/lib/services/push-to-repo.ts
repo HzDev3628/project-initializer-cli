@@ -4,8 +4,9 @@ import { oraPromise } from 'ora'
 export const pushToRepo = async ({ repoUrl }: { repoUrl: string }) => {
   await oraPromise(
     async () => {
+      await execa('git', ['init'])
+      await execa('git', ['branch', '-M', 'main'])
       await execa('git', ['remote', 'add', 'origin', `${repoUrl}`])
-      await execa('git', ['remote', '-v'])
       await execa('git', ['add', '.'])
       await execa('git', ['commit', '-m', 'init project'])
       await execa('git', ['push', '--set-upstream', 'origin', 'main'])
