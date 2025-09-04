@@ -1,5 +1,11 @@
 # project-initializer-cli
 
+## 1.0.0
+
+### Major Changes
+
+- [`58e949c`](https://github.com/HzDev3628/project-initializer-cli/commit/58e949c71816d41b59966f5aec95383600d70604) Thanks [@HzDev3628](https://github.com/HzDev3628)! - Stable version
+
 ## 0.4.4
 
 ### Patch Changes
