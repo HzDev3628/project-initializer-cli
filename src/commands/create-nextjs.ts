@@ -7,7 +7,6 @@ import { confirm, isCancel } from '@clack/prompts'
 import {
   getPackageManager,
   pushToRepo,
-  installBiome,
   tailwindConfirm,
   getCodeStyleTools,
   installShadcn,
@@ -91,7 +90,7 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
           '--app',
           turbopack ? '--turbopack' : '--no-turbopack',
           tailwind ? '--tailwind' : '--no-tailwind',
-          codeStyleTool.biome ? '--no-eslint' : '--eslint',
+          codeStyleTool.biome ? '--biome' : '--eslint',
           `--use-${packageManager}`,
         ])
       },
@@ -101,13 +100,6 @@ export async function createNextJsApp(props: Props): Promise<ResponseStatus> {
   }
 
   chdir(projectPath)
-
-  if (codeStyleTool.biome) {
-    await installBiome({
-      packageManager,
-      projectPath,
-    })
-  }
 
   if (shadcn) {
     try {
