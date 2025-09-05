@@ -1,5 +1,11 @@
 # project-initializer-cli
 
+## 1.0.1
+
+### Patch Changes
+
+- [`6ce99b3`](https://github.com/HzDev3628/project-initializer-cli/commit/6ce99b36511ffecd34a3261bac9e0b9b66038e93) Thanks [@HzDev3628](https://github.com/HzDev3628)! - Biome in Next.js
+
 ## 1.0.0
 
 ### Major Changes
